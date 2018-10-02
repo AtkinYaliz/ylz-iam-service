@@ -12,10 +12,11 @@
     "prestart": "npm run remove-dist",
     "start": "cross-env NODE_ENV=local tsc-watch --project . --onSuccess \"npm run nodemon\"",
     "nodemon": "nodemon --inspect ./dist/index.js",
+    "nodemon-debug": "npm run nodemon -- --inspect",
     "test": "mocha -r ts-node/register **/*.test.ts",
     "test:w": "npm run test -- --watch-extensions ts -w",
     "remove-dist": "rm -rf ./dist",
-    "copy-resources": "node console.log(123)"
+    "copy-resources": "cp -Rf ./config ./dist"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

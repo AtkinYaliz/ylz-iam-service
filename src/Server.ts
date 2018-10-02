@@ -1,12 +1,13 @@
-import * as http from 'http';
+// import * as http from 'http';
 import * as express from 'express';
+import IConfig from './config/IConfig';
 
 
 export default class Server {
    private app: express.Express;
    // private server?: http.Server;
 
-   public static getInstance(config: any) {
+   public static getInstance(config: IConfig) {
       if (!Server.instance) {
         Server.instance = new Server(config);
       }
@@ -15,7 +16,7 @@ export default class Server {
     }
     private static instance: Server;
 
-   private constructor(private config: any) {
+   private constructor(private config: IConfig) {
       this.app = express();
       // this.server = undefined;
    }
