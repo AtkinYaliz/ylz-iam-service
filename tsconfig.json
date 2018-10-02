@@ -11,6 +11,8 @@
       "*": [
         "src/types/*"
       ]
+    },
+    "types": []
   },
   "include": ["src", "index.ts"]
 }
