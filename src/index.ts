@@ -1,25 +1,28 @@
 import * as dotenv from 'dotenv';
+import logger from 'ylz.logger';
 
 import IConfig from './config/IConfig';
 import Server from './Server';
+import Database from './services/Database';
 
 
 dotenv.config();
 //@ts-ignore
-const envVars: IConfig /*NodeJS.ProcessEnv*/ = process.env;
+const envVars: IConfig = process.env;
 
-//@ts-ignore
-console.log( envVars.database );
+const { nodeEnv, port, nongoUrl } = envVars;
 
+Database.open({ mongoUrl })
+   .then(() => {
+      const server = Server.getInstance(envVars);
 
-const server = Server.getInstance(envVars);
+      server.application.listen(port, () => {
+         const ann = `|| App is running at port '${port}' in '${nodeEnv}' mode ||`;
 
-server.application.listen(envVars.PORT, () => {
-   const ann = `|| App is running at port '${envVars.PORT}' in '${envVars.NODE_ENV}' mode ||`;
-
-   console.info("\n");
-   console.info(ann.replace(/[^]/g, "-"));
-   console.info(ann);
-   console.info(ann.replace(/[^]/g, "-"));
-   console.info("Press CTRL-C to stop\n");
-});
+         console.log("\n");
+         console.log(ann.replace(/[^]/g, "-"));
+         console.log(ann);
+         console.log(ann.replace(/[^]/g, "-"));
+         console.log("Press CTRL-C to stop\n");
+      });
+   });

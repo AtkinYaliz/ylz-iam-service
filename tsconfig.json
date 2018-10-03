@@ -12,7 +12,12 @@
         "src/types/*"
       ]
     },
-    "types": []
+    "types": ["jest"]
   },
-  "include": ["src", "index.ts"]
+  "exclude": [ "dist", "**/*.spec.ts" ],
+  "include": [
+     "src",
+     "index.ts",
+     "node_modules/ylz.logger"
+  ]
 }

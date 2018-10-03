@@ -12,7 +12,7 @@ module.exports = {
    transformIgnorePatterns: ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
    testMatch: ["**/test/**/*.(test|spec).(ts|js)"],
    testEnvironment: "node",
-   testResultsProcessor: "jest-sonar-reporter",
+
    collectCoverageFrom: ["src/controllers/**/*.{ts}"],
    verbose: true
 };

@@ -47,6 +47,7 @@ node_modules
 
 # .env
 .env
+.env.test
 
 # Test Report file
 test-report.xml
