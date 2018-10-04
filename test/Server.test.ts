@@ -2,6 +2,7 @@ import * as request from 'supertest';
 import * as dotenv from 'dotenv';
 
 import IConfig from '../src/config/IConfig';
+import { StatusCodes } from '../src/libs/constants';
 import Server from '../src/Server';
 
 
@@ -42,6 +43,16 @@ describe("Server", () => {
       .get("/reset3")
       .then(res => {
          expect(res.status).toBe(404);
+      });
+  });
+
+  it("should return OK for /api/health-check", (done) => {
+    request(app)
+      .get("/api/health-check")
+      .end((err, res) => {
+         expect(res.status).toBe(StatusCodes.OK);
+         expect(res.text).toBe('I am OK');
+         done();
       });
   });
 

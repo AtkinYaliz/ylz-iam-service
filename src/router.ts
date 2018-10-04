@@ -43,12 +43,12 @@ router.get('/health-check', (req, res) => {
  *             version:
  *               type: string
  *               description: Version of the API.
- *             description:
- *               type: string
- *               description: Description of the API.
  *             name:
  *               type: string
  *               description: Name of the API.
+ *             description:
+ *               type: string
+ *               description: Description of the API.
  */
 router.get('/version', (req, res) => {
   const { version, name, description } = require('../package.json');

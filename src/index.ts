@@ -10,7 +10,7 @@ dotenv.config();
 //@ts-ignore
 const envVars: IConfig = process.env;
 
-const { nodeEnv, port, nongoUrl } = envVars;
+const { nodeEnv, port, mongoUrl } = envVars;
 
 Database.open({ mongoUrl })
    .then(() => {

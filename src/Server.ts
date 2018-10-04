@@ -26,11 +26,11 @@ export default class Server {
 
    private constructor(private config: IConfig) {
       this.app = express();
-      this.loadMiddlewares();
-      this.loadRoutes();
+      this.initMiddlewares();
+      this.initRoutes();
    }
 
-   private loadMiddlewares() {
+   private initMiddlewares() {
       const { nodeEnv } = this.config;
 
       if(nodeEnv === EnvVars.PROD) {
@@ -49,7 +49,7 @@ export default class Server {
           morganBody(this.app);
        }
    }
-   private loadRoutes() {
+   private initRoutes() {
       const { apiPrefix } = this.config;
 
       this.app.use(apiPrefix, router);
