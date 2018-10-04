@@ -1,4 +1,4 @@
 
 
 
-![alt text](../../UI-IDE/images/IM Sequence Chart.svg)
+![alt text](../../../UI-IDE/images/IM Sequence Chart.svg)
