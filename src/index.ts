@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import logger from 'ylz.logger';
+import logger from 'ylz-logger';
 
 import IConfig from './config/IConfig';
 import Server from './Server';
@@ -19,10 +19,11 @@ Database.open({ mongoUrl })
       server.application.listen(port, () => {
          const ann = `|| App is running at port '${port}' in '${nodeEnv}' mode ||`;
 
-         console.log("\n");
-         console.log(ann.replace(/[^]/g, "-"));
-         console.log(ann);
-         console.log(ann.replace(/[^]/g, "-"));
-         console.log("Press CTRL-C to stop\n");
+         logger.log(`
+   ${ann.replace(/[^]/g, "-")}
+   ${ann}
+   ${ann.replace(/[^]/g, "-")}
+   ${"Press CTRL-C to stop\n"}
+         `);
       });
    });

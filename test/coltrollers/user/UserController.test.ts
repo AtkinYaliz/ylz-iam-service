@@ -12,9 +12,13 @@ const app = Server.getInstance(envVars).application;
 
 
 describe("UserController", () => {
-  it("should return 404", (done) => {
-    request(app)
+  it("should return for /test endpoint", (done) => {
+    return request(app)
       .get("/api/users")
-      .expect(200, done);
+      .end((err, res) => {
+         expect(res.status).toEqual(422);
+         expect(res.body).toEqual({ "errors": [{"location": "body", "msg": "id is required", "param": "id"}] });
+         done();
+      });
   });
 });

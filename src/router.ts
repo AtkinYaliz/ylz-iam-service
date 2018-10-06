@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import logger from 'ylz.logger';
+import logger from 'ylz-logger';
 
-// import emailRouter from './controllers/email/routes';
+import userRouter from './controllers/user/routes';
 // import notificationRouter from './controllers/notification/routes';
 
 // import * as appInfo from 'pjson';
@@ -22,7 +22,7 @@ const router = Router();
  *         description: I am OK
  */
 router.get('/health-check', (req, res) => {
-  res.send('I am OK');
+   res.send('I am OK');
 });
 
 /**
@@ -51,27 +51,27 @@ router.get('/health-check', (req, res) => {
  *               description: Description of the API.
  */
 router.get('/version', (req, res) => {
-  const { version, name, description } = require('../package.json');
+   const { version, name, description } = require('../../package.json');
 
-  logger.info(`version = ${version}, name = ${name}, description = ${description}`);
+   // logger.info(`version = ${version}, name = ${name}, description = ${description}`);
 
-  if (!(typeof version && version)) {
-    logger.error('An error occurred while trying to get version: Version not defined');
+   if (!(typeof version && version)) {
+      logger.error('An error occurred while trying to get version: Version not defined');
 
-    res.status(400)
-      .send(new Error('Version not defined'));
-  }
+      res.status(400)
+         .send(new Error('Version not defined'));
+   }
 
-  res.json({
-     version,
-     name,
-     description
-  });
+   res.json({
+      version,
+      name,
+      description
+   });
 });
 
-// // mount email routes at /emails
-// router.use('/emails', emailRouter);
-//
+// mount email routes at /users
+router.use('/users', userRouter);
+
 // // mount notification routes at /notifications
 // router.use('/notifications', notificationRouter);
 
