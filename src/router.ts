@@ -2,6 +2,7 @@ import { Router } from 'express';
 import logger from 'ylz-logger';
 
 import userRouter from './controllers/user/routes';
+import { getPackageJson } from './libs/utilities';
 // import notificationRouter from './controllers/notification/routes';
 
 // import * as appInfo from 'pjson';
@@ -51,9 +52,9 @@ router.get('/health-check', (req, res) => {
  *               description: Description of the API.
  */
 router.get('/version', (req, res) => {
-   const { version, name, description } = require('../../package.json');
+   const { version, name, description } = getPackageJson();
 
-   // logger.info(`version = ${version}, name = ${name}, description = ${description}`);
+   // logger.log(`version = ${version}, name = ${name}, description = ${description}`);
 
    if (!(typeof version && version)) {
       logger.error('An error occurred while trying to get version: Version not defined');

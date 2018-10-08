@@ -12,7 +12,7 @@ const app = Server.getInstance(envVars).application;
 
 
 describe("UserController", () => {
-  it("should return for /test endpoint", (done) => {
+  it("should return 422 for GET /test", (done) => {
     return request(app)
       .get("/api/users")
       .end((err, res) => {

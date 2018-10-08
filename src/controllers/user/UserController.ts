@@ -29,14 +29,11 @@ class UserController {
    }
 
    // /**
-   //  * @description Create Template
-   //  * @param {string} body.body template body
-   //  * @param {string} body.name template name
-   //  * @param {string} body.shortDesc template short description
-   //  * @param {any} action links
-   //  * @param {any} audience list of roles
+   //  * @description Signup
+   //  * @param {string} body.username template body
+   //  * @param {string} body.password template name
    //  */
-   // public async createTemplate(action: any, audience: any, body: string, name: string,
+   // public async signup(action: any, audience: any, body: string, name: string,
    //                             shortDesc: string): Promise<Nullable<ICreate>> {
    //   logger.debug('NotificationController - CreateTemplate');
    //
@@ -44,7 +41,9 @@ class UserController {
    //     action, audience, body, name, shortDesc
    //   });
    // }
-   //
+
+
+
    // /**
    //  * @description Update Template
    //  * @param {string} body.originalId ID of template

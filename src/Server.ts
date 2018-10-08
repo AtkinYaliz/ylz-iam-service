@@ -18,12 +18,12 @@ export default class Server {
 
    public static getInstance(config: IConfig) {
       if (!Server.instance) {
-        Server.instance = new Server(config);
+         Server.instance = new Server(config);
       }
 
       return Server.instance;
-    }
-    private static instance: Server;
+   }
+   private static instance: Server;
 
    private constructor(private config: IConfig) {
 
@@ -45,12 +45,12 @@ export default class Server {
          optionsSuccessStatus: 200,
          origin: JSON.parse(this.config.corsOrigin)
          // credentials: true,
-       }));
-       this.app.use(bodyParser.json());
-       this.app.use(bodyParser.urlencoded({ extended: true }));
-       if (nodeEnv !== EnvVars.TEST) {
-          morganBody(this.app);
-       }
+      }));
+      this.app.use(bodyParser.json());
+      this.app.use(bodyParser.urlencoded({ extended: true }));
+      if (nodeEnv !== EnvVars.TEST) {
+         morganBody(this.app);
+      }
    }
    private initRoutes() {
       const { apiPrefix } = this.config;
