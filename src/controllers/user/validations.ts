@@ -11,8 +11,8 @@ export default Object.freeze({
          errorMessage: "name is required",
          in: ["body"],
          isLength: {
-           errorMessage: "name is required",
-           options: { min: 5 }
+           options: { min: 5 },
+           errorMessage: "name is required"
          }
       },
    }

@@ -10,7 +10,7 @@ module.exports = {
       "^.+\\.js$": "babel-jest"
    },
    transformIgnorePatterns: ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
-   testMatch: ["**/test/**/*.(test|spec).(ts|js)"],
+   testMatch: ["**/test/**/Home*.(test|spec).(ts|js)"],
    testEnvironment: "node",
 
    collectCoverageFrom: ["src/controllers/**/*.{ts}"],

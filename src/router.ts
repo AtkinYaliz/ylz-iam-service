@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import logger from 'ylz-logger';
 
-import userRouter from './controllers/user/routes';
 import { getPackageJson } from './libs/utilities';
+import userRouter from './controllers/user/routes';
+import homeRouter from './controllers/home/routes';
 // import notificationRouter from './controllers/notification/routes';
 
 // import * as appInfo from 'pjson';
@@ -69,6 +70,9 @@ router.get('/version', (req, res) => {
       description
    });
 });
+
+// mount email routes at /users
+router.use('/homes', homeRouter);
 
 // mount email routes at /users
 router.use('/users', userRouter);

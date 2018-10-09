@@ -1,5 +1,7 @@
 import { validationResult } from 'express-validator/check';
+
 import { StatusCodes } from './constants';
+import { ErrorResponse } from './SystemResponse';
 
 
 export default function validationHandler(validations: Object) {
@@ -7,11 +9,13 @@ export default function validationHandler(validations: Object) {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
+         const response = new ErrorResponse(StatusCodes.UNPROCESSABLE, '', errors.array());
+         
          return res
-            .status(StatusCodes.UNPROCESSABLE)
-            .json({ errors: errors.array() });
+            .status(response.statusCode)
+            .json(response);
       }
-      
+
       next();
    }
 }

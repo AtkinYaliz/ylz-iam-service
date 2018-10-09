@@ -24,3 +24,10 @@ export function getPackageJson(count = 0) {
 
    return pjson;
 }
+
+
+export function isSameEntity(id) {
+   return function isSameId(entity) {
+      return entity.id === id;
+   }
+}
