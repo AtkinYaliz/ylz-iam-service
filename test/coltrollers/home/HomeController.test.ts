@@ -22,7 +22,17 @@ describe("HomeController", () => {
          .get("/api/homes/123")
          .end((err, res) => {
             expect(res.status).toEqual(StatusCodes.UNPROCESSABLE);
-            expect(res.body).toEqual({ "errors": [{"location": "query", "msg": "Wrong format", "param": "id"}] });
+            expect(res.body.errors).toEqual( [{"location": "query", "msg": "Wrong format", "param": "id"}] );
+            done();
+         });
+   });
+
+   it("should return 400 for GET /homes/id", (done) => {
+      request
+         .get("/api/homes/5bbbe44a8958866e997326f3")
+         .expect(StatusCodes.BAD_REQUEST)
+         .end((err, res) => {
+            expect(res.body.message).toEqual('Could not find.');
             done();
          });
    });
@@ -30,20 +40,9 @@ describe("HomeController", () => {
    it("should return 422 for GET /homes/id", (done) => {
       request
          .get("/api/homes/5bbbd1658958866e997326f0")
+         .expect(StatusCodes.OK)
          .end((err, res) => {
-            expect(res.status).toEqual(StatusCodes.OK);
-            expect(res.body).toHaveProperty('id');
-            expect(res.body.id).toBe('5bbbd1658958866e997326f0');
-            done();
-         });
-   });
-
-   it("should return 422 for GET /homes/id", (done) => {
-      request
-         .get("/api/homes/5bbbe44a8958866e997326f3")
-         .end((err, res) => {
-            expect(res.status).toEqual(StatusCodes.OK);
-            expect(res.body).toBeNull();
+            expect(res.body.data.id).toBe('5bbbd1658958866e997326f0');
             done();
          });
    });

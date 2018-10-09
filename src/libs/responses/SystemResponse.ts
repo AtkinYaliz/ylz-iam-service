@@ -1,45 +1,45 @@
-import { StatusCodes } from './constants';
-// import APIError from './errors/APIError';
-// import IError from './errors/IError';
+import { StatusCodes } from '../constants';
+import IResponse from './IResponse';
 
-interface IResponse {
-   statusCode: StatusCodes;
-   data: any | any[];
-   message: string;
-   errors: any[];
-   timestamp: Date;
+
+interface ISystemResponse {
+   statusCode?: StatusCodes;
+   data?: any | any[];
+   message?: string;
+   errors?: any[];
 }
 
-abstract class SystemResponse implements IResponse {
+export default abstract class SystemResponse implements IResponse {
+   public statusCode: StatusCodes;
+   public data: any | any[];
+   public message: string;
+   public errors: any[];
    public timestamp: Date;
 
-   constructor(
-      public statusCode: StatusCodes = StatusCodes.OK,
-      public data: any | any[] = null,
-      public message: string = '',
-      public errors: any[] = []
-   ) {
-         this.timestamp = new Date();
+   constructor({
+      statusCode = StatusCodes.OK,
+      data = null,
+      message = '',
+      errors = []
+   }: ISystemResponse) {
+      this.statusCode = statusCode;
+      this.data = data;
+      this.message = message;
+      this.errors = errors;
+      this.timestamp = new Date();
    }
 }
 
-export class SuccessResponse extends SystemResponse {
-   constructor(
-      public statusCode: StatusCodes = StatusCodes.OK,
-      public data: any | any[] = null
-   ) {
-      super(statusCode, data);
-   }
-}
-export class ErrorResponse extends SystemResponse {
-   constructor(
-      public statusCode: StatusCodes = StatusCodes.INTERNAL_SERVER_ERROR,
-      public message: string = '',
-      public errors: any[] = []
-   ) {
-      super(statusCode, null, message, errors);
-   }
-}
+
+
+
+
+
+
+
+
+
+
 
 
 //

@@ -7,13 +7,30 @@ import { isValidObjectId } from '../../libs/utilities';
 * */
 export default Object.freeze({
 
+   // GET /api/homes
+   list: {
+      limit: {
+         in: ['query'],
+         isInt: true,
+         optional: true,
+         toInt: true,
+         errorMessage: 'Wrong format'
+      },
+      skip: {
+         in: ['query'],
+         isInt: true,
+         optional: true,
+         toInt: true,
+         errorMessage: 'Wrong format'
+      }
+   },
 
    // GET /api/homes/:id
-   getOne: {
+   get: {
       id: {
          in: ['query'],
          custom: {
-            options: (id, { req }) => { console.log(req.params.id); isValidObjectId(req.params.id) },
+            options: (id, { req }) => isValidObjectId(req.params.id),
             errorMessage: 'Wrong format'
          }
       }

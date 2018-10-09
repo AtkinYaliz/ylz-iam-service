@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator/check';
 
 import { StatusCodes } from './constants';
-import { ErrorResponse } from './SystemResponse';
+import ErrorResponse from './responses/ErrorResponse';
 
 
 export default function validationHandler(validations: Object) {
@@ -9,8 +9,8 @@ export default function validationHandler(validations: Object) {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-         const response = new ErrorResponse(StatusCodes.UNPROCESSABLE, '', errors.array());
-         
+         const response = new ErrorResponse({ statusCode: StatusCodes.UNPROCESSABLE, errors: errors.array() });
+
          return res
             .status(response.statusCode)
             .json(response);
