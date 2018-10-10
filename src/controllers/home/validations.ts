@@ -35,62 +35,50 @@ export default Object.freeze({
          }
       }
    },
-   //
-   // // GET /api/homes
-   // getAll: {
-   //    limit: {
-   //       in: ['query'],
-   //       isInt: true,
-   //       optional: true,
-   //       toInt: true,
-   //       errorMessage: 'Wrong format'
-   //    },
-   //    skip: {
-   //       in: ['query'],
-   //       isInt: true,
-   //       optional: true,
-   //       toInt: true,
-   //       errorMessage: 'Wrong format'
-   //    }
-   // },
-   //
-   //
-   //
-   // // POST /api/homes/create
-   // create: {
-   //    name: {
-   //       in: ['body'],
-   //       errorMessage: 'Name is wrong!',
-   //       isLength: {
-   //          // Multiple options would be expressed as an array
-   //          options: { min: 2 },
-   //          errorMessage: 'Name should be at least 2 chars long'
-   //       },
-   //    }
-   // },
-   //
-   // // GET /api/homes/:id
-   // update: {
-   //    id: {
-   //       in: ['query'],
-   //       custom: {
-   //          options: (id: string) => {
-   //             return isValidObjectId(id);
-   //          },
-   //       },
-   //       errorMessage: 'Wrong format'
-   //    },
-   //    name: {
-   //       in: ['body'],
-   //       errorMessage: 'Name is wrong!',
-   //       isLength: {
-   //          // Multiple options would be expressed as an array
-   //          options: { min: 2 },
-   //          errorMessage: 'Name should be at least 2 chars long'
-   //       },
-   //    }
-   // },
-   //
+
+   // POST /api/homes
+   create: {
+      name: {
+         in: ['body'],
+         isLength: {
+            options: { min: 2 },
+            errorMessage: 'Name should be at least 2 chars long'
+         },
+      },
+      address: {
+         in: ['body'],
+         isLength: {
+            options: { min: 5 },
+            errorMessage: 'Address should be at least 5 chars long'
+         },
+      }
+   },
+
+   // PUT /api/homes/:id
+   update: {
+      id: {
+         in: ['query'],
+         custom: {
+            options: (id, { req }) => isValidObjectId(req.params.id),
+            errorMessage: 'Wrong format'
+         }
+      },
+      name: {
+         in: ['body'],
+         isLength: {
+            options: { min: 2 },
+            errorMessage: 'Name should be at least 2 chars long'
+         },
+      },
+      address: {
+         in: ['body'],
+         isLength: {
+            options: { min: 5 },
+            errorMessage: 'Address should be at least 5 chars long'
+         },
+      }
+   },
+
    // // GET /api/homes/:id
    // delete: {
    //    id: {

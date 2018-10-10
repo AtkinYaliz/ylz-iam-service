@@ -1,6 +1,7 @@
 import { StatusCodes } from '../constants';
 import SystemResponse from './SystemResponse';
 
+
 interface ISuccessResponse{
    statusCode?: StatusCodes;
    data?: any | any[];

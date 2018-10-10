@@ -54,4 +54,51 @@ router.route('/:id')
       homeControllerInstance.get as any
    );
 
+
+/**
+ * @swagger
+ * /homes:
+ *   post:
+ *     tags:
+ *       - Home
+ *     description: Creates a new Home
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: name
+ *         description: Home name
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Home'
+ *       - address: address
+ *         description: Home address
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Home'
+ *     responses:
+ *       200:
+ *         description: Successfully created
+ *         schema:
+ *           $ref: '#/definitions/Home'
+ */
+router.route('/')
+   .post(
+      // auth,
+      checkSchema(validations.create as any),
+      validationHandler(validations.create as any),
+      homeControllerInstance.create as any
+   );
+
+
+
+router.route('/:id')
+   .put(
+      // auth,
+      checkSchema(validations.update as any),
+      validationHandler(validations.update as any),
+      homeControllerInstance.update as any
+   );
+
 export default router;

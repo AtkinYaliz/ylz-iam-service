@@ -14,5 +14,5 @@ module.exports = {
    testEnvironment: "node",
 
    collectCoverageFrom: ["src/controllers/**/*.{ts}"],
-   verbose: false
+   verbose: true
 };
