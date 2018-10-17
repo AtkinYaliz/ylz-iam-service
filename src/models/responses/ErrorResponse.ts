@@ -1,8 +1,8 @@
-import { StatusCodes } from '../constants';
+import { StatusCodes } from '../../libs/constants';
 import SystemResponse from './SystemResponse';
 
 
-interface IErrorResponse {
+interface IErrorResponseInput {
    statusCode?: StatusCodes;
    message?: string;
    errors?: any[];
@@ -13,7 +13,7 @@ export default class ErrorResponse extends SystemResponse {
       statusCode = StatusCodes.INTERNAL_SERVER_ERROR,
       message = '',
       errors = []
-   }: IErrorResponse) {
+   }: IErrorResponseInput) {
       super({ statusCode, message, errors });
    }
 }

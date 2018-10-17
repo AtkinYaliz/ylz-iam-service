@@ -53,9 +53,10 @@ describe("HomeController", () => {
          .send({ })
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.UNPROCESSABLE);
-            expect(res.body.errors.length).toEqual(2);
+            expect(res.body.errors.length).toEqual(3);
             expect(res.body.errors[0].msg).toBe('Name should be at least 2 chars long');
             expect(res.body.errors[1].msg).toBe('Address should be at least 5 chars long');
+            expect(res.body.errors[2].msg).toBe('Phones should be a list of strings!');
             done();
          });
    });
@@ -63,7 +64,7 @@ describe("HomeController", () => {
    it("should return 200 for POST /homes", (done) => {
       request
          .post("/api/homes")
-         .send({ name:'new name', address: 'wimbledon high street' })
+         .send({ name:'new name', address: 'wimbledon high street', phones: ['111-222'] })
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.CREATED);
             expect(res.body.errors).toEqual([]);
@@ -78,9 +79,11 @@ describe("HomeController", () => {
          .send({ })
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.UNPROCESSABLE);
-            expect(res.body.errors.length).toEqual(2);
+            expect(res.body.errors.length).toEqual(3);
             expect(res.body.errors[0].msg).toBe('Name should be at least 2 chars long');
             expect(res.body.errors[1].msg).toBe('Address should be at least 5 chars long');
+            expect(res.body.errors[2].msg).toBe('Phones should be a list of strings!');
+
             done();
          });
    });
@@ -88,12 +91,22 @@ describe("HomeController", () => {
    it("should return 422 for PUT /homes/id", (done) => {
       request
          .put("/api/homes/5bbbd1658958866e997326f0")
-         .send({ name: 'Updated name', address: 'Updated address' })
+         .send({ name: 'Updated name', address: 'Updated address', phones: ['999-000'] })
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.OK);
             expect(res.body.errors).toEqual([]);
             expect(res.body.data.name).toBe('Updated name');
             expect(res.body.data.address).toBe('Updated address');
+            expect(res.body.data.phones).toEqual(['999-000']);
+            done();
+         });
+   });
+
+   it("should return 422 for DELETE /homes/id", (done) => {
+      request
+         .delete("/api/homes/5bbbd1658958866e997326f0")
+         .end((err, res) => {
+            expect(res.status).toBe(StatusCodes.NO_CONTENT);
             done();
          });
    });

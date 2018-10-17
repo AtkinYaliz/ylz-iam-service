@@ -1,17 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import logger from 'ylz-logger';
 
-import SuccessResponse from '../../libs/responses/SuccessResponse';
-import ErrorResponse from '../../libs/responses/ErrorResponse';
+import { SuccessResponse, CreateResponse, NoContentResponse, ErrorResponse } from '../../models/responses';
 import { StatusCodes } from '../../libs/constants';
-import { generateObjectId, isSameEntity } from '../../libs/utilities';
+import homeRepositoryInstance from '../../repositories/home/HomeRepository';
+import { IListInput, IGetInput, ICreateInput, IUpdateInput, IDeleteInput } from './models';
 
-const homes = [
-   { id: '5bbbd1578958866e997326ef', name: 'home', address: '14 burleigh road' },
-   { id: '5bbbd1658958866e997326f0', name: 'work', address: '10 triaton street' },
-   { id: '5bbbd16f8958866e997326f1', name: 'hsbc', address: '107 bluefin building' },
-   { id: '5bbbd1788958866e997326f2', name: 'vokalink', address: '83 rickmansworth high street' }
-];
+
 
 class HomeController {
    public static getInstance() {
@@ -24,52 +18,51 @@ class HomeController {
    private static instance: HomeController;
 
    // private _userRepository: UserRepository;
-
-   /* tslint:disable: no-null-keyword */
    private constructor() {  // templateRepository: Nullable<UserRepository> = null) {
-      // this._userRepository = userRepository ? userRepository : new UserRepository();
+      // this._homeRepository = userRepository ? userRepository : new UserRepository();
    }
 
-   public list(req: Request, res: Response, next: NextFunction) {
-      // return HomeController.getInstance()._homeRepository.list({ limit, skip });
-      res.json( new SuccessResponse({ data: homes }) );
+
+   public async list({ query }: IListInput) {
+      const { limit, skip } = query;
+      const data = await homeRepositoryInstance.list({ limit, skip });
+
+      return new SuccessResponse({ data });
    }
 
-   public get(req: Request, res: Response, next: NextFunction) {
-      const id = req.params.id;
-      const home = homes.find( isSameEntity(id) );
+   public async get({ params }: IGetInput) {
+      const id = params.id;
 
-      const response = home
+      const home = await homeRepositoryInstance.get({ id });
+
+      return home
          ? new SuccessResponse({ data: home })
          : new ErrorResponse({ statusCode: StatusCodes.BAD_REQUEST, message: 'Could not find.' });
-
-      res.status(response.statusCode)
-         .json( response );
    }
 
-   public create(req: Request, res: Response, next: NextFunction) {
-      const home = {
-         ...req.body,
-         id: String(generateObjectId())
-      }
+   public async create({ body }: ICreateInput) {
+      const home = await homeRepositoryInstance.create(body);
 
-      homes.push( home );
-
-      const response = new SuccessResponse({ statusCode: StatusCodes.CREATED, data: homes.find(isSameEntity(home.id)) });
-
-      res.status(response.statusCode)
-         .json( response );
+      return new CreateResponse({ data: home });
    }
 
-   public update(req: Request, res: Response, next: NextFunction) {
-      let home = homes.find( isSameEntity(req.params.id) );
-      home.name = req.body.name;
-      home.address = req.body.address;
+   public async update({ params, body }: IUpdateInput) {
+      const update = {
+         ... body,
+         id: params.id
+      };
 
-      const response = new SuccessResponse({ data: homes.find(isSameEntity(home.id)) });
+      await homeRepositoryInstance.update(update);
 
-      res.status(response.statusCode)
-         .json( response );
+      return new NoContentResponse({ });
+   }
+
+   public async delete({ params }: IDeleteInput) {
+      const id = params.id;
+
+      await homeRepositoryInstance.delete({ id });
+
+      return new NoContentResponse({ });
    }
 }
 

@@ -31,3 +31,7 @@ export function isSameEntity(id) {
       return entity.id === id;
    }
 }
+
+export function clone(obj) {
+   return JSON.parse(JSON.stringify(obj));
+}

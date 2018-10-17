@@ -28,6 +28,7 @@ export default class Server {
    private constructor(private config: IConfig) {
 
       this.app = express();
+
       this.initMiddlewares();
       this.initRoutes();
       this.initSwagger();

@@ -3,7 +3,7 @@ import logger from 'ylz-logger';
 
 import IConfig from './config/IConfig';
 import Server from './Server';
-import Database from './services/Database';
+import * as Database from './services/Database';
 
 
 dotenv.config();
@@ -12,7 +12,7 @@ const envVars: IConfig = process.env;
 
 const { nodeEnv, port, mongoUrl } = envVars;
 
-Database.open({ mongoUrl })
+Database.open(mongoUrl)
    .then(() => {
       const server = Server.getInstance(envVars);
 

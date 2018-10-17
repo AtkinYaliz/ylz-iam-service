@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator/check';
 
 import { StatusCodes } from './constants';
-import ErrorResponse from './responses/ErrorResponse';
+import { ErrorResponse } from '../models/responses';
 
 
 export default function validationHandler(validations: Object) {

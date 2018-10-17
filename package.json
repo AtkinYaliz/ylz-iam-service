@@ -12,8 +12,8 @@
     "start": "cross-env NODE_ENV=local tsc-watch --project . --onSuccess \"npm run nodemon\"",
     "nodemon": "nodemon ./dist/src/index.js",
     "nodemon-debug": "npm run nodemon -- --inspect",
-    "test": "jest --forceExit",
-    "test:w": "npm run test -- --watchAll",
+    "test": "jest --forceExit --coverage",
+    "test:w": "jest --forceExit --watchAll",
     "remove-dist": "rm -rf ./dist",
     "copy-resources": "cp -Rf ./config ./dist"
   },

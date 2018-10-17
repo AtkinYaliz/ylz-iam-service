@@ -51,6 +51,13 @@ export default Object.freeze({
             options: { min: 5 },
             errorMessage: 'Address should be at least 5 chars long'
          },
+      },
+      phones: {
+         in: ['body'],
+         custom: {
+           options: (phones: any[]) => Array.isArray(phones), //&& phones.length > 0 && phones.every(x => isValidObjectId(x)),
+           errorMessage: "Phones should be a list of strings!",
+         }
       }
    },
 
@@ -73,22 +80,27 @@ export default Object.freeze({
       address: {
          in: ['body'],
          isLength: {
-            options: { min: 5 },
+            options: { min: 1 },
             errorMessage: 'Address should be at least 5 chars long'
          },
+      },
+      phones: {
+         in: ['body'],
+         custom: {
+           options: (phones: any[]) => Array.isArray(phones), //&& phones.length > 0 && phones.every(x => isValidObjectId(x)),
+           errorMessage: "Phones should be a list of strings!",
+         }
       }
    },
 
-   // // GET /api/homes/:id
-   // delete: {
-   //    id: {
-   //       in: ['query'],
-   //       custom: {
-   //          options: (id: string) => {
-   //             return isValidObjectId(id);
-   //          },
-   //       },
-   //       errorMessage: 'Wrong format'
-   //    }
-   // }
+   // GET /api/homes/:id
+   delete: {
+      id: {
+         in: ['query'],
+         custom: {
+            options: (id, { req }) => isValidObjectId(req.params.id),
+            errorMessage: 'Wrong format'
+         }
+      }
+   }
 });

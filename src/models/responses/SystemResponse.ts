@@ -1,4 +1,4 @@
-import { StatusCodes } from '../constants';
+import { StatusCodes } from '../../libs/constants';
 import IResponse from './IResponse';
 
 
