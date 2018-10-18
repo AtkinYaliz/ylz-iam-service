@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 import IConfig from '../src/config/IConfig';
 import Server from '../src/Server';
 import { StatusCodes } from '../src/libs/constants';
-import * as Database from '../src/libs/Database';
+import * as Database from '../src/services/Database';
 
 
 dotenv.config({ path: './.env.test' });

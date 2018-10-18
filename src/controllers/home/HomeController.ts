@@ -32,7 +32,6 @@ class HomeController {
 
    public async get({ params }: IGetInput) {
       const id = params.id;
-
       const home = await homeRepositoryInstance.get({ id });
 
       return home

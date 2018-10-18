@@ -7,7 +7,10 @@ export default class BaseSchema extends Schema {
       const baseDefinition = {
          ...definition,
          ...{
-            _id: { type: String, required: true }
+            _id: {
+               type: String,
+               required: true
+            }
          }
       };
 

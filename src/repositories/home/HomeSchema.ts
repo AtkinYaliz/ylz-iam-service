@@ -9,11 +9,20 @@ export default class HomeSchema extends BaseSchema {
          ...definition,
          name: {
             type: String,
-            required: true
+            trim: true,
+            required: [true, 'Name is required!'],
+            minlength: [2, 'Name needs to be at least 2 chars!']
          },
          address: {
             type: String,
-            required: true
+            trim: true,
+            required: [true, 'Address is required!'],
+            validate: {
+                validator(address) {
+                    return !!address; // validator.isEmail(address);
+                },
+                message: '{VALUE} is not a valid address!',
+            }
          },
          phones: {
             type:[{

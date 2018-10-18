@@ -3,17 +3,26 @@ import * as dotenv from 'dotenv';
 
 import Server from '../../../src/Server';
 import { StatusCodes } from '../../../src/libs/constants';
+import * as Database from '../../../src/services/Database';
+import homeModel from '../../../src/repositories/home/homeModel';
 
 
 dotenv.config({ path: './.env.test' });
 //@ts-ignore
 const envVars: IConfig = process.env;
 let request = null;
+let homeId = '';
 
+beforeAll((done) => {
+   jest.setTimeout(1000);
 
-beforeAll(() => {
-   // jest.setTimeout(700);
-   request = supertest(Server.getInstance(envVars).application)
+   // @ts-ignore
+   Database.open(envVars.mongoUrl)
+      .then(async () => {
+         await homeModel.remove({});
+         request = supertest(Server.getInstance(envVars).application);
+         done();
+      });
 });
 
 describe("HomeController", () => {
@@ -27,7 +36,35 @@ describe("HomeController", () => {
          });
    });
 
-   it("should return 400 for GET /homes/id", (done) => {
+   it("should return 200 for POST /homes", (done) => {
+      request
+         .post("/api/homes")
+         .send({ name:'new name', address: 'wimbledon high street', phones: ['111-222'] })
+         .end((err, res) => {
+            expect(res.status).toBe(StatusCodes.CREATED);
+            expect(res.body.errors).toEqual([]);
+            expect(res.body.data).not.toBeNull();
+            expect(res.body.data).not.toBeUndefined();
+            expect(res.body.data.id).not.toBeNull();
+            expect(res.body.data.id).not.toBeUndefined();
+
+            homeId = res.body.data.id;
+
+            done();
+         });
+   });
+
+   it("should return 200 for GET /homes/:id", (done) => {
+      request
+         .get(`/api/homes/${homeId}`)
+         .end((err, res) => {
+            expect(res.status).toBe(StatusCodes.OK);
+            expect(res.body.data.id).toBe(homeId);
+            done();
+         });
+   });
+
+   it("should return 400 for GET /homes/:id", (done) => {
       request
          .get("/api/homes/5bbbe44a8958866e997326f3")
          .end((err, res) => {
@@ -37,15 +74,7 @@ describe("HomeController", () => {
          });
    });
 
-   it("should return 422 for GET /homes/id", (done) => {
-      request
-         .get("/api/homes/5bbbd1658958866e997326f0")
-         .end((err, res) => {
-            expect(res.status).toBe(StatusCodes.OK);
-            expect(res.body.data.id).toBe('5bbbd1658958866e997326f0');
-            done();
-         });
-   });
+
 
    it("should return 201 for POST /homes", (done) => {
       request
@@ -73,9 +102,9 @@ describe("HomeController", () => {
          });
    });
 
-   it("should return 422 for PUT /homes/id", (done) => {
+   it("should return 422 for PUT /homes/:id", (done) => {
       request
-         .put("/api/homes/5bbbd1658958866e997326f0")
+         .put(`/api/homes/${homeId}`)
          .send({ })
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.UNPROCESSABLE);
@@ -88,23 +117,20 @@ describe("HomeController", () => {
          });
    });
 
-   it("should return 422 for PUT /homes/id", (done) => {
+   it("should return 204 for PUT /homes/:id", (done) => {
       request
-         .put("/api/homes/5bbbd1658958866e997326f0")
-         .send({ name: 'Updated name', address: 'Updated address', phones: ['999-000'] })
+         .put(`/api/homes/${homeId}`)
+         .send({ name: 'Updated name 33', address: 'Updated address', phones: ['999-000'] })
          .end((err, res) => {
-            expect(res.status).toBe(StatusCodes.OK);
-            expect(res.body.errors).toEqual([]);
-            expect(res.body.data.name).toBe('Updated name');
-            expect(res.body.data.address).toBe('Updated address');
-            expect(res.body.data.phones).toEqual(['999-000']);
+            expect(res.status).toBe(StatusCodes.NO_CONTENT);
+            expect(res.body).toEqual({});
             done();
          });
    });
 
-   it("should return 422 for DELETE /homes/id", (done) => {
+   it("should return 422 for DELETE /homes/:id", (done) => {
       request
-         .delete("/api/homes/5bbbd1658958866e997326f0")
+         .delete(`/api/homes/${homeId}`)
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.NO_CONTENT);
             done();

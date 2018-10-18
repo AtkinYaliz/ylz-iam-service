@@ -13,7 +13,7 @@ const homeSchema = new HomeSchema();
 /**
  * Indicies
  */
-homeSchema.index({ _id: 1 }, { unique: true });
+// homeSchema.index({ name: 1, city: 1 }, { unique: true });
 
 
 /**
