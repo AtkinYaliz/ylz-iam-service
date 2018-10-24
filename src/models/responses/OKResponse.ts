@@ -8,6 +8,9 @@ export type IOKResponseConstructor = {
 
 export default class OKResponse extends HttpResponse {
    constructor({ data = null }: IOKResponseConstructor) {
-      super({ statusCode: StatusCodes.OK, data });
+      super({
+         statusCode: StatusCodes.OK,
+         data
+      });
    }
 }

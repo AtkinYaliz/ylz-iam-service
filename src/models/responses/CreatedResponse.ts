@@ -8,6 +8,9 @@ type ICreatedResponseConstructor = {
 
 export default class CreatedResponse extends HttpResponse {
    constructor({ data = null }: ICreatedResponseConstructor) {
-      super({ statusCode: StatusCodes.CREATED, data });
+      super({
+         statusCode: StatusCodes.CREATED,
+         data
+      });
    }
 }

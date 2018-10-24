@@ -10,7 +10,7 @@ type IHttpResponseConstructor = {
 
 export default abstract class HttpResponse implements IResponse {
    public statusCode: StatusCodes;
-   public data: any | any[];
+   public data: any | any[] | null;
    public message: string;
    public timestamp: Date;
 

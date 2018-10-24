@@ -11,6 +11,10 @@ export default class UnprocessableResponse extends HttpResponse {
    constructor({
       data = null
    }: IUnprocessableResponseConstructor) {
-      super({ statusCode: StatusCodes.UNPROCESSABLE, data, message: getEnumKeyOrValue(StatusCodes, StatusCodes.UNPROCESSABLE) });
+      super({
+         statusCode: StatusCodes.UNPROCESSABLE,
+         data,
+         message: getEnumKeyOrValue(StatusCodes, StatusCodes.UNPROCESSABLE)
+      });
    }
 }

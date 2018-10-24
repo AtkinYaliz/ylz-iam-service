@@ -13,6 +13,10 @@ export default class InternalServerErrorResponse extends HttpResponse {
       data = null,
       message = getEnumKeyOrValue(StatusCodes, StatusCodes.INTERNAL_SERVER_ERROR)
    }: IInternalServerErrorResponseConstructor) {
-      super({ statusCode: StatusCodes.INTERNAL_SERVER_ERROR, data, message });
+      super({
+         statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+         data,
+         message
+      });
    }
 }

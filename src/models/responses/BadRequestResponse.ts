@@ -13,6 +13,10 @@ export default class BadRequestResponse extends HttpResponse {
       data = null,
       message = getEnumKeyOrValue(StatusCodes, StatusCodes.BAD_REQUEST)
    }: IBadRequestResponseConstructor) {
-      super({ statusCode: StatusCodes.BAD_REQUEST, data, message });
+      super({
+         statusCode: StatusCodes.BAD_REQUEST,
+         data,
+         message
+      });
    }
 }
