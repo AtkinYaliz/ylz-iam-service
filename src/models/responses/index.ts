@@ -1,13 +1,21 @@
-import SystemResponse from './SystemResponse';
-import CreateResponse from './CreateResponse';
-import SuccessResponse from './SuccessResponse';
+import HttpResponse from './HttpResponse';
+import CreatedResponse from './CreatedResponse';
+import OKResponse from './OKResponse';
 import NoContentResponse from './NoContentResponse';
-import ErrorResponse from './ErrorResponse';
+import BadRequestResponse from './BadRequestResponse';
+import NotFoundResponse from './NotFoundResponse';
+import UnprocessableResponse from './UnprocessableResponse';
+import InternalServerErrorResponse from './InternalServerErrorResponse';
+
 
 export {
-   SystemResponse,
-   CreateResponse,
-   SuccessResponse,
+   HttpResponse,
+   CreatedResponse,
+   OKResponse,
    NoContentResponse,
-   ErrorResponse
+
+   BadRequestResponse,
+   NotFoundResponse,
+   UnprocessableResponse,
+   InternalServerErrorResponse
 }

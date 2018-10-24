@@ -1,9 +1,10 @@
-import { Model, Document } from 'mongoose';
-import { DocumentQuery } from 'mongoose';
+import { Model, Document, DocumentQuery } from 'mongoose';
+import logger from 'ylz-logger';
 
 import { Nullable } from "../libs/Nullable";
 import { generateObjectId, clone } from "../libs/utilities";
 import { IBaseListInput, IBaseGetInput, IBaseCreateInput, IBaseUpdateInput, IBaseDeleteInput }  from './models';
+import { DuplicateKeyError } from '../models/errors';
 
 
 export default abstract class BaseRepository<D extends Document, M extends Model<D>> {
@@ -27,18 +28,39 @@ export default abstract class BaseRepository<D extends Document, M extends Model
    }
 
    public async get(input: IBaseGetInput): Promise<Nullable<D>> {
+      logger.info('BaseRepository - get');
+
       return this.getById(input.id);
    }
 
    public async create(input: IBaseCreateInput): Promise<D> {
-      return this.getByIdAndUpdate(String(generateObjectId()), input);
+      try {
+         logger.info('BaseRepository - create');
+
+         const id = generateObjectId();
+
+         return await this.model.create({
+            ...input,
+            _id: id
+         });
+      } catch (err) {
+         logger.error(err);
+
+         if(err.code === 11000) {
+            throw new DuplicateKeyError();
+         } else {
+            throw err;
+         }
+      }
+
+
    }
 
    public async update(input: IBaseUpdateInput): Promise<D> {
-      return this.getByIdAndUpdate(input.id, input);
+      return this.model.findOneAndUpdate({ _id: input.id }, input, { new: true });
    }
 
-   public async delete(input: IBaseDeleteInput): Promise<any> {
+   public async delete(input: IBaseDeleteInput): Promise<D> {
       return this.model.findByIdAndDelete(input.id);
    }
 
@@ -51,8 +73,5 @@ export default abstract class BaseRepository<D extends Document, M extends Model
    }
    protected getByIds(ids: string[]): DocumentQuery<D[], D> {
       return this.getAll({ _id: {$in: ids} });
-   }
-   private getByIdAndUpdate(id: string, update: any, options: { upsert: boolean, new: boolean } = { upsert: true, new: true }): DocumentQuery<Nullable<D>, D> {
-      return this.model.findOneAndUpdate({ _id: id }, update, options);
    }
 }

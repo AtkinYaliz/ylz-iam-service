@@ -6,7 +6,7 @@ export enum EnvVars {
    TEST = 'test',
    LOCAL = 'local',
    DEV = 'dev',
-   PROD = 'prod'
+   PROD = 'production'
 }
 
 /**

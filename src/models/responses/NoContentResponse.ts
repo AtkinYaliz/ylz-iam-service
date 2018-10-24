@@ -1,9 +1,9 @@
 import { StatusCodes } from '../../libs/constants';
-import SuccessResponse, { ISuccessResponseInput } from './SuccessResponse';
+import HttpResponse from './HttpResponse';
 
 
-export default class NoContentResponse extends SuccessResponse {
-   constructor({ statusCode = StatusCodes.NO_CONTENT }: ISuccessResponseInput) {
-      super({ statusCode });
+export default class NoContentResponse extends HttpResponse {
+   constructor() {
+      super({ statusCode: StatusCodes.NO_CONTENT });
    }
 }

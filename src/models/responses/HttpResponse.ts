@@ -2,30 +2,26 @@ import { StatusCodes } from '../../libs/constants';
 import IResponse from './IResponse';
 
 
-interface ISystemResponse {
+type IHttpResponseConstructor = {
    statusCode?: StatusCodes;
-   data?: any | any[];
+   data?: any | any[] | null;
    message?: string;
-   errors?: any[];
 }
 
-export default abstract class SystemResponse implements IResponse {
+export default abstract class HttpResponse implements IResponse {
    public statusCode: StatusCodes;
    public data: any | any[];
    public message: string;
-   public errors: any[];
    public timestamp: Date;
 
    constructor({
       statusCode = StatusCodes.OK,
       data = null,
       message = '',
-      errors = []
-   }: ISystemResponse) {
+   }: IHttpResponseConstructor) {
       this.statusCode = statusCode;
       this.data = data;
       this.message = message;
-      this.errors = errors;
       this.timestamp = new Date();
    }
 }

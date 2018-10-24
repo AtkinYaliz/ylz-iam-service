@@ -3,11 +3,12 @@ import { checkSchema } from 'express-validator/check';
 
 import validations from './validations';
 import homeControllerInstance from './HomeController';
-import homeMiddleware from './homeMiddleware';
-import validationHandler from '../../libs/validationHandler';
+import validationHandler from '../../middlewares/validationHandler';
+import controllerAdapter from '../../middlewares/controllerAdapter';
 
 
 const router = Router();
+
 
 /**
  * @swagger
@@ -28,8 +29,8 @@ router.route('/')
   .get(
     // auth,
     checkSchema(validations.list as any),
-    validationHandler(validations.list as any),
-    homeMiddleware(homeControllerInstance.list)
+    validationHandler(),
+    controllerAdapter(homeControllerInstance, 'list')
   );
 
 /**
@@ -58,8 +59,8 @@ router.route('/:id')
    .get(
       // auth,
       checkSchema(validations.get as any),
-      validationHandler(validations.get as any),
-      homeMiddleware(homeControllerInstance.get)
+      validationHandler(),
+      controllerAdapter(homeControllerInstance, 'get')
    );
 
 
@@ -95,8 +96,8 @@ router.route('/')
    .post(
       // auth,
       checkSchema(validations.create as any),
-      validationHandler(validations.create as any),
-      homeMiddleware(homeControllerInstance.create)
+      validationHandler(),
+      controllerAdapter(homeControllerInstance, 'create')
    );
 
 
@@ -138,8 +139,8 @@ router.route('/:id')
    .put(
       // auth,
       checkSchema(validations.update as any),
-      validationHandler(validations.update as any),
-      homeMiddleware(homeControllerInstance.update)
+      validationHandler(),
+      controllerAdapter(homeControllerInstance, 'update')
    );
 
 /**
@@ -168,8 +169,8 @@ router.route('/:id')
     .delete(
        // auth,
        checkSchema(validations.delete as any),
-       validationHandler(validations.delete as any),
-       homeMiddleware(homeControllerInstance.delete)
+       validationHandler(),
+       controllerAdapter(homeControllerInstance, 'delete')
     );
 
 export default router;

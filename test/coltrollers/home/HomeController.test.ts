@@ -19,7 +19,7 @@ beforeAll((done) => {
    // @ts-ignore
    Database.open(envVars.mongoUrl)
       .then(async () => {
-         await homeModel.remove({});
+         await homeModel.remove({ });
          request = supertest(Server.getInstance(envVars).application);
          done();
       });
@@ -31,7 +31,7 @@ describe("HomeController", () => {
          .get("/api/homes/123")
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.UNPROCESSABLE);
-            expect(res.body.errors).toEqual( [{"location": "query", "msg": "Wrong format", "param": "id"}] );
+            expect(res.body.data).toEqual( [{"location": "query", "msg": "Wrong format", "param": "id"}] );
             done();
          });
    });
@@ -42,7 +42,7 @@ describe("HomeController", () => {
          .send({ name:'new name', address: 'wimbledon high street', phones: ['111-222'] })
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.CREATED);
-            expect(res.body.errors).toEqual([]);
+            // expect(res.body.errors).toEqual([]);
             expect(res.body.data).not.toBeNull();
             expect(res.body.data).not.toBeUndefined();
             expect(res.body.data.id).not.toBeNull();
@@ -69,7 +69,7 @@ describe("HomeController", () => {
          .get("/api/homes/5bbbe44a8958866e997326f3")
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.BAD_REQUEST);
-            expect(res.body.message).toEqual('Could not find.');
+            expect(res.body.message).toEqual('Could not find the home.');
             done();
          });
    });
@@ -82,10 +82,10 @@ describe("HomeController", () => {
          .send({ })
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.UNPROCESSABLE);
-            expect(res.body.errors.length).toEqual(3);
-            expect(res.body.errors[0].msg).toBe('Name should be at least 2 chars long');
-            expect(res.body.errors[1].msg).toBe('Address should be at least 5 chars long');
-            expect(res.body.errors[2].msg).toBe('Phones should be a list of strings!');
+            expect(res.body.data.length).toEqual(3);
+            expect(res.body.data[0].msg).toBe('Name should be at least 2 chars long');
+            expect(res.body.data[1].msg).toBe('Address should be at least 5 chars long');
+            expect(res.body.data[2].msg).toBe('Phones should be a list of strings!');
             done();
          });
    });
@@ -96,8 +96,8 @@ describe("HomeController", () => {
          .send({ name:'new name', address: 'wimbledon high street', phones: ['111-222'] })
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.CREATED);
-            expect(res.body.errors).toEqual([]);
-            expect(res.body.id).not.toBeNull();
+            // expect(res.body.data).toEqual([]);
+            expect(res.body.data.id).not.toBeNull();
             done();
          });
    });
@@ -108,10 +108,10 @@ describe("HomeController", () => {
          .send({ })
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.UNPROCESSABLE);
-            expect(res.body.errors.length).toEqual(3);
-            expect(res.body.errors[0].msg).toBe('Name should be at least 2 chars long');
-            expect(res.body.errors[1].msg).toBe('Address should be at least 5 chars long');
-            expect(res.body.errors[2].msg).toBe('Phones should be a list of strings!');
+            expect(res.body.data.length).toEqual(3);
+            expect(res.body.data[0].msg).toBe('Name should be at least 2 chars long');
+            expect(res.body.data[1].msg).toBe('Address should be at least 5 chars long');
+            expect(res.body.data[2].msg).toBe('Phones should be a list of strings!');
 
             done();
          });

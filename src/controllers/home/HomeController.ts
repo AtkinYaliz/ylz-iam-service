@@ -1,13 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
-
-import { SuccessResponse, CreateResponse, NoContentResponse, ErrorResponse } from '../../models/responses';
-import { StatusCodes } from '../../libs/constants';
-import homeRepositoryInstance from '../../repositories/home/HomeRepository';
+import { OKResponse, CreatedResponse, NoContentResponse, BadRequestResponse } from '../../models/responses';
+import HomeRepository from '../../repositories/home/HomeRepository';
 import { IListInput, IGetInput, ICreateInput, IUpdateInput, IDeleteInput } from './models';
 
 
-
 class HomeController {
+   private _homeRepository: HomeRepository;
+
    public static getInstance() {
       if (!HomeController.instance) {
          HomeController.instance = new HomeController();
@@ -17,32 +15,30 @@ class HomeController {
    }
    private static instance: HomeController;
 
-   // private _userRepository: UserRepository;
-   private constructor() {  // templateRepository: Nullable<UserRepository> = null) {
-      // this._homeRepository = userRepository ? userRepository : new UserRepository();
+   private constructor() {
+      this._homeRepository = new HomeRepository();
    }
-
 
    public async list({ query }: IListInput) {
       const { limit, skip } = query;
-      const data = await homeRepositoryInstance.list({ limit, skip });
+      const data = await this._homeRepository.list({ limit, skip });
 
-      return new SuccessResponse({ data });
+      return new OKResponse({ data });
    }
 
    public async get({ params }: IGetInput) {
       const id = params.id;
-      const home = await homeRepositoryInstance.get({ id });
+      const home = await this._homeRepository.get({ id });
 
       return home
-         ? new SuccessResponse({ data: home })
-         : new ErrorResponse({ statusCode: StatusCodes.BAD_REQUEST, message: 'Could not find.' });
+         ? new OKResponse({ data: home })
+         : new BadRequestResponse({ message: 'Could not find the home.' });
    }
 
    public async create({ body }: ICreateInput) {
-      const home = await homeRepositoryInstance.create(body);
+      const home = await this._homeRepository.create(body);
 
-      return new CreateResponse({ data: home });
+      return new CreatedResponse({ data: home });
    }
 
    public async update({ params, body }: IUpdateInput) {
@@ -51,17 +47,17 @@ class HomeController {
          id: params.id
       };
 
-      await homeRepositoryInstance.update(update);
+      await this._homeRepository.update(update);
 
-      return new NoContentResponse({ });
+      return new NoContentResponse();
    }
 
    public async delete({ params }: IDeleteInput) {
       const id = params.id;
 
-      await homeRepositoryInstance.delete({ id });
+      await this._homeRepository.delete({ id });
 
-      return new NoContentResponse({ });
+      return new NoContentResponse();
    }
 }
 

@@ -9,6 +9,7 @@ import * as morganBody from 'morgan-body';
 import Router from './Router';
 import IConfig from './config/IConfig';
 import { EnvVars } from './libs/constants';
+import { errorHandler, notFoundHandler } from './middlewares';
 
 
 export default class Server {
@@ -29,6 +30,7 @@ export default class Server {
 
       this.initMiddlewares();
       this.initRoutes();
+      this.initErrorHandler();
    }
 
    private initMiddlewares() {
@@ -54,7 +56,16 @@ export default class Server {
       const { apiPrefix } = this.config;
       const router = Router.getInstance(this.config).router;
 
+      // mount all routes on /api path
       this.app.use(apiPrefix, router);
+
+      // catch 404 and forward to error handler
+      this.app.use(notFoundHandler);
+   }
+   private initErrorHandler() {
+      const { nodeEnv } = this.config;
+
+      this.app.use(errorHandler(nodeEnv));
    }
 
    get application() {

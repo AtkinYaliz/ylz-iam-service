@@ -89,6 +89,10 @@
         },
         "esSpecCompliant": true
       }
+    ],
+    "only-arrow-functions": false,
+    "ban-types": [
+      false
     ]
   },
   "rulesDirectory": []

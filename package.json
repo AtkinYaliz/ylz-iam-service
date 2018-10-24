@@ -15,7 +15,9 @@
     "test": "jest --forceExit --coverage",
     "test:w": "jest --forceExit --watchAll",
     "remove-dist": "rm -rf ./dist",
-    "copy-resources": "cp -Rf ./config ./dist"
+    "copy-resources": "cp -Rf ./config ./dist",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint:fix": "yarn lint -- --fix"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
