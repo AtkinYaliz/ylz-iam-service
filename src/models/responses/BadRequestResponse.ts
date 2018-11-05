@@ -1,10 +1,11 @@
 import { StatusCodes } from '../../libs/constants';
 import HttpResponse from './HttpResponse';
 import { getEnumKeyOrValue } from '../../libs/utilities';
+import { TData } from './IResponse';
 
 
 type IBadRequestResponseConstructor = {
-   data?: any | any[] | null;
+   data?: TData;
    message?: string;
 }
 
@@ -14,7 +15,7 @@ export default class BadRequestResponse extends HttpResponse {
       message = getEnumKeyOrValue(StatusCodes, StatusCodes.BAD_REQUEST)
    }: IBadRequestResponseConstructor) {
       super({
-         statusCode: StatusCodes.BAD_REQUEST,
+         code: StatusCodes.BAD_REQUEST,
          data,
          message
       });

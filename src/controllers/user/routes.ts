@@ -8,12 +8,20 @@ import controllerAdapter from '../../middlewares/controllerAdapter';
 
 const router = Router();
 
-router.route('/')
-   .get(
+// router.route('/')
+//    .get(
+//       // auth,
+//       checkSchema(validations.test as any),
+//       validationHandler(),
+//       controllerAdapter(userControllerInstance, 'getAll')
+//    );
+
+router.route('/signup')
+   .post(
       // auth,
-      checkSchema(validations.test as any),
+      checkSchema(validations.signup as any),
       validationHandler(),
-      controllerAdapter(userControllerInstance, 'getAll')
+      controllerAdapter(userControllerInstance, 'signup')
    );
 
 export default router;

@@ -25,15 +25,22 @@ export function getPackageJson(count = 0) {
    return pjson;
 }
 
+
 /**
-  * Returns true if existing entity has the spesified id.
-  * @param id 'id' to test.
-  * @returns A Function that takes the object to test
-  */
-export function isSameEntity(id) {
-   return function isSameId(entity) {
-      return entity.id === id;
-   }
+ * Polyfill functions. Needs to be called when app is loaded.
+ * const utilities = require("./libs/utilities");
+ * Called as: const arr2 = await forEachSync(arr, func);
+ */
+export async function forEachSync(arr: any[], func: Function) {
+  for (const item of arr) {
+     await func(item);
+  }
+}
+
+export function pluck(key: string) {
+  return function(obj: any) {
+     return obj[key];
+  };
 }
 
 /**
@@ -46,13 +53,24 @@ export function isNullOrUndefined(x): boolean {
 }
 
 /**
+  * Returns true if existing entity has the spesified id.
+  * @param id 'id' to test.
+  * @returns A Function that takes the object to test
+  */
+export function isSameEntity(id) {
+   return function isSameId(entity) {
+      return entity.id === id;
+   }
+}
+
+/**
   * Returns true if an item is the same with the other one.
-  * @param o1 Item 1 to test.
+  * @param x Item 1 to test.
   * @returns A Function that takes the second item to test
   */
-export function isSame(o1) {
-   return function (o2) {
-      return o1 === o2;
+export function isSame(x) {
+   return function (y) {
+      return x === y;
    }
 }
 

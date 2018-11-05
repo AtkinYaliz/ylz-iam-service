@@ -13,7 +13,7 @@ export default function validationHandler() {
          const response = new UnprocessableResponse({ data: errors.array() });
 
          return res
-            .status(response.statusCode)
+            .status(response.code)
             .json(response);
       }
 

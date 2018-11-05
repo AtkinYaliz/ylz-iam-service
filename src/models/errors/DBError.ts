@@ -1,18 +1,13 @@
-import BaseError from './BaseError';
-
-
-type DBErrorConstructor = {
-   code?: number;
-   message?: string;
-}
+import BaseError, { TError } from './BaseError';
 
 
 export default abstract class DBError extends BaseError {
-   code: number;
 
-   constructor({ code = 0, message = '' }: DBErrorConstructor) {
-      super(message);
-
-      this.code = code;
+   constructor(
+      public type = DBError.name,
+      public data: TError[],
+      public message = ''
+   ) {
+      super(type, data, message);
    }
 }

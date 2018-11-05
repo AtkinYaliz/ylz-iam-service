@@ -1,15 +1,16 @@
 import HttpResponse from './HttpResponse';
 import { StatusCodes } from '../../libs/constants';
+import { TData } from './IResponse';
 
 
 type ICreatedResponseConstructor = {
-   data: any | any[] | null;
+   data: TData;
 }
 
 export default class CreatedResponse extends HttpResponse {
    constructor({ data = null }: ICreatedResponseConstructor) {
       super({
-         statusCode: StatusCodes.CREATED,
+         code: StatusCodes.CREATED,
          data
       });
    }

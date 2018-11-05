@@ -4,13 +4,9 @@ import BaseDocument from '../BaseDocument';
 /**
  * This is used for the whole entity that represents the collection in DB.
  */
-export default interface IHomeDocument extends BaseDocument {
-   name: string;
-   address: string;
-   phones: string[];
-   
+export default interface IApplicationDocument extends BaseDocument {
    createdAt: Date;
-   createdBy: string;
+   createdBy: string
    updatedAt: Date;
-   updatecBy: string;
+   updatedBy: string
 }

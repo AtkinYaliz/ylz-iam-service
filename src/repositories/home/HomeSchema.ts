@@ -17,6 +17,7 @@ export default class HomeSchema extends BaseSchema {
             type: String,
             trim: true,
             required: [true, 'Address is required!'],
+            minlength: [2, 'Address needs to be at least 2 chars!'],
             validate: {
                 validator(address) {
                     return !!address; // validator.isEmail(address);
@@ -30,6 +31,28 @@ export default class HomeSchema extends BaseSchema {
                required: true
             }],
             default: []
+         },
+
+         
+         createdAt: {
+            type: Date,
+            required: true,
+            default: () => new Date()
+         },
+         createdBy: {
+            type: String,
+            required: true,
+            default: '-'
+         },
+         updatedAt: {
+            type: Date,
+            required: true,
+            default: () => new Date()
+         },
+         updatedBy: {
+            type: String,
+            required: true,
+            default: '-'
          }
       };
 

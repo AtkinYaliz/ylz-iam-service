@@ -10,7 +10,7 @@ export default function controllerAdapter(controller: any = null, functionName: 
          const response: HttpResponse = await controller[functionName]({ headers, params, query, body });
 
          return res
-            .status(response.statusCode)
+            .status(response.code)
             .json(response);
       } catch(err) {
          next( err );

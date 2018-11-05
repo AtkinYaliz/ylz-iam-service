@@ -16,15 +16,13 @@ export const open = (mongoUrl: string) => {
 
       // Mock the mongoose for testing purpose using Mockgoose
       // connect to mongo db
-      mongoose.connect(mongoUrl, options, (err) => {
-         if (err) {
-            return reject(err);
-         }
-         resolve();
+      mongoose.connect(mongoUrl, options);
+      mongoose.connection.on('error', (err) => {
+        // throw new Error(`unable to connect to database: ${mongoUri}`);
+        reject(err);
       });
-
-      mongoose.connection.on('error', () => {
-         throw new Error(`unable to connect to database: ${mongoUrl}`);
+      mongoose.connection.on('connected', (err) => {
+        resolve();
       });
    });
 };

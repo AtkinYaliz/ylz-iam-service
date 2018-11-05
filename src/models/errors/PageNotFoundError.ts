@@ -3,10 +3,8 @@ import { getEnumKeyOrValue } from '../../libs/utilities';
 import { StatusCodes } from '../../libs/constants';
 
 
-export default class NotFoundError extends BaseError {
-   name: string = 'NotFoundError';
-
+export default class PageNotFoundError extends BaseError {
    constructor() {
-      super( getEnumKeyOrValue(StatusCodes, StatusCodes.NOT_FOUND) );
+      super(PageNotFoundError.name, [], getEnumKeyOrValue(StatusCodes, StatusCodes.NOT_FOUND));
    }
 }

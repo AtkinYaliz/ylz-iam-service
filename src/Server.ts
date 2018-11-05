@@ -9,7 +9,7 @@ import * as morganBody from 'morgan-body';
 import Router from './Router';
 import IConfig from './config/IConfig';
 import { EnvVars } from './libs/constants';
-import { errorHandler, notFoundHandler } from './middlewares';
+import { errorHandler, pageNotFoundHandler } from './middlewares';
 
 
 export default class Server {
@@ -60,7 +60,7 @@ export default class Server {
       this.app.use(apiPrefix, router);
 
       // catch 404 and forward to error handler
-      this.app.use(notFoundHandler);
+      this.app.use(pageNotFoundHandler);
    }
    private initErrorHandler() {
       const { nodeEnv } = this.config;

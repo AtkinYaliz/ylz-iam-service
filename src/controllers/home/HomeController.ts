@@ -1,3 +1,5 @@
+import logger from 'ylz-logger';
+
 import { OKResponse, CreatedResponse, NoContentResponse, BadRequestResponse } from '../../models/responses';
 import HomeRepository from '../../repositories/home/HomeRepository';
 import { IListInput, IGetInput, ICreateInput, IUpdateInput, IDeleteInput } from './models';
@@ -20,6 +22,8 @@ class HomeController {
    }
 
    public async list({ query }: IListInput) {
+      logger.info('HomeController - list', JSON.stringify(query));
+
       const { limit, skip } = query;
       const data = await this._homeRepository.list({ limit, skip });
 
@@ -27,6 +31,8 @@ class HomeController {
    }
 
    public async get({ params }: IGetInput) {
+      logger.info('HomeController - get', JSON.stringify(params));
+
       const id = params.id;
       const home = await this._homeRepository.get({ id });
 
@@ -36,12 +42,16 @@ class HomeController {
    }
 
    public async create({ body }: ICreateInput) {
+      logger.info('HomeController - create', JSON.stringify(body));
+
       const home = await this._homeRepository.create(body);
 
       return new CreatedResponse({ data: home });
    }
 
    public async update({ params, body }: IUpdateInput) {
+      logger.info('HomeController - update', JSON.stringify({ params, body }));
+
       const update = {
          ... body,
          id: params.id
@@ -53,6 +63,8 @@ class HomeController {
    }
 
    public async delete({ params }: IDeleteInput) {
+      logger.info('HomeController - delete', JSON.stringify(params));
+
       const id = params.id;
 
       await this._homeRepository.delete({ id });

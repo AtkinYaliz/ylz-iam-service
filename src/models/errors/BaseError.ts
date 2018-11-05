@@ -1,8 +1,13 @@
 
-export default abstract class BaseError extends Error {
-   // public type: string = '';
+export type TError = {
+	message?: string;
+	path?: string;
+	value?: string;
+};
 
-   constructor(...params) {
+
+export default abstract class BaseError extends Error {
+   constructor(public type: string, public data: TError[], ...params) {
       // Pass remaining arguments (including vendor specific ones) to parent constructor
       super(...params);
 
@@ -10,7 +15,5 @@ export default abstract class BaseError extends Error {
       if (Error.captureStackTrace) {
          Error.captureStackTrace(this, BaseError);
       }
-
-      this.name = '';
    }
 }

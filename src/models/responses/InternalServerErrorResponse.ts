@@ -1,10 +1,11 @@
 import { StatusCodes } from '../../libs/constants';
 import HttpResponse from './HttpResponse';
 import { getEnumKeyOrValue } from '../../libs/utilities';
+import { TData } from './IResponse';
 
 
 type IInternalServerErrorResponseConstructor = {
-   data?: any | any[] | null;
+   data?: TData;
    message?: string;
 }
 
@@ -14,7 +15,7 @@ export default class InternalServerErrorResponse extends HttpResponse {
       message = getEnumKeyOrValue(StatusCodes, StatusCodes.INTERNAL_SERVER_ERROR)
    }: IInternalServerErrorResponseConstructor) {
       super({
-         statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+         code: StatusCodes.INTERNAL_SERVER_ERROR,
          data,
          message
       });

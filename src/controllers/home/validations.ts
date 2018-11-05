@@ -6,21 +6,21 @@ const validations = Object.freeze({
       in: ['query'],
       custom: {
          options: (id, { req }) => isValidObjectId(req.params.id),
-         errorMessage: 'Wrong format'
+         errorMessage: 'Wrong format!'
       }
    },
    name: {
       in: ['body'],
       isLength: {
-         options: { min: 2 },
-         errorMessage: 'Name should be at least 2 chars long'
+         options: { min: 1 },
+         errorMessage: 'Name should be at least 2 chars long!'
       },
    },
    address: {
       in: ['body'],
       isLength: {
-         options: { min: 1 },
-         errorMessage: 'Address should be at least 5 chars long'
+         options: { min: 2 },
+         errorMessage: 'Address should be at least 2 chars long!'
       },
    },
    phones: {
