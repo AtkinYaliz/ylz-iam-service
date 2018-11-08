@@ -1,3 +1,4 @@
+import { Nullable } from '../../libs/Nullable';
 
 export type TError = {
 	message?: string;
@@ -7,7 +8,7 @@ export type TError = {
 
 
 export default abstract class BaseError extends Error {
-   constructor(public type: string, public data: TError[], ...params) {
+   constructor(public type: string, public data: Nullable<TError[]>, ...params) {
       // Pass remaining arguments (including vendor specific ones) to parent constructor
       super(...params);
 

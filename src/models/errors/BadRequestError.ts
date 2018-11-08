@@ -1,4 +1,3 @@
-import { TError } from './BaseError';
 import DBError from './DBError';
 
 

@@ -17,11 +17,12 @@ export default abstract class BaseRepository<D extends Document, M extends Model
    /**
     * Public methods for child classes
     */
-   public async list(input: IBaseListInput): Promise<D[]> {
+    // public async list(input: IBaseListInput): Promise<D[]> {
+    public async list(input: IBaseListInput): Promise<D[]> {
       logger.debug('BaseRepository - list', JSON.stringify(input));
 
       const options = clone(input);
-
+      
       delete options.limit;
       delete options.skip;
 
@@ -62,7 +63,7 @@ export default abstract class BaseRepository<D extends Document, M extends Model
 
 
    /**
-    * Protected methods for internal use 
+    * Protected methods for internal use
     */
    protected getAll(query: any): DocumentQuery<D[], D> {
       return this.model.find(query);

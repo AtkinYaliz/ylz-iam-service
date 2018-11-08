@@ -22,7 +22,7 @@ class HomeController {
    }
 
    public async list({ query }: IListInput) {
-      logger.info('HomeController - list', JSON.stringify(query));
+      logger.info('HomeController - list', JSON.stringify(query, null, 2));
 
       const { limit, skip } = query;
       const data = await this._homeRepository.list({ limit, skip });
