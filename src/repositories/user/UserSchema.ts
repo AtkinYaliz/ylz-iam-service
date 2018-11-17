@@ -1,13 +1,27 @@
-import { SchemaDefinition, SchemaOptions } from "mongoose";
+import { SchemaDefinition, SchemaOptions } from 'mongoose';
 import * as validator from 'validator';
 
-import BaseSchema from "../BaseSchema";
+import BaseSchema from '../BaseSchema';
+import auditSchema from '../auditSchema';
 
 
 export default class UserSchema extends BaseSchema {
    constructor(definition?: SchemaDefinition, options?: SchemaOptions) {
       const userDefinition = {
          ...definition,
+
+         firstName: {
+            type: String,
+            trim: true,
+            required: [true, 'First name is required!'],
+            minlength: [1, 'First name needs to be at least 1 char!']
+         },
+         lastName: {
+            type: String,
+            trim: true,
+            required: [true, 'Last name is required!'],
+            minlength: [1, 'Last name needs to be at least 1 char!']
+         },
          email: {
             type: String,
             unique: true,
@@ -34,10 +48,12 @@ export default class UserSchema extends BaseSchema {
             }
          },
          applicationId: {
-            type: String, 
+            type: String,
             ref: 'Application',
             required: [true, 'Application ID is required!']
          },
+
+         ...auditSchema
       };
 
       super(userDefinition, options);

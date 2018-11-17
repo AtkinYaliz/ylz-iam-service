@@ -1,33 +1,22 @@
-import { SchemaDefinition, SchemaOptions } from "mongoose";
-import * as validator from 'validator';
+import { SchemaDefinition, SchemaOptions } from 'mongoose';
 
-import BaseSchema from "../BaseSchema";
+import BaseSchema from '../BaseSchema';
+import auditSchema from '../auditSchema';
 
 
 export default class ApplicationSchema extends BaseSchema {
    constructor(definition?: SchemaDefinition, options?: SchemaOptions) {
       const applicationDefinition = {
          ...definition,
-         createdAt: {
-            type: Date,
-            required: [true, 'createdAt is required!'],
-            default: new Date()
-         },
-         createdBy: {
+         
+         name: {
             type: String,
-            required: [true, 'createdBy is required!'],
-            default: '-'
+            trim: true,
+            required: [true, 'Name is required!'],
+            minlength: [2, 'Name needs to be at least 2 chars!']
          },
-         updatedAt: {
-            type: Date,
-            required: [true, 'updatedAt is required!'],
-            default: new Date()
-         },
-         updatedBy: {
-            type: String,
-            required: [true, 'updatedBy is required!'],
-            default: '-'
-         }
+
+         ...auditSchema
       };
 
       super(applicationDefinition, options);

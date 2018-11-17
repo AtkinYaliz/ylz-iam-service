@@ -3,26 +3,25 @@ import logger from 'ylz-logger';
 
 import { Nullable } from "../libs/Nullable";
 import { generateObjectId, clone } from "../libs/utilities";
-import { IBaseListInput, IBaseGetInput, IBaseCreateInput, IBaseUpdateInput, IBaseDeleteInput }  from './models';
+import { IBaseListInput, IBaseGetInput, IBaseGetOneInput, IBaseCreateInput, IBaseUpdateInput, IBaseDeleteInput }  from './models';
 
 
 export default abstract class BaseRepository<D extends Document, M extends Model<D>> {
 
    protected model: M;
 
-   constructor(model) {
+   constructor(model: M) {
       this.model = model;
    }
 
    /**
     * Public methods for child classes
     */
-    // public async list(input: IBaseListInput): Promise<D[]> {
-    public async list(input: IBaseListInput): Promise<D[]> {
+   public async list(input: IBaseListInput): Promise<D[]> {
       logger.debug('BaseRepository - list', JSON.stringify(input));
 
       const options = clone(input);
-      
+
       delete options.limit;
       delete options.skip;
 
@@ -38,14 +37,20 @@ export default abstract class BaseRepository<D extends Document, M extends Model
       return this.getById(input.id);
    }
 
+   public async getOne(input: IBaseGetOneInput): Promise<Nullable<D>> {
+      logger.debug('BaseRepository - getOne', JSON.stringify(input));
+
+      return this.model.findOne(input);
+   }
+
    public async create(input: IBaseCreateInput): Promise<D> {
       logger.debug('BaseRepository - create', JSON.stringify(input));
 
-      const id = generateObjectId();
+      const id = String(generateObjectId());
 
       return this.model.create({
-         ...input,
-         _id: id
+         _id: id,
+         ...input
       });
    }
 
@@ -65,13 +70,13 @@ export default abstract class BaseRepository<D extends Document, M extends Model
    /**
     * Protected methods for internal use
     */
-   protected getAll(query: any): DocumentQuery<D[], D> {
-      return this.model.find(query);
-   }
    protected getById(id: string): DocumentQuery<D | null, D> {
       return this.model.findById(id);
    }
    protected getByIds(ids: string[]): DocumentQuery<D[], D> {
       return this.getAll({ _id: {$in: ids} });
+   }
+   protected getAll(query: any): DocumentQuery<D[], D> {
+      return this.model.find(query);
    }
 }

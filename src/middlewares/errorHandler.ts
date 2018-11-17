@@ -2,7 +2,7 @@ import logger from 'ylz-logger';
 
 import { EnvVars } from '../libs/constants';
 import { PageNotFoundError, DuplicateKeyError, ValidationError, BadRequestError } from '../models/errors';
-import { HttpResponse, UnprocessableResponse, BadRequestResponse, NotFoundResponse, InternalServerErrorResponse } from '../models/responses';
+import { HttpResponse, UnprocessableResponse, BadRequestResponse, NotFoundResponse, InternalServerErrorResponse, UnauthorizedResponse } from '../models/responses';
 
 export default function errorHandler(nodeEnv: string) {
    return function errorHandler(err: any, req: any, res: any, next: any) {
@@ -39,7 +39,11 @@ export default function errorHandler(nodeEnv: string) {
             break;
          case InternalServerErrorResponse.name:
          default:
-            response = new InternalServerErrorResponse({ });
+            if(err.name === 'AuthenticationError') {
+               response = new UnauthorizedResponse(); // BadRequestResponse({ message: err.message });
+            } else {
+               response = new InternalServerErrorResponse({ });
+            }
             break;
       }
 

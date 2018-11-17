@@ -1,5 +1,6 @@
 // import * as Promise from 'bluebird';
 import { model, Model } from 'mongoose';
+import { hashSync, compareSync } from 'bcrypt-nodejs';
 
 import IUserDocument from './IUserDocument';
 import UserSchema from './UserSchema';
@@ -13,7 +14,7 @@ const userSchema = new UserSchema();
 /**
  * Indicies
  */
-userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ email: 1, applicationId: 1 }, { unique: true });
 
 
 /**
@@ -41,7 +42,11 @@ userSchema.set('toJSON', {
  * - validation
  * - virtual
  */
-userSchema.pre("save", (next: any) => {
+userSchema.pre("save", function(next: any) {
+   if (this.isModified('password')) {
+      // @ts-ignore
+      this.password = this.hashPassword(this.password);
+   }
    next();
 });
 
@@ -49,8 +54,14 @@ userSchema.pre("save", (next: any) => {
 /**
  * Methods
  */
-userSchema.method({
-});
+userSchema.methods = {
+   hashPassword(password) {
+      return hashSync(password);
+   },
+   authenticateUser(password) {
+      return compareSync(password, this.password);
+   }
+};
 
 
 /**

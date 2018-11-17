@@ -42,6 +42,13 @@ export function pluck(key: string) {
      return obj[key];
   };
 }
+export function plucks(keys: string[]) {
+   return function(obj: any) {
+      const res: any = {};
+      keys.forEach(k => { res[k] = obj[k] });
+      return res;
+   }
+}
 
 /**
   * Returns true if existing entity has the spesified id.
@@ -65,7 +72,7 @@ export function isSameEntity(id) {
 
 /**
   * Returns true if an item is the same with the other one.
-  * @param x Item 1 to test.
+  * @param x First item to test.
   * @returns A Function that takes the second item to test
   */
 export function isSame(x) {

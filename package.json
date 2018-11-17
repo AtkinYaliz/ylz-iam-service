@@ -1,5 +1,5 @@
 {
-  "name": "ylz-node-starter",
+  "name": "ylz-identity-manager",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
@@ -8,8 +8,9 @@
   "scripts": {
     "prebuild": "npm run remove-dist",
     "build": "tsc",
-    "prestart": "npm run remove-dist",
-    "start": "cross-env NODE_ENV=local tsc-watch --project . --onSuccess \"npm run nodemon\"",
+    "prelocal": "npm run remove-dist",
+    "local": "cross-env NODE_ENV=local tsc-watch --project . --onSuccess \"npm run nodemon\"",
+    "start": "node dist/src/index.js",
     "nodemon": "nodemon ./dist/src/index.js",
     "nodemon-debug": "npm run nodemon -- --inspect",
     "test": "jest --forceExit --coverage",
@@ -20,6 +21,8 @@
     "lint:fix": "yarn lint -- --fix"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/passport-jwt": "^3.0.1",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
@@ -29,9 +32,11 @@
     "express": "^4.16.4",
     "express-validator": "^5.3.0",
     "helmet": "^3.14.0",
+    "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.3.7",
     "morgan-body": "^2.4.5",
     "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "swagger-jsdoc": "1.9.7",
     "swagger-ui-express": "3.0.10",

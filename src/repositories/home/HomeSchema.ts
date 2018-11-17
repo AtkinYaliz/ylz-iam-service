@@ -1,16 +1,17 @@
-import { SchemaDefinition, SchemaOptions } from "mongoose";
+import { SchemaDefinition, SchemaOptions } from 'mongoose';
 
-import BaseSchema from "../BaseSchema";
-
+import BaseSchema from '../BaseSchema';
+import auditSchema from '../auditSchema';
 
 export default class HomeSchema extends BaseSchema {
    constructor(definition?: SchemaDefinition, options?: SchemaOptions) {
       const homeDefinition = {
          ...definition,
+
          name: {
             type: String,
             trim: true,
-            required: [true, 'Name is required!'],
+            required: [true, 'Name is required!'], // '' will fail
             minlength: [2, 'Name needs to be at least 2 chars!']
          },
          address: {
@@ -33,27 +34,7 @@ export default class HomeSchema extends BaseSchema {
             default: []
          },
 
-         
-         createdAt: {
-            type: Date,
-            required: true,
-            default: () => new Date()
-         },
-         createdBy: {
-            type: String,
-            required: true,
-            default: '-'
-         },
-         updatedAt: {
-            type: Date,
-            required: true,
-            default: () => new Date()
-         },
-         updatedBy: {
-            type: String,
-            required: true,
-            default: '-'
-         }
+         ...auditSchema
       };
 
       super(homeDefinition, options);

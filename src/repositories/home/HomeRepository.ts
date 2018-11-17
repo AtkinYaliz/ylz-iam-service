@@ -33,7 +33,7 @@ export default class HomeRepository extends BaseRepository<IHomeDocument, Model<
          return await super.create(input);
       } catch (err) {
          if(err.code === 11000) {
-            throw new DuplicateKeyError('This name is in use!');
+            throw new DuplicateKeyError('The name is in use!');
          } else if(err.name === ValidationError.name) {
             let data = [];
             for(let e in err.errors){

@@ -13,7 +13,7 @@ const applicationSchema = new ApplicationSchema();
 /**
  * Indicies
  */
-applicationSchema.index({ email: 1 }, { unique: true });
+applicationSchema.index({ name: 1 }, { unique: true });
 
 
 /**
@@ -41,7 +41,7 @@ applicationSchema.set('toJSON', {
  * - validation
  * - virtual
  */
-applicationSchema.pre("save", (next: any) => {
+applicationSchema.pre("save", function(next: any) {
    next();
 });
 
@@ -49,8 +49,8 @@ applicationSchema.pre("save", (next: any) => {
 /**
  * Methods
  */
-applicationSchema.method({
-});
+applicationSchema.methods = {
+};
 
 
 /**

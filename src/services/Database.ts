@@ -1,7 +1,12 @@
 import * as mongoose from 'mongoose';
+import logger from 'ylz-logger';
+
+import ApplicationRepository from '../repositories/application/ApplicationRepository';
+import { DuplicateKeyError, ValidationError } from '../models/errors';
+import { forEachSync } from '../libs/utilities';
 
 
-export const open = (mongoUrl: string) => {
+export function open(mongoUrl: string) {
    return new Promise((resolve, reject) => {
       // Mongoose options
       const options = {
@@ -27,6 +32,23 @@ export const open = (mongoUrl: string) => {
    });
 };
 
-export const close = () => {
+export function close() {
    return mongoose.disconnect();
 };
+
+export function createInitials(names) {
+   const applicationRepo = new ApplicationRepository();
+
+   forEachSync(names, async (name) => {
+      try {
+         await applicationRepo.create({ name });
+      } catch(err) {
+         if(err.type === DuplicateKeyError.name) {
+            logger.info(`${err.message} ${name}`)
+         } else if(err.type === ValidationError.name) {
+            logger.info(`${err.message} ${name}`)
+         }
+      }
+   });
+   
+}

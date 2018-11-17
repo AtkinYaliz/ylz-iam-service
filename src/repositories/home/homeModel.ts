@@ -41,7 +41,7 @@ homeSchema.set('toJSON', {
  * - validation
  * - virtual
  */
-homeSchema.pre("save", (next: any) => {
+homeSchema.pre("save", function(next: any) {
    next();
 });
 
@@ -49,8 +49,8 @@ homeSchema.pre("save", (next: any) => {
 /**
  * Methods
  */
-homeSchema.method({
-});
+homeSchema.methods = {
+};
 
 
 /**

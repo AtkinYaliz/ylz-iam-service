@@ -1,9 +1,10 @@
 export default interface IConfig {
+   apiPrefix: string;
+   corsOrigin: string;
+   mongoUrl: string;
    nodeEnv: string;
    port: number;
-   apiPrefix: string;
-   mongoUrl: string;
-   corsOrigin: string;
+   secret: string;
    swaggerUrl: string;
    swaggerDefinition: string;
 }

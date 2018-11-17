@@ -10,6 +10,20 @@ const validations = Object.freeze({
          errorMessage: 'Wrong format!'
       }
    },
+   firstName: {
+      in: ['body'],
+      isLength: {
+         options: { min: 1 },
+         errorMessage: 'First name is required!'
+      }
+   },
+   lastName: {
+      in: ['body'],
+      isLength: {
+         options: { min: 1 },
+         errorMessage: 'Last name is required!'
+      }
+   },
    email: {
       in: ['body'],
       isLength: {
@@ -28,11 +42,18 @@ const validations = Object.freeze({
          errorMessage: 'Password should be at least 6 chars long!'
       }
    },
-   applicationId: {
+   newPassword: {
       in: ['body'],
       isLength: {
-         options: { min: 5 },
-         errorMessage: 'Application ID should be at least 5 chars long!'
+         options: { min: 6 },
+         errorMessage: 'New password should be at least 6 chars long!'
+      }
+   },
+   applicationId: {
+      in: ['body'],
+      custom: {
+         options: (id, { req }) => isValidObjectId(req.body.applicationId),
+         errorMessage: 'Wrong format!'
       }
    }
 });
@@ -47,6 +68,19 @@ export default Object.freeze({
    signup: {
       email: validations.email,
       password: validations.password,
+      firstName: validations.firstName,
+      lastName: validations.lastName,
+      applicationId: validations.applicationId
+   },
+   login: {
+      email: validations.email,
+      password: validations.password,
+      applicationId: validations.applicationId
+   },
+   changePassword: {
+      email: validations.email,
+      password: validations.password,
+      newPassword: validations.newPassword,
       applicationId: validations.applicationId
    }
 });

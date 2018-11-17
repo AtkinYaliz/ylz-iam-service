@@ -5,9 +5,10 @@ export default function controllerAdapter(controller: any = null, functionName: 
 
    return async (req: any, res: any, next: any) => {
       try {
-         const { headers, params, query, body } = req;
+         const { headers: { authorization }, params, query, body } = req;
+         const { locals } = res;
 
-         const response: HttpResponse = await controller[functionName]({ headers, params, query, body });
+         const response: HttpResponse = await controller[functionName]({ headers: { authorization }, params, query, body, locals });
 
          return res
             .status(response.code)

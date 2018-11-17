@@ -1,8 +1,9 @@
 import logger from 'ylz-logger';
 
-import { ISignupInput } from './models';
+import { ISignupInput, ILoginInput, IChangePasswordInput } from './models';
 import UserRepository from '../../repositories/user/UserRepository';
-import { CreatedResponse } from '../../models/responses';
+import { CreatedResponse, OKResponse, UnauthorizedResponse } from '../../models/responses';
+import { generateToken } from '../../services/Password';
 
 
 class UserController {
@@ -25,9 +26,32 @@ class UserController {
    public async signup({ body }: ISignupInput) {
       logger.debug('UserController - signup', JSON.stringify(body));
 
-      const home = await this._userRepository.signup(body);
+      const user = await this._userRepository.signup(body);
+      const token = { token: generateToken(user) };
 
-      return new CreatedResponse({ data: home });
+      return new CreatedResponse({ data: token });
+   }
+
+   public async login({ body }: ILoginInput) {
+      logger.debug('UserController - login', JSON.stringify(body));
+
+      const user = await this._userRepository.getUser(body);
+      const token = { token: generateToken(user) };
+
+      return user
+         ? new OKResponse({ data: token })
+         : new UnauthorizedResponse();
+   }
+
+   public async changePassword({ body }: IChangePasswordInput) {
+      logger.debug('UserController - changePassword', JSON.stringify(body));
+
+      const user = await this._userRepository.getUser(body);
+      const token = { token: generateToken(user) };
+
+      return user
+         ? new OKResponse({ data: token })
+         : new UnauthorizedResponse();
    }
 }
 
