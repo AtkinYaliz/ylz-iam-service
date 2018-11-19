@@ -18,23 +18,17 @@ spec:
 
 
 ---
-kind: PersistentVolume
+kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: mongo-pv-volume
-  labels:
-    type: local
+  name: mongo-pv-claim
 spec:
   storageClassName: manual
-  capacity:
-    storage: 10Gi
-  volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  hostPath:
-    path: "/mnt/data/mongo"
-
+  resources:
+    requests:
+      storage: 3Gi
 
 ---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
@@ -67,7 +61,8 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: mongo-pv-claim
-
+      imagePullSecrets:
+       - name: dockerserra
 
 ---
 apiVersion: v1
@@ -112,6 +107,8 @@ spec:
           image: docker.serra.pw:5000/yalizltd:latest
           ports:
             - containerPort: 9000
+      imagePullSecrets:
+       - name: dockerserra
   strategy:
     type: RollingUpdate
     rollingUpdate:
