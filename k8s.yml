@@ -105,6 +105,23 @@ spec:
       containers:
         - name: node
           image: docker.serra.pw:5000/yalizltd:latest
+          env:
+          - name: apiPrefix
+          - value: '/api'
+          - name: corsOrigin
+          - value: '["http://localhost"]'
+          - name: nodeEnv
+          - value: dev
+          - name: port
+          - value: 3000
+          - name: secret
+          - value: {{secret_password}}
+          - name: swaggerUrl
+          - value: '/_docs'
+          - name: swaggerDefinition
+          - value: '{"basePath":"/api","info": {"description": "Identity Manager API with Swagger","title": "Identity Manager API documentation","version": ""}}'
+          - name: mongoUrl
+          - value: 'mongodb://mongo:27017/IdentityManager'
           ports:
             - containerPort: 9000
       imagePullSecrets:

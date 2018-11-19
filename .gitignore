@@ -9,6 +9,9 @@ pids
 *.pid
 *.seed
 
+# k8s_password_yaml
+k8s_secret.yml
+
 # IDE
 .idea
 
