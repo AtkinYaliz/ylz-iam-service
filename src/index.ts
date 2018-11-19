@@ -6,29 +6,34 @@ import Server from './Server';
 import * as Database from './services/Database';
 
 
-logger.debug( config );
+logger.debug( 'Initial Configuration:', config );
 
 const { nodeEnv, port, mongoUrl } = config;
 
-Database.open(mongoUrl)
-   .then(() => {
-      Database.createInitials(['LH']);
+const server = Server.getInstance(config).application.listen(port);
 
-      const server = Server.getInstance(config).application.listen(port);
-
-      server.on('listening', () => {
-         const ann = `|| App is running at port '${port}' in '${nodeEnv}' mode ||`;
-
-         logger.log(`
+server.on('listening', () => {
+   const ann = `|| App is running at port '${port}' in '${nodeEnv}' mode ||`;
+   logger.debug(`
       ${ann.replace(/[^]/g, "-")}
       ${ann}
       ${ann.replace(/[^]/g, "-")}
       ${"Press CTRL-C to stop"}
-         `);
-      });
+   `);
 
-      server.on('error', (err) => {
-         logger.error('::: GOT ERROR IN STARTING SERVER :::');
+   Database.open(mongoUrl)
+      .then(() => {
+         logger.debug('Database connected.');
+
+         Database.createInitials(['LH']);
+      })
+      .catch(err => {
+         logger.error('::: GOT ERROR WHEN CONNECTING TO THE DATABASE :::');
          logger.error( err );
       });
-   });
+});
+
+server.on('error', (err) => {
+   logger.error('::: GOT ERROR IN STARTING SERVER :::');
+   logger.error( err );
+});

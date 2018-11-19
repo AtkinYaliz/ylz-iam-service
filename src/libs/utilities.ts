@@ -32,9 +32,11 @@ export function getPackageJson(count = 0) {
  * Called as: const arr2 = await forEachSync(arr, func);
  */
 export async function forEachSync(arr: any[], func: Function) {
-  for (const item of arr) {
-     await func(item);
-  }
+   if(arr) {
+      for (const item of arr) {
+         await func(item);
+      }
+   }
 }
 
 export function pluck(key: string) {
