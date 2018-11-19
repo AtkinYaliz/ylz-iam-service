@@ -6,7 +6,8 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": "10.13.0"
+    "node": ">= 10.13.0",
+    "npm": ">= 5.6.0"
   },
   "scripts": {
     "prebuild": "npm run remove-dist",
