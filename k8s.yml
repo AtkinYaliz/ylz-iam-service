@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
         - name: mongo
-          image: mongo
+          image: docker.serra.pw:5000/mongo:latest
           ports:
             - containerPort: 27017
           volumeMounts:
