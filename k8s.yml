@@ -122,6 +122,8 @@ spec:
             value: "/_docs"
           - name: swaggerDefinition
             value: '{"basePath":"/api","info": {"description": "Identity Manager API with Swagger","title": "Identity Manager API documentation","version": ""}}'
+          - name: port
+            value: "3000"
           ports:
             - containerPort: 9000
       imagePullSecrets:
