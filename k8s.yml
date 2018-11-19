@@ -115,7 +115,7 @@ spec:
           - name: port
           - value: 3000
           - name: secret
-          - value: {{secret_password}}
+          - value: {{secretpassword}}
           - name: swaggerUrl
           - value: '/_docs'
           - name: swaggerDefinition
