@@ -100,7 +100,7 @@ spec:
     matchLabels:
       app: node
       tier: backend
-  replicas: 9
+  replicas: 4
   template:
     metadata:
       labels:
@@ -111,7 +111,7 @@ spec:
         - name: node
           image: docker.serra.pw:5000/yalizltd:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 9000
   strategy:
     type: RollingUpdate
     rollingUpdate:
