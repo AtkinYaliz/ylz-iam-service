@@ -1,4 +1,4 @@
---- 
+---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
@@ -31,7 +31,7 @@ spec:
       storage: 3Gi
 
 ---
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+apiVersion: apps/v1  # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
   name: mongo
@@ -62,7 +62,7 @@ spec:
           persistentVolumeClaim:
             claimName: mongo-pv-claim
       imagePullSecrets:
-       - name: dockerserra
+        - name: dockerserra
 
 ---
 apiVersion: v1
@@ -84,9 +84,8 @@ spec:
     tier: backend
 
 
-
 ---
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+apiVersion: apps/v1  # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
   name: node
@@ -106,32 +105,32 @@ spec:
         - name: node
           image: docker.serra.pw:5000/yalizltd:latest
           env:
-          - name: apiPrefix
-          - value: '/api'
-          - name: corsOrigin
-          - value: '["http://localhost"]'
           - name: nodeEnv
-          - value: dev
-          - name: port
-          - value: 3000
+            value: dev
           - name: secret
-          - value: {{secretpassword}}
-          - name: swaggerUrl
-          - value: '/_docs'
-          - name: swaggerDefinition
-          - value: '{"basePath":"/api","info": {"description": "Identity Manager API with Swagger","title": "Identity Manager API documentation","version": ""}}'
+            valueFrom:
+              secretKeyRef:
+                name: secretdata
+                key: secret
           - name: mongoUrl
-          - value: 'mongodb://mongo:27017/IdentityManager'
+            value: 'mongodb://mongo:27017/IdentityManager'
+          - name: apiPrefix
+            value: '/api'
+          - name: corsOrigin
+            value: '["http://localhost"]'
+          - name: swaggerUrl
+            value: "/_docs"
+          - name: swaggerDefinition
+            value: '{"basePath":"/api","info": {"description": "Identity Manager API with Swagger","title": "Identity Manager API documentation","version": ""}}'
           ports:
             - containerPort: 9000
       imagePullSecrets:
-       - name: dockerserra
+        - name: dockerserra
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 1
-
 
 
 ---

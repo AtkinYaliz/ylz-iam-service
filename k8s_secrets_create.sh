@@ -17,7 +17,7 @@ cat << EOF > k8s_secret.yml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: secretpassword
+  name: secretdata
 type: Opaque
 data:
   secret: ${BASE64_STRING}
