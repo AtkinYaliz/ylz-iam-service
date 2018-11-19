@@ -5,6 +5,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "10.13.0"
+  },
   "scripts": {
     "prebuild": "npm run remove-dist",
     "build": "tsc",
