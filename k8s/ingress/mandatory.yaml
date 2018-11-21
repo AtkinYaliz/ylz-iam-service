@@ -169,7 +169,7 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: ingress-nginx
@@ -195,6 +195,7 @@ spec:
             - --publish-service=$(POD_NAMESPACE)/ingress-nginx
             - --annotations-prefix=nginx.ingress.kubernetes.io
             - --default-ssl-certificate=default/star-serra-pw
+            - --default-backend-service=$(POD_NAMESPACE)/default-backend
           securityContext:
             capabilities:
               drop:
