@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: yaliz-identity-manager
+spec:
+  tls:
+  - hosts:
+    - yaliz-identity-manager.serra.pw
+    secretName: star-serra-pw
+  rules:
+  - host: yaliz-identity-manager.serra.pw
+    http:
+      paths:
+      - backend:
+          serviceName: node
+          servicePort: 80
+        path: /
+
