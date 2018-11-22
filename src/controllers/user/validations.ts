@@ -72,7 +72,7 @@ export default Object.freeze({
       lastName: validations.lastName,
       applicationId: validations.applicationId
    },
-   login: {
+   signin: {
       email: validations.email,
       password: validations.password,
       applicationId: validations.applicationId

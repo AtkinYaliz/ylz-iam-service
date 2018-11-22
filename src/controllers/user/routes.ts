@@ -17,12 +17,12 @@ router.route('/signup')
       controllerAdapter(userControllerInstance, 'signup')
    );
 
-router.route('/login')
+router.route('/signin')
    .post(
-      checkSchema(validations.login as any),
+      checkSchema(validations.signin as any),
       validationHandler(),
       authLocal,
-      controllerAdapter(userControllerInstance, 'login')
+      controllerAdapter(userControllerInstance, 'signin')
    );
 
 router.route('/change-password')

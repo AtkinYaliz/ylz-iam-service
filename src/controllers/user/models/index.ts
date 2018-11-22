@@ -1,10 +1,10 @@
 import ISignupInput from './ISignupInput';
-import ILoginInput from './ILoginInput';
+import ISigninInput from './ISigninInput';
 import IChangePasswordInput from './IChangePasswordInput';
 
 
 export {
    ISignupInput,
-   ILoginInput,
+   ISigninInput,
    IChangePasswordInput
 }

@@ -1,6 +1,6 @@
 import logger from 'ylz-logger';
 
-import { ISignupInput, ILoginInput, IChangePasswordInput } from './models';
+import { ISignupInput, ISigninInput, IChangePasswordInput } from './models';
 import UserRepository from '../../repositories/user/UserRepository';
 import { CreatedResponse, OKResponse, UnauthorizedResponse } from '../../models/responses';
 import { generateToken } from '../../services/Password';
@@ -32,8 +32,8 @@ class UserController {
       return new CreatedResponse({ data: token });
    }
 
-   public async login({ body }: ILoginInput) {
-      logger.debug('UserController - login', JSON.stringify(body));
+   public async signin({ body }: ISigninInput) {
+      logger.debug('UserController - signin', JSON.stringify(body));
 
       const user = await this._userRepository.getUser(body);
       const token = { token: generateToken(user) };
