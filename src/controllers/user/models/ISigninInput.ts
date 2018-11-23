@@ -1,5 +1,5 @@
 
-export default interface ILoginInput {
+export default interface ISigninInput {
    body: {
       email: string;
       password: string;

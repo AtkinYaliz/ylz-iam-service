@@ -99,9 +99,9 @@ describe("UserController", () => {
          });
    });
 
-   it("should return 422 w/ empty user for /login", (done) => {
+   it("should return 422 w/ empty user for /signin", (done) => {
       request
-         .post(`/api/users/login`)
+         .post(`/api/users/signin`)
          .send(mockUsers.emptyUser)
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.UNPROCESSABLE);
@@ -114,9 +114,9 @@ describe("UserController", () => {
          });
    });
 
-   it("should return 200 w/ valid username password for /login", (done) => {
+   it("should return 200 w/ valid username password for /signin", (done) => {
       request
-         .post(`/api/users/login`)
+         .post(`/api/users/signin`)
          .send(mockUsers.validUser)
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.OK);
