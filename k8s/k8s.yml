@@ -94,7 +94,7 @@ spec:
     matchLabels:
       app: node
       tier: backend
-  replicas: 4
+  replicas: 6
   template:
     metadata:
       labels:
