@@ -112,6 +112,16 @@ spec:
               secretKeyRef:
                 name: secretdata
                 key: secret
+          - name: mongouser
+            valueFrom:
+              secretKeyRef:
+                name: mongo-user-pass
+                key: mongo_user
+          - name: mongopass
+            valueFrom:
+              secretKeyRef:
+                name: mongo-user-pass
+                key: mongo_passwd
           - name: mongoUrl
             value: 'mongodb://mongo:27017/IdentityManager'
           - name: apiPrefix
