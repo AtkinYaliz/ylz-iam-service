@@ -22,10 +22,17 @@ server.on('listening', () => {
    `);
 
    Database.open(mongoUrl)
-      .then(() => {
+      .then(async () => {
          logger.debug('Database connected.');
 
-         Database.createInitials(['LH']);
+         try {
+            const createData = require('../scripts/createData.json')
+
+            await Database.createCollections(createData);
+         } catch(err) {
+            logger.error('::: GOT ERROR WHEN CREATING COLLECTIONS :::');
+            logger.error( err );
+         }
       })
       .catch(err => {
          logger.error('::: GOT ERROR WHEN CONNECTING TO THE DATABASE :::');

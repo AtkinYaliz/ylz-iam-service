@@ -79,4 +79,7 @@ export default abstract class BaseRepository<D extends Document, M extends Model
    protected getAll(query: any): DocumentQuery<D[], D> {
       return this.model.find(query);
    }
+   public async getCount(query: any = {}): Promise<number> {
+      return await this.getAll(query).countDocuments();
+   }
 }
