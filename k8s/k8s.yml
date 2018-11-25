@@ -122,10 +122,10 @@ spec:
               secretKeyRef:
                 name: mongo-user-pass
                 key: mongo_passwd
-          - name: mongoUrl
+          - name: mongoOldUrl
             value: 'mongodb://mongo:27017/IdentityManager'
-          - name: mongoRsUrl:
-            value: 'mongodb://identity:__Pass__@mongod-0.mongors:27017,mongod-1.mongors:27017,mongod-2.mongors:27017/IdentityManager?replicaSet=MainRepSet&readPreference=secondary'
+          - name: mongoUrl:
+            value: 'mongodb://$(mongouser):$(mongopass)@mongod-0.mongors:27017,mongod-1.mongors:27017,mongod-2.mongors:27017/IdentityManager?replicaSet=MainRepSet&readPreference=secondary'
           - name: apiPrefix
             value: '/api'
           - name: corsOrigin
