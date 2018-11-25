@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Comment2
+# Comment3
 
 if [ ! -z "$1" ];then 
 	STRING=${1}
