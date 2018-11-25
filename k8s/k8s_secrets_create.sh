@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Comment
+
 if [ ! -z "$1" ];then 
 	STRING=${1}
 else 
