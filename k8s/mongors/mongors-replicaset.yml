@@ -107,7 +107,7 @@ spec:
         - name: dockerserra
       containers:
         - name: mongors
-          image: docker.serra.pw:5000/mongo:latest
+          image: docker.serra.pw:5000/mongo:4.0.4_1
           command:
             - "numactl"
             - "--interleave=all"

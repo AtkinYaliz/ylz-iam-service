@@ -10,7 +10,8 @@ pids
 *.seed
 
 # k8s_password_yaml
-k8s_secret.yml
+k8s/k8s_secret.yml
+k8s/mongo_user_pass.yml
 
 # IDE
 .idea
