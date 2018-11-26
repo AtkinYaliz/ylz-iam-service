@@ -10,33 +10,33 @@ export const validApplicationName = 'test-application';
 export default {
 	emptyUser: {},
 	userWithEmptyPassword: {
+		applicationId: validApplicationId,
       email: validEmail,
       firstName: validFirstName,
-      lastName: validLastName,
-		applicationId: validApplicationId
+      lastName: validLastName
 	},
 	userWithEmptyApplicationId: {
 		email: validEmail,
 		password: validPassword
 	},
 	userWithNonExistingApplicationId: {
+		applicationId: '5bec577920bc54f417801a03',
 		email: validEmail,
-      password: validPassword,
       firstName: validFirstName,
       lastName: validLastName,
-		applicationId: '5bec577920bc54f417801a03'
+      password: validPassword
 	},
 	validUser: {
+		applicationId: validApplicationId,
 		email: validEmail,
-		password: validPassword,
       firstName: validFirstName,
       lastName: validLastName,
-		applicationId: validApplicationId
+		password: validPassword
    },
    validChangePassword: {
+		applicationId: validApplicationId,
       email: validEmail,
-		password: validPassword,
       newPassword: validNewPassword,
-		applicationId: validApplicationId
+		password: validPassword
    }
 }

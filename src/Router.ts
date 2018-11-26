@@ -1,7 +1,7 @@
 import * as express from 'express';
 import logger from 'ylz-logger';
-
 import Swagger from './libs/Swagger';
+
 import { getPackageJson } from './libs/utilities';
 import userRouter from './controllers/user/routes';
 import homeRouter from './controllers/home/routes';
@@ -9,8 +9,6 @@ import IConfig from './config/IConfig';
 
 
 export default class Router {
-   router: any;
-
    public static getInstance(config: IConfig) {
       if (!Router.instance) {
          Router.instance = new Router(config);
@@ -19,6 +17,7 @@ export default class Router {
       return Router.instance;
    }
    private static instance: Router;
+   public router: any;
 
    private constructor(private config: IConfig) {
       this.router = express.Router();
@@ -27,7 +26,6 @@ export default class Router {
       this.initDefaultRoutes();
       this.initControllerRoutes();
    }
-
 
    private initSwaggerRoute() {
       const { apiPrefix, swaggerUrl } = this.config;
@@ -42,7 +40,6 @@ export default class Router {
 
       this.router.use(swaggerUrl, serve, setup);
    }
-
    private initDefaultRoutes() {
       /**
        * @swagger
@@ -105,7 +102,6 @@ export default class Router {
          });
       });
    }
-
    private initControllerRoutes() {
       // mount email routes at /users
       this.router.use('/homes', homeRouter);

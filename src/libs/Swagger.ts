@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import * as swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc = require('swagger-jsdoc');
+import * as swaggerUi from 'swagger-ui-express';
 
 
 export interface ISwaggerDefinition {
@@ -33,12 +33,12 @@ export default class Swagger {
             // path to the API docs
             apis: ['dist/src/**/*.js'],
             // import swaggerDefinitions
-            swaggerDefinition,
+            swaggerDefinition
          };
-         
+
          // initialize swagger-jsdoc
-         const swaggerSpec = swaggerJSDoc(options);
-         res.send(swaggerSpec);
+            const swaggerSpec = swaggerJSDoc(options);
+            res.send(swaggerSpec);
       });
 
       return router;
@@ -46,12 +46,12 @@ export default class Swagger {
 
    public getUI(swaggerUrl: string) {
       const options = {
-         swaggerUrl: `${swaggerUrl}.json`,
+         swaggerUrl: `${swaggerUrl}.json`
       };
 
       return {
          serve: swaggerUi.serve,
-         setup: swaggerUi.setup(undefined, options),
+         setup: swaggerUi.setup(undefined, options)
       };
    }
 }

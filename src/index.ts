@@ -1,6 +1,5 @@
 import logger from 'ylz-logger';
 
-// import IConfig from './config/IConfig';
 import config from './config';
 import Server from './Server';
 import * as Database from './services/Database';
@@ -26,15 +25,15 @@ server.on('listening', () => {
          logger.debug('Database connected.');
 
          try {
-            const createData = require('../scripts/createData.json')
+            // const createData = require('../scripts/createData.json');
 
-            await Database.createCollections(createData);
-         } catch(err) {
+            // await Database.createCollections(createData);
+         } catch (err) {
             logger.error('::: GOT ERROR WHEN CREATING COLLECTIONS :::');
             logger.error( err );
          }
       })
-      .catch(err => {
+      .catch((err) => {
          logger.error('::: GOT ERROR WHEN CONNECTING TO THE DATABASE :::');
          logger.error( err );
       });

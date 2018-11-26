@@ -3,7 +3,7 @@ import HttpResponse from './HttpResponse';
 import { TData } from './IResponse';
 
 
-export type IOKResponseConstructor = {
+export interface IOKResponseConstructor {
    data?: TData;
 }
 

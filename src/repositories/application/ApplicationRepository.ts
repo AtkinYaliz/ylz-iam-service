@@ -1,11 +1,11 @@
 import { Model } from 'mongoose';
 import logger from 'ylz-logger';
 
-import BaseRepository from '../BaseRepository';
-import IApplicationDocument from './IApplicationDocument'
-import applicationModel from './applicationModel';
-import { ICreateInput } from './models'
 import { DuplicateKeyError, ValidationError } from '../../models/errors';
+import BaseRepository from '../BaseRepository';
+import applicationModel from './applicationModel';
+import IApplicationDocument from './IApplicationDocument';
+import { ICreateInput } from './models';
 
 
 export default class ApplicationRepository extends BaseRepository<IApplicationDocument, Model<IApplicationDocument>> {
@@ -19,13 +19,15 @@ export default class ApplicationRepository extends BaseRepository<IApplicationDo
       try {
          return await super.create(input);
       } catch (err) {
-         if(err.code === 11000) {
+         if (err.code === 11000) {
             throw new DuplicateKeyError('The name is in use!');
-         } else if(err.name === ValidationError.name) {
-            let data = [];
-            for(let e in err.errors){
-               const { message, path, value } = err.errors[e];
-               data.push({ message, path, value });
+         } else if (err.name === ValidationError.name) {
+            const data = [];
+            for (const e in err.errors) {
+               if (err.errors.hasOwnProperty(e)) {
+                  const { message, path, value } = err.errors[e];
+                  data.push({ message, path, value });
+               }
             }
             throw new ValidationError(data);
          } else {

@@ -1,8 +1,8 @@
+import ICreateInput from './ICreateInput';
+import IDeleteInput from './IDeleteInput';
 import IGetInput from './IGetInput';
 import IListInput from './IListInput';
-import ICreateInput from './ICreateInput';
 import IUpdateInput from './IUpdateInput';
-import IDeleteInput from './IDeleteInput';
 
 export {
    IGetInput,
@@ -10,4 +10,4 @@ export {
    ICreateInput,
    IUpdateInput,
    IDeleteInput
-}
+};

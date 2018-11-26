@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator/check';
 
-import validations from './validations';
-import homeControllerInstance from './HomeController';
-import validationHandler from '../../middlewares/validationHandler';
 import controllerAdapter from '../../middlewares/controllerAdapter';
+import validationHandler from '../../middlewares/validationHandler';
+import homeControllerInstance from './HomeController';
+import validations from './validations';
 
 
 const router = Router();
@@ -165,7 +165,7 @@ router.route('/:id')
  *         schema:
  *           $ref: '#/definitions/Home'
  */
- router.route('/:id')
+router.route('/:id')
     .delete(
        // auth,
        checkSchema(validations.delete as any),

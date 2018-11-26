@@ -1,12 +1,12 @@
-import HttpResponse from './HttpResponse';
-import CreatedResponse from './CreatedResponse';
-import OKResponse from './OKResponse';
-import NoContentResponse from './NoContentResponse';
 import BadRequestResponse from './BadRequestResponse';
-import UnauthorizedResponse from './UnauthorizedResponse';
-import NotFoundResponse from './NotFoundResponse';
-import UnprocessableResponse from './UnprocessableResponse';
+import CreatedResponse from './CreatedResponse';
+import HttpResponse from './HttpResponse';
 import InternalServerErrorResponse from './InternalServerErrorResponse';
+import NoContentResponse from './NoContentResponse';
+import NotFoundResponse from './NotFoundResponse';
+import OKResponse from './OKResponse';
+import UnauthorizedResponse from './UnauthorizedResponse';
+import UnprocessableResponse from './UnprocessableResponse';
 
 
 export {
@@ -20,4 +20,4 @@ export {
    NotFoundResponse,
    UnprocessableResponse,
    InternalServerErrorResponse
-}
+};

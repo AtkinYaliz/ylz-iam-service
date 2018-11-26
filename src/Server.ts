@@ -1,19 +1,21 @@
-import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as compress from 'compression';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
+import * as express from 'express';
 import * as helmet from 'helmet';
-import * as compress from 'compression';
 import * as morganBody from 'morgan-body';
 
-import Router from './Router';
 import IConfig from './config/IConfig';
 import { EnvVars } from './libs/constants';
 import { errorHandler, pageNotFoundHandler } from './middlewares';
+import Router from './Router';
 
 
 export default class Server {
-   private app: express.Express;
+   get application() {
+      return this.app;
+   }
 
    public static getInstance(config: IConfig) {
       if (!Server.instance) {
@@ -23,6 +25,7 @@ export default class Server {
       return Server.instance;
    }
    private static instance: Server;
+   private app: express.Express;
 
    private constructor(private config: IConfig) {
 
@@ -36,7 +39,7 @@ export default class Server {
    private initMiddlewares() {
       const { nodeEnv } = this.config;
 
-      if(nodeEnv === EnvVars.PROD) {
+      if (nodeEnv === EnvVars.PROD) {
          this.app.use(helmet());
          this.app.use(compress());
       }
@@ -66,9 +69,5 @@ export default class Server {
       const { nodeEnv } = this.config;
 
       this.app.use(errorHandler(nodeEnv));
-   }
-
-   get application() {
-      return this.app;
    }
 }

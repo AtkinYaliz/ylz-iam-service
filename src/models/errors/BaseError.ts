@@ -1,9 +1,9 @@
 import { Nullable } from '../../libs/Nullable';
 
 export type TError = {
-	message?: string;
-	path?: string;
-	value?: string;
+  message?: string;
+  path?: string;
+  value?: string;
 };
 
 

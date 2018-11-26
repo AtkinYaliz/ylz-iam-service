@@ -1,5 +1,5 @@
-import BaseError, { TError } from './BaseError';
 import { Nullable } from '../../libs/Nullable';
+import BaseError, { TError } from './BaseError';
 
 
 export default abstract class DBError extends BaseError {

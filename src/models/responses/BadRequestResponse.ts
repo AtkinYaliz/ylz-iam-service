@@ -1,10 +1,10 @@
 import { StatusCodes } from '../../libs/constants';
-import HttpResponse from './HttpResponse';
 import { getEnumKeyOrValue } from '../../libs/utilities';
+import HttpResponse from './HttpResponse';
 import { TData } from './IResponse';
 
 
-type IBadRequestResponseConstructor = {
+interface IBadRequestResponseConstructor {
    data?: TData;
    message?: string;
 }

@@ -4,5 +4,5 @@ export default interface ICreateInput {
       name: string;
       address: string;
       phones: string[];
-   }
+   };
 }

@@ -1,8 +1,8 @@
 import { SchemaDefinition, SchemaOptions } from 'mongoose';
 import * as validator from 'validator';
 
-import BaseSchema from '../BaseSchema';
 import auditSchema from '../auditSchema';
+import BaseSchema from '../BaseSchema';
 
 
 export default class UserSchema extends BaseSchema {
@@ -32,7 +32,7 @@ export default class UserSchema extends BaseSchema {
                 validator(email) {
                     return validator.isEmail(email);
                 },
-                message: '{VALUE} is not a valid email!',
+                message: '{VALUE} is not a valid email!'
             }
          },
          password: {
@@ -44,7 +44,7 @@ export default class UserSchema extends BaseSchema {
                 validator(password) {
                     return !!password; // validator.isEmail(password);
                 },
-                message: '{VALUE} is not a strong password!',
+                message: '{VALUE} is not a strong password!'
             }
          },
          applicationId: {

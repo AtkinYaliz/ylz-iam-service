@@ -4,5 +4,5 @@ export default interface ISignupInput {
       email: string;
       password: string;
       applicationId: string;
-   }
+   };
 }

@@ -1,10 +1,8 @@
-// import * as Promise from 'bluebird';
-import { model, Model } from 'mongoose';
-import { hashSync, compareSync } from 'bcrypt-nodejs';
+import { Model, model } from 'mongoose';
+import { compareSync, hashSync } from 'bcrypt-nodejs';
 
 import IUserDocument from './IUserDocument';
 import UserSchema from './UserSchema';
-
 
 /**
  * User Schema

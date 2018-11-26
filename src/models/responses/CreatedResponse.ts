@@ -1,9 +1,9 @@
-import HttpResponse from './HttpResponse';
 import { StatusCodes } from '../../libs/constants';
+import HttpResponse from './HttpResponse';
 import { TData } from './IResponse';
 
 
-type ICreatedResponseConstructor = {
+interface ICreatedResponseConstructor {
    data: TData;
 }
 

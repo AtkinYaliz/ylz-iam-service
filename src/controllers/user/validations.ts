@@ -1,5 +1,5 @@
-import { isValidObjectId } from '../../libs/utilities';
 import * as validator from 'validator';
+import { isValidObjectId } from '../../libs/utilities';
 
 
 const validations = Object.freeze({

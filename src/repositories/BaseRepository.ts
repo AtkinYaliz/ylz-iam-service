@@ -1,9 +1,11 @@
-import { Model, Document, DocumentQuery } from 'mongoose';
+import { Document, DocumentQuery, Model } from 'mongoose';
 import logger from 'ylz-logger';
 
 import { Nullable } from "../libs/Nullable";
-import { generateObjectId, clone } from "../libs/utilities";
-import { IBaseListInput, IBaseGetInput, IBaseGetOneInput, IBaseCreateInput, IBaseUpdateInput, IBaseDeleteInput }  from './models';
+import { clone, generateObjectId } from "../libs/utilities";
+import {
+   IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseGetOneInput, IBaseListInput, IBaseUpdateInput
+} from './models';
 
 
 export default abstract class BaseRepository<D extends Document, M extends Model<D>> {
@@ -65,6 +67,9 @@ export default abstract class BaseRepository<D extends Document, M extends Model
 
       return this.model.findByIdAndDelete(input.id);
    }
+   public async getCount(query: any = {}): Promise<number> {
+      return await this.getAll(query).countDocuments();
+   }
 
 
    /**
@@ -78,8 +83,5 @@ export default abstract class BaseRepository<D extends Document, M extends Model
    }
    protected getAll(query: any): DocumentQuery<D[], D> {
       return this.model.find(query);
-   }
-   public async getCount(query: any = {}): Promise<number> {
-      return await this.getAll(query).countDocuments();
    }
 }

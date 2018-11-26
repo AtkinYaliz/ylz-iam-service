@@ -1,10 +1,12 @@
 import logger from 'ylz-logger';
 
 import { EnvVars } from '../libs/constants';
-import { PageNotFoundError, DuplicateKeyError, ValidationError, BadRequestError } from '../models/errors';
-import { HttpResponse, UnprocessableResponse, BadRequestResponse, NotFoundResponse, InternalServerErrorResponse, UnauthorizedResponse } from '../models/responses';
+import { BadRequestError, DuplicateKeyError, PageNotFoundError, ValidationError } from '../models/errors';
+import {
+   BadRequestResponse, HttpResponse, InternalServerErrorResponse, NotFoundResponse, UnauthorizedResponse, UnprocessableResponse
+} from '../models/responses';
 
-export default function errorHandler(nodeEnv: string) {
+export default function errorHandlerMiddleware(nodeEnv: string) {
    return function errorHandler(err: any, req: any, res: any, next: any) {
       if (nodeEnv !== EnvVars.TEST) {
          logger.error(err);
@@ -12,13 +14,13 @@ export default function errorHandler(nodeEnv: string) {
 
       let response: HttpResponse;
 
-      switch(err.type) {
+      switch (err.type) {
          case PageNotFoundError.name:
             response = new NotFoundResponse();
             break;
          case ValidationError.name:
             response = new UnprocessableResponse({
-               data: err.data.map(e => ({
+               data: err.data.map((e) => ({
                   location: '',
                   param: e.path,
                   value: e.value,
@@ -39,7 +41,7 @@ export default function errorHandler(nodeEnv: string) {
             break;
          case InternalServerErrorResponse.name:
          default:
-            if(err.name === 'AuthenticationError') {
+            if (err.name === 'AuthenticationError') {
                response = new UnauthorizedResponse(); // BadRequestResponse({ message: err.message });
             } else {
                response = new InternalServerErrorResponse({ });
@@ -50,5 +52,5 @@ export default function errorHandler(nodeEnv: string) {
       res
          .status(response.code)
          .json( response );
-   }
+   };
 }

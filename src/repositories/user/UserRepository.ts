@@ -1,14 +1,14 @@
 import { Model } from 'mongoose';
 import logger from 'ylz-logger';
 
-import BaseRepository from '../BaseRepository';
-import IUserDocument from './IUserDocument'
-import userModel from './userModel';
-import { ISignupInput, IGetInput } from './models';
 import { Nullable } from '../../libs/Nullable';
-import { DuplicateKeyError, ValidationError, BadRequestError } from '../../models/errors';
-import ApplicationRepository from '../application/ApplicationRepository';
 import { plucks } from '../../libs/utilities';
+import { BadRequestError, DuplicateKeyError, ValidationError } from '../../models/errors';
+import ApplicationRepository from '../application/ApplicationRepository';
+import BaseRepository from '../BaseRepository';
+import IUserDocument from './IUserDocument';
+import { IGetInput, ISignupInput } from './models';
+import userModel from './userModel';
 
 
 export default class UserRepository extends BaseRepository<IUserDocument, Model<IUserDocument>> {
@@ -37,10 +37,12 @@ export default class UserRepository extends BaseRepository<IUserDocument, Model<
          if (err.code === 11000) {
             throw new DuplicateKeyError('The email is in use!');
          } else if (err.name === ValidationError.name) {
-            let data = [];
-            for (let e in err.errors) {
-               const { message, path, value } = err.errors[e];
-               data.push({ message, path, value });
+            const data = [];
+            for (const e in err.errors) {
+               if (err.errors.hasOwnProperty(e)) {
+                  const { message, path, value } = err.errors[e];
+                  data.push({ message, path, value });
+               }
             }
             throw new ValidationError(data);
          } else {

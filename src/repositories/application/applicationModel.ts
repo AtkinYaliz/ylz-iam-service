@@ -1,8 +1,8 @@
 // import * as Promise from 'bluebird';
 import { model, Model } from 'mongoose';
 
-import IApplicationDocument from './IApplicationDocument';
 import ApplicationSchema from './ApplicationSchema';
+import IApplicationDocument from './IApplicationDocument';
 
 
 /**

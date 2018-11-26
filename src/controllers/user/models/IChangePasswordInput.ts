@@ -5,5 +5,5 @@ export default interface IChangePasswordInput {
       password: string;
       newPassword: string;
       applicationId: string;
-   }
+   };
 }

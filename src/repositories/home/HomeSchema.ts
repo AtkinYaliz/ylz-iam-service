@@ -1,7 +1,7 @@
 import { SchemaDefinition, SchemaOptions } from 'mongoose';
 
-import BaseSchema from '../BaseSchema';
 import auditSchema from '../auditSchema';
+import BaseSchema from '../BaseSchema';
 
 export default class HomeSchema extends BaseSchema {
    constructor(definition?: SchemaDefinition, options?: SchemaOptions) {
@@ -23,11 +23,11 @@ export default class HomeSchema extends BaseSchema {
                 validator(address) {
                     return !!address; // validator.isEmail(address);
                 },
-                message: '{VALUE} is not a valid address!',
+                message: '{VALUE} is not a valid address!'
             }
          },
          phones: {
-            type:[{
+            type: [{
                type: String,
                required: true
             }],

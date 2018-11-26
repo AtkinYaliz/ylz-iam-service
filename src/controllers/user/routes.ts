@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator/check';
 
-import validations from './validations';
-import userControllerInstance from './UserController';
-import validationHandler from '../../middlewares/validationHandler';
-import controllerAdapter from '../../middlewares/controllerAdapter';
-import authLocal from '../../middlewares/authLocal';
 import authJWT from '../../middlewares/authJWT';
+import authLocal from '../../middlewares/authLocal';
+import controllerAdapter from '../../middlewares/controllerAdapter';
+import validationHandler from '../../middlewares/validationHandler';
+import userControllerInstance from './UserController';
+import validations from './validations';
 
 const router = Router();
 

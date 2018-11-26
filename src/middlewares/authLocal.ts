@@ -26,7 +26,7 @@ async function verifyFunctionWithRequest(req, email, password, done) {
    try {
       const user = await new UserRepository().getUser({ email, applicationId: req.body.applicationId });
 
-      if(!user) {
+      if (!user) {
          return done(null, false);
       }
 
@@ -36,13 +36,13 @@ async function verifyFunctionWithRequest(req, email, password, done) {
       return isMatch
          ? done(null, user)
          : done(null, false);
-   } catch(err) {
+   } catch (err) {
       return done(err);
    }
 }
 
 // Create the strategy
-//@ts-ignore
+// @ts-ignore
 const localStrategy = new LocalStrategy(strategyOptions, verifyFunctionWithRequest);
 
 // Tell passport to use this strategy
@@ -52,7 +52,8 @@ passport.use(localStrategy);
 /**
  * After successful authentication, Passport will establish a persistent login session.
  * This is useful for the common scenario of users accessing a web application via a browser.
- * However, in some cases, session support is not necessary. For example, API servers typically require credentials to be supplied with each request.
+ * However, in some cases, session support is not necessary.
+ * For example, API servers typically require credentials to be supplied with each request.
  * When this is the case, session support can be safely disabled by setting the session option to false.
  */
 export default passport.authenticate('local', { session: false, failWithError: true });

@@ -1,12 +1,12 @@
 import { StatusCodes } from '../../libs/constants';
-import HttpResponse from './HttpResponse';
 import { getEnumKeyOrValue } from '../../libs/utilities';
+import HttpResponse from './HttpResponse';
 import { TData } from './IResponse';
 
 
-type IUnprocessableResponseConstructor = {
+interface IUnprocessableResponseConstructor {
    data?: TData;
-   message?: string
+   message?: string;
 }
 
 export default class UnprocessableResponse extends HttpResponse {

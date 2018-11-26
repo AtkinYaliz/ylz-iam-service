@@ -1,5 +1,5 @@
 import * as passport from 'passport';
-import { Strategy as JWTStrategy, ExtractJwt as ExtractJwt } from 'passport-jwt';
+import { ExtractJwt as ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt';
 
 import config from '../config';
 import UserRepository from '../repositories/user/UserRepository';
@@ -28,7 +28,7 @@ async function verifyFunction(payload, done) {
       return user
          ? done(null, { id: user.id })
          : done(null, false);
-   } catch(err) {
+   } catch (err) {
       return done(err);
    }
 }
@@ -43,7 +43,8 @@ passport.use(jwtStrategy);
 /**
  * After successful authentication, Passport will establish a persistent login session.
  * This is useful for the common scenario of users accessing a web application via a browser.
- * However, in some cases, session support is not necessary. For example, API servers typically require credentials to be supplied with each request.
+ * However, in some cases, session support is not necessary.
+ * For example, API servers typically require credentials to be supplied with each request.
  * When this is the case, session support can be safely disabled by setting the session option to false.
  */
 export default passport.authenticate('jwt', { session: false, failWithError: true });

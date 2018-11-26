@@ -1,10 +1,11 @@
 import * as mongoose from "mongoose";
-import logger from "ylz-logger";
+
+import { DuplicateKeyError, ValidationError } from "../models/errors";
 
 import ApplicationRepository from "../repositories/application/ApplicationRepository";
 import UserRepository from "../repositories/user/UserRepository";
-import { DuplicateKeyError, ValidationError } from "../models/errors";
 import { forEachSync } from "../libs/utilities";
+import logger from "ylz-logger";
 
 export function open(mongoUrl: string) {
    return new Promise((resolve, reject) => {
@@ -25,11 +26,11 @@ export function open(mongoUrl: string) {
          mongoUrl,
          options
       );
-      mongoose.connection.on("error", err => {
+      mongoose.connection.on("error", (err) => {
          // throw new Error(`unable to connect to database: ${mongoUri}`);
          reject(err);
       });
-      mongoose.connection.on("connected", err => {
+      mongoose.connection.on("connected", (err) => {
          resolve();
       });
    });
@@ -41,32 +42,32 @@ export function close() {
 
 export async function createCollections(createData) {
    // #region [Application Collection]
-   const applicationRepo = new ApplicationRepository()
-   const applicationCount = await applicationRepo.getCount()
+   const applicationRepo = new ApplicationRepository();
+   const applicationCount = await applicationRepo.getCount();
 
    if (applicationCount === 0) {
       const newApplication = await applicationRepo.create({
          name: 'temp'
-      })
+      });
 
       // #region [User Collection]
-      const userRepo = new UserRepository()
-      const userCount = await userRepo.getCount()
+      const userRepo = new UserRepository();
+      const userCount = await userRepo.getCount();
 
       if (userCount === 0) {
          const newUser = await userRepo.create({
+            applicationId: newApplication.id,
+            email: 'temp@temp.com',
             firstName: 'temp',
             lastName: 'temp',
-            email: 'temp@temp.com',
-            password: 'temptemp',
-            applicationId: newApplication.id
-         })
+            password: 'temptemp'
+         });
 
-         await userRepo.delete({ id: newUser.id })
+         await userRepo.delete({ id: newUser.id });
       }
       // #endregion
 
-      await applicationRepo.delete({ id: newApplication.id })
+      await applicationRepo.delete({ id: newApplication.id });
    }
    // #endregion
 }

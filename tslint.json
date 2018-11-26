@@ -25,6 +25,7 @@
       "spaces",
       2
     ],
+    "max-line-length": [true, 150],
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "one-line": [

@@ -8,13 +8,14 @@ export default function controllerAdapter(controller: any = null, functionName: 
          const { headers: { authorization }, params, query, body } = req;
          const { locals } = res;
 
-         const response: HttpResponse = await controller[functionName]({ headers: { authorization }, params, query, body, locals });
+         const response: HttpResponse =
+            await controller[functionName]({ headers: { authorization }, params, query, body, locals });
 
          return res
             .status(response.code)
             .json(response);
-      } catch(err) {
+      } catch (err) {
          next( err );
       }
-   }
+   };
 }

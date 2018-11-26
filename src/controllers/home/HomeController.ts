@@ -1,12 +1,11 @@
 import logger from 'ylz-logger';
 
-import { OKResponse, CreatedResponse, NoContentResponse, BadRequestResponse } from '../../models/responses';
+import { BadRequestResponse, CreatedResponse, NoContentResponse, OKResponse } from '../../models/responses';
 import HomeRepository from '../../repositories/home/HomeRepository';
-import { IListInput, IGetInput, ICreateInput, IUpdateInput, IDeleteInput } from './models';
+import { ICreateInput, IDeleteInput, IGetInput, IListInput, IUpdateInput } from './models';
 
 
 class HomeController {
-   private _homeRepository: HomeRepository;
 
    public static getInstance() {
       if (!HomeController.instance) {
@@ -16,6 +15,7 @@ class HomeController {
       return HomeController.instance;
    }
    private static instance: HomeController;
+   private _homeRepository: HomeRepository;
 
    private constructor() {
       this._homeRepository = new HomeRepository();

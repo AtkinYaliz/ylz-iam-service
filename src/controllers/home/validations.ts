@@ -14,20 +14,20 @@ const validations = Object.freeze({
       isLength: {
          options: { min: 1 },
          errorMessage: 'Name should be at least 2 chars long!'
-      },
+      }
    },
    address: {
       in: ['body'],
       isLength: {
          options: { min: 2 },
          errorMessage: 'Address should be at least 2 chars long!'
-      },
+      }
    },
    phones: {
       in: ['body'],
       custom: {
-        options: (phones: any[]) => Array.isArray(phones), //&& phones.length > 0 && phones.every(x => isValidObjectId(x)),
-        errorMessage: "Phones should be a list of strings!",
+        options: (phones: any[]) => Array.isArray(phones), // && phones.length > 0 && phones.every(x => isValidObjectId(x)),
+        errorMessage: "Phones should be a list of strings!"
       }
    }
 });

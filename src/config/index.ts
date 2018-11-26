@@ -8,8 +8,8 @@ if (process.env.NODE_ENV === "test") {
    dotenv.config();
 }
 
-//@ts-ignore
-export default <IConfig> {
+// @ts-ignore
+export default {
    apiPrefix: process.env.apiPrefix,
    corsOrigin: process.env.corsOrigin,
    mongoUrl: process.env.mongoUrl,
@@ -18,7 +18,7 @@ export default <IConfig> {
    secret: process.env.secret,
    swaggerUrl: process.env.swaggerUrl,
    swaggerDefinition: process.env.swaggerDefinition
-};
+} as IConfig;
 
 
 // docker run -d --name ylz-identity-manager --network ylz -p 10000:9000 -e "PORT=9000" graphql-api-server

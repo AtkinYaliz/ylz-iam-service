@@ -1,12 +1,12 @@
 import { Model } from 'mongoose';
 import logger from 'ylz-logger';
 
-import BaseRepository from '../BaseRepository';
-import IHomeDocument from './IHomeDocument'
-import homeModel from './homeModel';
-import { IListInput, IGetInput, ICreateInput, IUpdateInput, IDeleteInput } from './models'
 import { Nullable } from '../../libs/Nullable';
 import { DuplicateKeyError, ValidationError } from '../../models/errors';
+import BaseRepository from '../BaseRepository';
+import homeModel from './homeModel';
+import IHomeDocument from './IHomeDocument';
+import { ICreateInput, IDeleteInput, IGetInput, IListInput, IUpdateInput } from './models';
 
 
 export default class HomeRepository extends BaseRepository<IHomeDocument, Model<IHomeDocument>> {
@@ -32,13 +32,15 @@ export default class HomeRepository extends BaseRepository<IHomeDocument, Model<
       try {
          return await super.create(input);
       } catch (err) {
-         if(err.code === 11000) {
+         if (err.code === 11000) {
             throw new DuplicateKeyError('The name is in use!');
-         } else if(err.name === ValidationError.name) {
-            let data = [];
-            for(let e in err.errors){
-               const { message, path, value } = err.errors[e];
-               data.push({ message, path, value });
+         } else if (err.name === ValidationError.name) {
+            const data = [];
+            for (const e in err.errors) {
+               if (err.errors.hasOwnProperty(e)) {
+                  const { message, path, value } = err.errors[e];
+                  data.push({ message, path, value });
+               }
             }
             throw new ValidationError(data);
          } else {

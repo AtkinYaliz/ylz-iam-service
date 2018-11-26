@@ -1,13 +1,12 @@
 import logger from 'ylz-logger';
 
-import { ISignupInput, ISigninInput, IChangePasswordInput } from './models';
-import UserRepository from '../../repositories/user/UserRepository';
 import { CreatedResponse, OKResponse, UnauthorizedResponse } from '../../models/responses';
+import UserRepository from '../../repositories/user/UserRepository';
 import { generateToken } from '../../services/Password';
+import { IChangePasswordInput, ISigninInput, ISignupInput } from './models';
 
 
 class UserController {
-   private _userRepository: UserRepository;
 
    public static getInstance() {
       if (!UserController.instance) {
@@ -17,6 +16,7 @@ class UserController {
       return UserController.instance;
    }
    private static instance: UserController;
+   private _userRepository: UserRepository;
 
    private constructor() {
       this._userRepository = new UserRepository();

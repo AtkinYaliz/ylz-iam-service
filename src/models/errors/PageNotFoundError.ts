@@ -1,6 +1,6 @@
-import BaseError from './BaseError';
-import { getEnumKeyOrValue } from '../../libs/utilities';
 import { StatusCodes } from '../../libs/constants';
+import { getEnumKeyOrValue } from '../../libs/utilities';
+import BaseError from './BaseError';
 
 
 export default class PageNotFoundError extends BaseError {
