@@ -51,7 +51,7 @@ spec:
     spec:
       containers:
         - name: mongo
-          image: docker.serra.pw:5000/mongo:latest
+          image: docker.serra.pw:5000/mongo:4.0.4_1
           ports:
             - containerPort: 27017
           volumeMounts:
@@ -103,7 +103,7 @@ spec:
     spec:
       containers:
         - name: node
-          image: docker.serra.pw:5000/yalizltd:latest
+          image: docker.serra.pw:5000/ylz.identitymanager:2
           env:
           - name: nodeEnv
             value: dev
@@ -122,8 +122,10 @@ spec:
               secretKeyRef:
                 name: mongo-user-pass
                 key: mongo_passwd
-          - name: mongoUrl
+          - name: mongoOldUrl
             value: 'mongodb://mongo:27017/IdentityManager'
+          - name: mongoUrl:
+            value: 'mongodb://$(mongouser):$(mongopass)@mongod-0.mongors:27017,mongod-1.mongors:27017,mongod-2.mongors:27017/IdentityManager?replicaSet=MainRepSet&readPreference=secondary'
           - name: apiPrefix
             value: '/api'
           - name: corsOrigin
