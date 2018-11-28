@@ -4,12 +4,12 @@
 # An image is software you load into a container.
 
 # Use latest node version 9.x
-# FROM node:10.13.0-alpine
-FROM tarampampam/node:10.13-alpine
+FROM node:10.13.0-alpine
+# FROM tarampampam/node:10.13-alpine
 
-# RUN apk --update add git openssh && \
-#     rm -rf /var/lib/apt/lists/* && \
-#     rm /var/cache/apk/*
+RUN apk --update add git openssh && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm /var/cache/apk/*
 
 # Create app directory
 WORKDIR /usr/app
