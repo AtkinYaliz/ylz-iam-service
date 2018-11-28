@@ -3,10 +3,10 @@
  * List of Environment Variables
  */
 export enum EnvVars {
-   TEST = 'test',
-   LOCAL = 'local',
    DEV = 'dev',
-   PROD = 'production'
+   LOCAL = 'local',
+   PROD = 'production',
+   TEST = 'test'
 }
 
 /**
