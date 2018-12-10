@@ -4,8 +4,12 @@
 # An image is software you load into a container.
 
 # Use latest node version 9.x
-# FROM node:10.13.0-alpine
-FROM tarampampam/node:10.13-alpine
+FROM node:10.13.0-alpine
+# FROM tarampampam/node:10.13-alpine
+
+RUN apk --update add git openssh && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm /var/cache/apk/*
 
 # Create app directory
 WORKDIR /usr/app
@@ -30,9 +34,6 @@ COPY tslint.json .
 # Build and create /dist folder
 RUN yarn build
 
-# RUN echo "PORT=4001" >> .env
-# RUN echo "MONGO=..." >> .env
-
 RUN pwd
 RUN ls -al
 
@@ -41,4 +42,4 @@ EXPOSE 9000
 
 # Last but not least, define the command to run your app using CMD which defines your runtime.
 # Here we will use the basic npm start which will run node server.js to start your server:
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "serve" ]

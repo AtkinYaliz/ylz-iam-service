@@ -4,11 +4,14 @@ import config from '../config';
 
 
 /**
- * Encodes userId (Subject) and IssuedAtTime w/ the secret
+ * Synchronously sign {userId and IssuedAtTime} payload into a JSON Web Token string payload
  * @param {User model} user
  */
 export function generateToken(user) {
-   return jwt.sign({ sub: user.id, iat: Date.now() }, config.secret);
+   return jwt.sign({
+      sub: user.id,
+      iat: Date.now()
+   }, config.secret);
 }
 
 
@@ -16,6 +19,10 @@ export function generateToken(user) {
 //    return decode(token, config.secret);
 // }
 
+/**
+ * Synchronously verify given token using a secret.
+ * @param token The token to be validated
+ */
 export function verifyToken(token) {
    return jwt.verify(token, config.secret);
 }
