@@ -23,5 +23,6 @@ metadata:
 type: Opaque
 data:
   secret: ${BASE64_STRING}
+  SECRET: ${BASE64_STRING}
 
 EOF
