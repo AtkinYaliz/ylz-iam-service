@@ -10,14 +10,14 @@ if (process.env.NODE_ENV === "test") {
 
 // @ts-ignore
 export default {
-   apiPrefix: process.env.apiPrefix,
-   corsOrigin: process.env.corsOrigin,
-   mongoUrl: process.env.mongoUrl,
-   nodeEnv: process.env.nodeEnv,
-   port: process.env.port,
-   secret: process.env.secret,
-   swaggerUrl: process.env.swaggerUrl,
-   swaggerDefinition: process.env.swaggerDefinition
+   apiPrefix: process.env.API_PREFIX,
+   corsOrigin: process.env.CORS_ORIGIN,
+   mongoUrl: process.env.MONGO_URL,
+   nodeEnv: process.env.NODE_ENV,
+   port: process.env.PORT,
+   secret: process.env.SECRET,
+   swaggerUrl: process.env.SWAGGER_URL,
+   swaggerDefinition: process.env.SWAGGER_DEFINITION
 } as IConfig;
 
 

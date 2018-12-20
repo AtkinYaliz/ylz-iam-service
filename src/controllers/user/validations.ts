@@ -4,9 +4,9 @@ import { isValidObjectId } from '../../libs/utilities';
 
 const validations = Object.freeze({
    id: {
-      in: ['query'],
+      in: ['params'],
       custom: {
-         options: (id, { req }) => isValidObjectId(req.params.id),
+         options: (id, { req }) => isValidObjectId(id),
          errorMessage: 'Wrong format!'
       }
    },

@@ -105,13 +105,17 @@ spec:
         - name: node
           image: docker.serra.pw:5000/ylz.identitymanager:2
           env:
-          - name: nodeEnv
+          - name: NODE_ENV
             value: dev
-          - name: secret
+          - name: PORT
+            value: "3000"
+          - name: SECRET
             valueFrom:
               secretKeyRef:
                 name: secretdata
                 key: secret
+          - name: API_PREFIX
+            value: '/api'
           - name: mongouser
             valueFrom:
               secretKeyRef:
@@ -124,18 +128,14 @@ spec:
                 key: mongo_passwd
           - name: mongoOldUrl
             value: 'mongodb://mongo:27017/IdentityManager'
-          - name: mongoUrl:
+          - name: MONGO_URL
             value: 'mongodb://$(mongouser):$(mongopass)@mongod-0.mongors:27017,mongod-1.mongors:27017,mongod-2.mongors:27017/IdentityManager?replicaSet=MainRepSet&readPreference=secondary'
-          - name: apiPrefix
-            value: '/api'
-          - name: corsOrigin
+          - name: CORS_ORIGIN
             value: '["http://localhost"]'
-          - name: swaggerUrl
+          - name: SWAGGER_URL
             value: "/_docs"
-          - name: swaggerDefinition
+          - name: SWAGGER_DEFINITION
             value: '{"basePath":"/api","info": {"description": "Identity Manager API with Swagger","title": "Identity Manager API documentation","version": ""}}'
-          - name: port
-            value: "3000"
           ports:
             - containerPort: 9000
       imagePullSecrets:

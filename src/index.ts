@@ -5,7 +5,7 @@ import Server from './Server';
 import * as Database from './services/Database';
 
 
-logger.debug( 'Initial Configuration:', config );
+logger.debug( 'Initial Configuration:', JSON.stringify(config, null, 2) );
 
 const { nodeEnv, port, mongoUrl } = config;
 
