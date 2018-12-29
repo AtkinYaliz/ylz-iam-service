@@ -2,6 +2,7 @@
 # called a container, for software development.
 # A container is a stripped-to-basics version of a Linux operating system.
 # An image is software you load into a container.
+# 
 
 # Use latest node version 9.x
 FROM node:10.13.0-alpine
