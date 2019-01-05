@@ -1,0 +1,84 @@
+---
+apiVersion: apps/v1  # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: node
+spec:
+  selector:
+    matchLabels:
+      app: node
+      tier: backend
+  replicas: 6
+  template:
+    metadata:
+      labels:
+        app: node
+        tier: backend
+    spec:
+      containers:
+        - name: node
+          image: docker.serra.pw:5000/ylz.identitymanager:37
+          env:
+          - name: NODE_ENV
+            value: dev
+          - name: PORT
+            value: "3000"
+          - name: SECRET
+            valueFrom:
+              secretKeyRef:
+                name: secretdata
+                key: secret
+          - name: API_PREFIX
+            value: '/api'
+          - name: mongouser
+            valueFrom:
+              secretKeyRef:
+                name: mongo-user-pass
+                key: mongo_user
+          - name: mongopass
+            valueFrom:
+              secretKeyRef:
+                name: mongo-user-pass
+                key: mongo_passwd
+          - name: mongoOldUrl
+            value: 'mongodb://mongo:27017/IdentityManager'
+          - name: MONGO_URL
+            value: 'mongodb://$(mongouser):$(mongopass)@mongod-0.mongors:27017,mongod-1.mongors:27017,mongod-2.mongors:27017/IdentityManager?replicaSet=MainRepSet&readPreference=secondary'
+          - name: CORS_ORIGIN
+            value: '["http://localhost"]'
+          - name: SWAGGER_URL
+            value: "/_docs"
+          - name: SWAGGER_DEFINITION
+            value: '{"basePath":"/api","info": {"description": "Identity Manager API with Swagger","title": "Identity Manager API documentation","version": ""}}'
+          ports:
+            - containerPort: 9000
+      imagePullSecrets:
+        - name: dockerserra
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node
+  labels:
+    app: node
+    tier: backend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:eu-central-1:775108030918:certificate/1fbdbd0f-c3b1-4999-bea4-386f71bd51fb
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443,8443"
+spec:
+  ports:
+    - port: 80
+      targetPort: 3000
+  type: NodePort
+  selector:
+    app: node
+    tier: backend
