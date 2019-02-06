@@ -1,11 +1,6 @@
 import * as mongoose from 'mongoose';
+import { Model, Document, DocumentQuery } from 'mongoose';
 
-
-export const generateObjectId = () =>
-   mongoose.Types.ObjectId();
-
-export const isValidObjectId = (id: string | number | mongoose.Types.ObjectId) =>
-   mongoose.Types.ObjectId.isValid(id);
 
 export function getPackageJson(count = 0) {
    let pjson: any;
@@ -25,6 +20,22 @@ export function getPackageJson(count = 0) {
    return pjson;
 }
 
+export const generateObjectId = () =>
+   mongoose.Types.ObjectId();
+
+export const isValidObjectId = (id: string | number | mongoose.Types.ObjectId) =>
+   mongoose.Types.ObjectId.isValid(id);
+
+export async function lean<D extends Document, M extends Model<D>>(document: DocumentQuery<D, D, {}>): Promise<D> {
+   const doc = await document.lean();
+
+   if(doc && doc._id) {
+      doc.id = doc._id;
+      delete doc._id;
+   }
+
+   return doc;
+}
 
 /**
  * Polyfill functions. Needs to be called when app is loaded.

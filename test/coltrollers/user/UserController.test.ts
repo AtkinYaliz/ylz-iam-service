@@ -21,7 +21,7 @@ beforeAll((done) => {
    jest.setTimeout(1000);
 
    // @ts-ignore
-   Database.open(envVars.mongoUrl)
+   Database.open(envVars.MONGO_URL)
       .then(async () => {
          await userModel.remove({ });
          await applicationModel.remove({ });

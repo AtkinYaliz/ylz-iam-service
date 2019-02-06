@@ -6,7 +6,7 @@ const validations = Object.freeze({
    id: {
       in: ['params'],
       custom: {
-         options: (id, { req }) => isValidObjectId(id),
+         options: (id) => isValidObjectId(id),
          errorMessage: 'Wrong format!'
       }
    },

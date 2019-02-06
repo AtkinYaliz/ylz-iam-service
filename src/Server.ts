@@ -37,37 +37,37 @@ export default class Server {
    }
 
    private initMiddlewares() {
-      const { nodeEnv } = this.config;
+      const { NODE_ENV } = this.config;
 
-      if (nodeEnv === EnvVars.PROD) {
+      if (NODE_ENV === EnvVars.PROD) {
          this.app.use(helmet());
          this.app.use(compress());
       }
       this.app.use(cookieParser());
       this.app.use(cors({
          optionsSuccessStatus: 200,
-         origin: JSON.parse(this.config.corsOrigin)
+         origin: JSON.parse(this.config.CORS_ORIGIN)
          // credentials: true,
       }));
       this.app.use(bodyParser.json());
       this.app.use(bodyParser.urlencoded({ extended: true }));
-      if (nodeEnv !== EnvVars.TEST) {
+      if (NODE_ENV !== EnvVars.TEST) {
          morganBody(this.app);
       }
    }
    private initRoutes() {
-      const { apiPrefix } = this.config;
+      const { API_PREFIX } = this.config;
       const router = Router.getInstance(this.config).router;
 
       // mount all routes on /api path
-      this.app.use(apiPrefix, router);
+      this.app.use(API_PREFIX, router);
 
       // catch 404 and forward to error handler
       this.app.use(pageNotFoundHandler);
    }
    private initErrorHandler() {
-      const { nodeEnv } = this.config;
+      const { NODE_ENV } = this.config;
 
-      this.app.use(errorHandler(nodeEnv));
+      this.app.use(errorHandler(NODE_ENV));
    }
 }

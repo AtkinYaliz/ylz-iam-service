@@ -1,8 +1,8 @@
-import { Document, DocumentQuery, Model } from 'mongoose';
+import { Document, Query, Model } from 'mongoose';
 import logger from 'ylz-logger';
 
 import { Nullable } from "../libs/Nullable";
-import { clone, generateObjectId } from "../libs/utilities";
+import { clone, generateObjectId, lean } from "../libs/utilities";
 import {
    IBaseCreateInput, IBaseDeleteInput, IBaseGetInput, IBaseGetOneInput, IBaseListInput, IBaseUpdateInput
 } from './models';
@@ -22,15 +22,18 @@ export default abstract class BaseRepository<D extends Document, M extends Model
    public async list(input: IBaseListInput): Promise<D[]> {
       logger.debug('BaseRepository - list', JSON.stringify(input));
 
-      const options = clone(input);
+      const conditions = clone(input);
 
-      delete options.limit;
-      delete options.skip;
+      delete conditions.limit;
+      delete conditions.skip;
 
-      return this.getAll(options)
-         .sort({ createdAt: -1 })
-         .skip(input.skip)
-         .limit(input.limit);
+      const options = {
+         skip: input.skip || 0,
+         limit: input.limit || 0,
+         sort: { createdAt: -1 }
+       }
+
+      return this.getAll(conditions, null, options);
    }
 
    public async get(input: IBaseGetInput): Promise<Nullable<D>> {
@@ -67,21 +70,33 @@ export default abstract class BaseRepository<D extends Document, M extends Model
 
       return this.model.findByIdAndDelete(input.id);
    }
-   public async getCount(query: any = {}): Promise<number> {
-      return await this.getAll(query).countDocuments();
+   public async getCount(conditions: any = {}): Promise<number> {
+      // return await this.getAll(conditions).countDocuments();
+      return (await this.getAll(conditions)).length;
    }
 
 
    /**
     * Protected methods for internal use
     */
-   protected getById(id: string): DocumentQuery<D | null, D> {
-      return this.model.findById(id);
+   protected getById(id: string): Promise<D | null> {
+      return lean(this.model.findById(id));
    }
-   protected getByIds(ids: string[]): DocumentQuery<D[], D> {
+   protected getByIds(ids: string[]): Promise<D[]> {
       return this.getAll({ _id: {$in: ids} });
    }
-   protected getAll(query: any): DocumentQuery<D[], D> {
-      return this.model.find(query);
+   protected async getAll(
+      conditions: any,
+      projection?: any | null,
+      options?: any | null
+   ): Promise<D[]> { //Query<D[]> {
+      return (await this.model
+         .find(conditions, projection, options)
+         .lean()
+      ).map( lean );
+
+      // return this.model
+      //    .find(conditions, projection, options)
+      //    .lean();
    }
 }

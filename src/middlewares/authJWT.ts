@@ -8,7 +8,7 @@ import UserRepository from '../repositories/user/UserRepository';
 // Options for the strategy
 const strategyOptions = {
    jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-   secretOrKey: config.secret
+   secretOrKey: config.SECRET
 };
 
 

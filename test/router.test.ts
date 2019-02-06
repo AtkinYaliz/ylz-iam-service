@@ -10,7 +10,7 @@ import * as Database from '../src/services/Database';
 dotenv.config({ path: './.env.test' });
 //@ts-ignore
 const envVars: IConfig = process.env;
-const { mongoUrl } = envVars;
+const { MONGO_URL } = envVars;
 let request = null;
 
 /*
@@ -19,7 +19,7 @@ let request = null;
  */
 beforeAll(() => {
    // jest.setTimeout(700);
-   return Database.open(mongoUrl)
+   return Database.open(MONGO_URL)
       .then(() => {
          request = supertest(Server.getInstance(envVars).application)
       });

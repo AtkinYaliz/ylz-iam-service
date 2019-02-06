@@ -2,6 +2,7 @@ import * as supertest from 'supertest';
 import * as dotenv from 'dotenv';
 
 import Server from '../../../src/Server';
+import IConfig from '../../../src/config/IConfig'
 import { StatusCodes } from '../../../src/libs/constants';
 import * as Database from '../../../src/services/Database';
 import homeModel from '../../../src/repositories/home/homeModel';
@@ -17,7 +18,7 @@ beforeAll((done) => {
    jest.setTimeout(1000);
 
    // @ts-ignore
-   Database.open(envVars.mongoUrl)
+   Database.open(envVars.MONGO_URL)
       .then(async () => {
          await homeModel.remove({ });
          request = supertest(Server.getInstance(envVars).application);
@@ -31,7 +32,7 @@ describe("HomeController", () => {
          .get("/api/homes/123")
          .end((err, res) => {
             expect(res.status).toBe(StatusCodes.UNPROCESSABLE);
-            expect(res.body.data).toEqual( [{"location": "query", "msg": "Wrong format!", "param": "id"}] );
+            expect(res.body.data).toEqual( [{"location": "params", "msg": "Wrong format!", "param": "id", "value": "123"}] );
             done();
          });
    });
@@ -75,7 +76,7 @@ describe("HomeController", () => {
 
 
 
-   it("should return 201 for POST /api/homes", (done) => {
+   it("should return 422 for POST /api/homes", (done) => {
       request
          .post("/api/homes")
          .send({ })
@@ -89,13 +90,13 @@ describe("HomeController", () => {
          });
    });
 
-   it("should return 200 for POST /api/homes", (done) => {
+   it("should return 422 for POST /api/homes", (done) => {
       request
          .post("/api/homes")
          .send({ name:'new name', address: 'wimbledon high street', phones: ['111-222'] })
          .end((err, res) => {
-            expect(res.status).toBe(StatusCodes.CREATED);
-            expect(res.body.data.id).not.toBeNull();
+            expect(res.status).toBe(StatusCodes.UNPROCESSABLE);
+            expect(res.body.message).toBe('The name is in use!');
             done();
          });
    });

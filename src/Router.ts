@@ -28,17 +28,17 @@ export default class Router {
    }
 
    private initSwaggerRoute() {
-      const { apiPrefix, swaggerUrl } = this.config;
-      const swaggerDefinition = JSON.parse(this.config.swaggerDefinition);
+      const { API_PREFIX, SWAGGER_URL } = this.config;
+      const swaggerDefinition = JSON.parse(this.config.SWAGGER_DEFINITION);
       const swaggerSetup = new Swagger();
 
       // JSON route
-      this.router.use(`${swaggerUrl}.json`, swaggerSetup.getRouter({ swaggerDefinition }));
+      this.router.use(`${SWAGGER_URL}.json`, swaggerSetup.getRouter({ swaggerDefinition }));
 
       // UI route
-      const { serve, setup } = swaggerSetup.getUI(apiPrefix + swaggerUrl);
+      const { serve, setup } = swaggerSetup.getUI(API_PREFIX + SWAGGER_URL);
 
-      this.router.use(swaggerUrl, serve, setup);
+      this.router.use(SWAGGER_URL, serve, setup);
    }
    private initDefaultRoutes() {
       /**

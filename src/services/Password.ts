@@ -11,7 +11,7 @@ export function generateToken(user) {
    return jwt.sign({
       sub: user.id,
       iat: Date.now()
-   }, config.secret);
+   }, config.SECRET);
 }
 
 
@@ -24,5 +24,5 @@ export function generateToken(user) {
  * @param token The token to be validated
  */
 export function verifyToken(token) {
-   return jwt.verify(token, config.secret);
+   return jwt.verify(token, config.SECRET);
 }
