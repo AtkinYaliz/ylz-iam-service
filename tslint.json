@@ -74,6 +74,7 @@
     "no-internal-module": true,
     "no-trailing-whitespace": true,
     "no-null-keyword": false,
+    "no-empty-interface": false,
     "prefer-const": true,
     "jsdoc-format": true,
     "no-console": [

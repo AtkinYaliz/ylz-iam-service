@@ -31,7 +31,7 @@ export default abstract class BaseRepository<D extends Document, M extends Model
          skip: input.skip || 0,
          limit: input.limit || 0,
          sort: { createdAt: -1 }
-       }
+       };
 
       return this.getAll(conditions, null, options);
    }
@@ -89,7 +89,7 @@ export default abstract class BaseRepository<D extends Document, M extends Model
       conditions: any,
       projection?: any | null,
       options?: any | null
-   ): Promise<D[]> { //Query<D[]> {
+   ): Promise<D[]> { // Query<D[]> {
       return (await this.model
          .find(conditions, projection, options)
          .lean()

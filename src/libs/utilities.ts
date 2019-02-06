@@ -29,7 +29,7 @@ export const isValidObjectId = (id: string | number | mongoose.Types.ObjectId) =
 export async function lean<D extends Document, M extends Model<D>>(document: DocumentQuery<D, D, {}>): Promise<D> {
    const doc = await document.lean();
 
-   if(doc && doc._id) {
+   if (doc && doc._id) {
       doc.id = doc._id;
       delete doc._id;
    }
