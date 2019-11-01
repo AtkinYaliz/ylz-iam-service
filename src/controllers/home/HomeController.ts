@@ -1,76 +1,72 @@
-import logger from 'ylz-logger';
+import logger from "@ylz/logger";
 
-import { BadRequestResponse, CreatedResponse, NoContentResponse, OKResponse } from '../../models/responses';
-import HomeRepository from '../../repositories/home/HomeRepository';
-import { ICreateInput, IDeleteInput, IGetInput, IListInput, IUpdateInput } from './models';
-
+import { BadRequestResponse, CreatedResponse, NoContentResponse, OKResponse } from "../../models/responses";
+import HomeRepository from "../../repositories/home/HomeRepository";
+import { ICreateInput, IDeleteInput, IGetInput, IListInput, IUpdateInput } from "./models";
 
 class HomeController {
+  public static getInstance() {
+    if (!HomeController.instance) {
+      HomeController.instance = new HomeController();
+    }
 
-   public static getInstance() {
-      if (!HomeController.instance) {
-         HomeController.instance = new HomeController();
-      }
+    return HomeController.instance;
+  }
+  private static instance: HomeController;
+  private _homeRepository: HomeRepository;
 
-      return HomeController.instance;
-   }
-   private static instance: HomeController;
-   private _homeRepository: HomeRepository;
+  private constructor() {
+    this._homeRepository = new HomeRepository();
+  }
 
-   private constructor() {
-      this._homeRepository = new HomeRepository();
-   }
+  public async list({ query }: IListInput) {
+    logger.debug("HomeController - list:", JSON.stringify(query, null, 2));
 
-   public async list({ query }: IListInput) {
-      logger.debug('HomeController - list', JSON.stringify(query, null, 2));
+    const { limit, skip } = query;
+    const data = await this._homeRepository.list({ limit, skip });
 
-      const { limit, skip } = query;
-      const data = await this._homeRepository.list({ limit, skip });
+    return new OKResponse({ data });
+  }
 
-      return new OKResponse({ data });
-   }
+  public async get({ params }: IGetInput) {
+    logger.debug("HomeController - get:", JSON.stringify(params));
 
-   public async get({ params }: IGetInput) {
-      logger.debug('HomeController - get', JSON.stringify(params));
+    const id = params.id;
+    const home = await this._homeRepository.get({ id });
 
-      const id = params.id;
-      const home = await this._homeRepository.get({ id });
+    return home ? new OKResponse({ data: home }) : new BadRequestResponse({ message: "Could not find the home." });
+  }
 
-      return home
-         ? new OKResponse({ data: home })
-         : new BadRequestResponse({ message: 'Could not find the home.' });
-   }
+  public async create({ body }: ICreateInput) {
+    logger.debug("HomeController - create:", JSON.stringify(body));
 
-   public async create({ body }: ICreateInput) {
-      logger.debug('HomeController - create', JSON.stringify(body));
+    const home = await this._homeRepository.create(body);
 
-      const home = await this._homeRepository.create(body);
+    return new CreatedResponse({ data: home });
+  }
 
-      return new CreatedResponse({ data: home });
-   }
+  public async update({ params, body }: IUpdateInput) {
+    logger.debug("HomeController - update:", JSON.stringify({ params, body }));
 
-   public async update({ params, body }: IUpdateInput) {
-      logger.debug('HomeController - update', JSON.stringify({ params, body }));
+    const update = {
+      ...body,
+      id: params.id
+    };
 
-      const update = {
-         ... body,
-         id: params.id
-      };
+    await this._homeRepository.update(update);
 
-      await this._homeRepository.update(update);
+    return new NoContentResponse();
+  }
 
-      return new NoContentResponse();
-   }
+  public async delete({ params }: IDeleteInput) {
+    logger.debug("HomeController - delete:", JSON.stringify(params));
 
-   public async delete({ params }: IDeleteInput) {
-      logger.debug('HomeController - delete', JSON.stringify(params));
+    const id = params.id;
 
-      const id = params.id;
+    await this._homeRepository.delete({ id });
 
-      await this._homeRepository.delete({ id });
-
-      return new NoContentResponse();
-   }
+    return new NoContentResponse();
+  }
 }
 
 export default HomeController.getInstance();

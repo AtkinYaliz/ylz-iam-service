@@ -1,41 +1,56 @@
-import * as mongoose from 'mongoose';
-import { Model, Document, DocumentQuery } from 'mongoose';
-
+import * as mongoose from "mongoose";
+import { Model, Document, DocumentQuery } from "mongoose";
 
 export function getPackageJson(count = 0) {
-   let pjson: any;
+  let pjson: any;
 
-   try {
-      if (count === 0) {
-         pjson = require('./package.json');
-      } else if (count < 5) {
-         pjson = require('../'.repeat(count) + 'package.json');
-      } else {
-         return null;
-      }
-   } catch (err) {
-      return getPackageJson(++count);
-   }
+  try {
+    if (count === 0) {
+      pjson = require("./package.json");
+    } else if (count < 5) {
+      pjson = require("../".repeat(count) + "package.json");
+    } else {
+      return null;
+    }
+  } catch (err) {
+    return getPackageJson(++count);
+  }
 
-   return pjson;
+  return pjson;
 }
 
-export const generateObjectId = () =>
-   mongoose.Types.ObjectId();
+/****************************************************************************************
+ * MONGODB VALIDATIONS*
+ ****************************************************************************************/
+export const generateObjectId = () => mongoose.Types.ObjectId();
 
-export const isValidObjectId = (id: string | number | mongoose.Types.ObjectId) =>
-   mongoose.Types.ObjectId.isValid(id);
+export const isValidObjectId = (id: any): boolean => new RegExp("^[0-9a-fA-F]{24}$").test(id);
 
-export async function lean<D extends Document, M extends Model<D>>(document: DocumentQuery<D, D, {}>): Promise<D> {
-   const doc = await document.lean();
+export async function lean<D extends Document>(document: DocumentQuery<D | null, D>): Promise<D> {
+  try {
+    return leanObject(await document.lean());
+  } catch (err) {
+    return err;
+  }
+}
 
-   if (doc && doc._id) {
+export function leanObject<D extends any>(doc: D): D {
+  try {
+    if (doc && doc._id) {
       doc.id = doc._id;
       delete doc._id;
-   }
+      delete doc.__v;
+    }
 
-   return doc;
+    return doc;
+  } catch (err) {
+    return err;
+  }
 }
+
+/****************************************************************************************
+ * FUNCTIONAL OPERATIONS *
+ ****************************************************************************************/
 
 /**
  * Polyfill functions. Needs to be called when app is loaded.
@@ -43,25 +58,31 @@ export async function lean<D extends Document, M extends Model<D>>(document: Doc
  * Called as: const arr2 = await forEachSync(arr, func);
  */
 export async function forEachSync(arr: any[], func: Function) {
-   if (arr) {
-      for (const item of arr) {
-         await func(item);
-      }
-   }
+  if (arr) {
+    for (const item of arr) {
+      await func(item);
+    }
+  }
 }
 
 export function pluck(key: string) {
   return function(obj: any) {
-     return obj[key];
+    return obj[key];
   };
 }
 export function plucks(keys: string[]) {
-   return function(obj: any) {
-      const res: any = {};
-      keys.forEach((k) => { res[k] = obj[k]; });
-      return res;
-   };
+  return function(obj: any) {
+    const res: any = {};
+    keys.forEach(k => {
+      res[k] = obj[k];
+    });
+    return res;
+  };
 }
+
+/****************************************************************************************
+ * TYPE VALIDATIONS *
+ ****************************************************************************************/
 
 /**
  * Returns true if existing entity has the spesified id.
@@ -69,7 +90,7 @@ export function plucks(keys: string[]) {
  * @returns A true if the value is null or undefined, false otherwise.
  */
 export function isNullOrUndefined(x): boolean {
-   return x === null || x === undefined;
+  return x === null || x === undefined;
 }
 
 /**
@@ -78,9 +99,9 @@ export function isNullOrUndefined(x): boolean {
  * @returns A Function that takes the object to test
  */
 export function isSameEntity(id) {
-   return function isSameId(entity) {
-      return entity.id === id;
-   };
+  return function isSameId(entity) {
+    return entity.id === id;
+  };
 }
 
 /**
@@ -89,9 +110,9 @@ export function isSameEntity(id) {
  * @returns A Function that takes the second item to test
  */
 export function isSame(x) {
-   return function(y) {
-      return x === y;
-   };
+  return function(y) {
+    return x === y;
+  };
 }
 
 /**
@@ -100,7 +121,7 @@ export function isSame(x) {
  * @returns A new object that has same structure as the input.
  */
 export function clone(obj) {
-   return JSON.parse( JSON.stringify(obj) );
+  return JSON.parse(JSON.stringify(obj));
 }
 
 /**
@@ -110,5 +131,5 @@ export function clone(obj) {
  * @returns A new object that has same structure as the input.
  */
 export function getEnumKeyOrValue(enums: any, enumKeyOrValue: any): string {
-    return enums[enumKeyOrValue];
+  return enums[enumKeyOrValue];
 }

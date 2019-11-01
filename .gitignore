@@ -1,8 +1,10 @@
 # Logs
 logs
-*.log
-npm-debug.log*
+
+# lock files
+package-lock.json
 yarn-error.log
+yarn.lock
 
 # Runtime data
 pids

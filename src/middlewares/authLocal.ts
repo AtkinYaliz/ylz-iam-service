@@ -1,14 +1,13 @@
-import * as passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
+import * as passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
 
-import UserRepository from '../repositories/user/UserRepository';
-
+import UserRepository from "../repositories/user/UserRepository";
 
 // Options for the strategy
 const strategyOptions = {
-   usernameField: 'email',
-   passwordField: 'password',
-   passReqToCallback: true
+  usernameField: "email",
+  passwordField: "password",
+  passReqToCallback: true
 };
 
 /**
@@ -20,25 +19,23 @@ const strategyOptions = {
  * @returns void
  */
 async function verifyFunctionWithRequest(req, email, password, done) {
-   // Verify this username and pasword from DB,
-   // If they are valid: call 'done' w/ the user
-   // Otherwise, call 'done' w/ false
-   try {
-      const user = await new UserRepository().getUser({ email, applicationId: req.body.applicationId });
+  // Verify this username and pasword from DB,
+  // If they are valid: call 'done' w/ the user
+  // Otherwise, call 'done' w/ false
+  try {
+    const user = await new UserRepository().getUser({ email, applicationId: req.body.applicationId });
 
-      if (!user) {
-         return done(null, false);
-      }
+    if (!user) {
+      return done(null, false);
+    }
 
-      // @ts-ignore
-      const isMatch = await user.authenticateUser(password);
+    // @ts-ignore
+    const isMatch = await user.authenticateUser(password);
 
-      return isMatch
-         ? done(null, user)
-         : done(null, false);
-   } catch (err) {
-      return done(err);
-   }
+    return isMatch ? done(null, user) : done(null, false);
+  } catch (err) {
+    return done(err);
+  }
 }
 
 // Create the strategy
@@ -48,7 +45,6 @@ const localStrategy = new LocalStrategy(strategyOptions, verifyFunctionWithReque
 // Tell passport to use this strategy
 passport.use(localStrategy);
 
-
 /**
  * After successful authentication, Passport will establish a persistent login session.
  * This is useful for the common scenario of users accessing a web application via a browser.
@@ -56,4 +52,4 @@ passport.use(localStrategy);
  * For example, API servers typically require credentials to be supplied with each request.
  * When this is the case, session support can be safely disabled by setting the session option to false.
  */
-export default passport.authenticate('local', { session: false, failWithError: true });
+export default passport.authenticate("local", { session: false, failWithError: true });

@@ -1,58 +1,51 @@
-import logger from 'ylz-logger';
+import logger from "@ylz/logger";
 
-import { CreatedResponse, OKResponse, UnauthorizedResponse } from '../../models/responses';
-import UserRepository from '../../repositories/user/UserRepository';
-import { generateToken } from '../../services/Password';
-import { IChangePasswordInput, ISigninInput, ISignupInput } from './models';
-
+import { CreatedResponse, OKResponse, UnauthorizedResponse } from "../../models/responses";
+import UserRepository from "../../repositories/user/UserRepository";
+import { generateToken } from "../../services/Password";
+import { IChangePasswordInput, ISigninInput, ISignupInput } from "./models";
 
 class UserController {
+  public static getInstance() {
+    if (!UserController.instance) {
+      UserController.instance = new UserController();
+    }
 
-   public static getInstance() {
-      if (!UserController.instance) {
-         UserController.instance = new UserController();
-      }
+    return UserController.instance;
+  }
+  private static instance: UserController;
+  private _userRepository: UserRepository;
 
-      return UserController.instance;
-   }
-   private static instance: UserController;
-   private _userRepository: UserRepository;
+  private constructor() {
+    this._userRepository = new UserRepository();
+  }
 
-   private constructor() {
-      this._userRepository = new UserRepository();
-   }
+  public async signup({ body }: ISignupInput) {
+    logger.debug("UserController - signup:", JSON.stringify(body));
 
+    const user = await this._userRepository.signup(body);
+    const token = { token: generateToken(user) };
 
-   public async signup({ body }: ISignupInput) {
-      logger.debug('UserController - signup', JSON.stringify(body));
+    return new CreatedResponse({ data: token });
+  }
 
-      const user = await this._userRepository.signup(body);
-      const token = { token: generateToken(user) };
+  public async signin({ body }: ISigninInput) {
+    logger.debug("UserController - signin:", JSON.stringify(body));
 
-      return new CreatedResponse({ data: token });
-   }
+    const user = await this._userRepository.getUser(body);
+    const token = { token: generateToken(user) };
 
-   public async signin({ body }: ISigninInput) {
-      logger.debug('UserController - signin', JSON.stringify(body));
+    return user ? new OKResponse({ data: token }) : new UnauthorizedResponse();
+  }
 
-      const user = await this._userRepository.getUser(body);
-      const token = { token: generateToken(user) };
+  public async changePassword({ body }: IChangePasswordInput) {
+    logger.debug("UserController - changePassword:", JSON.stringify(body));
 
-      return user
-         ? new OKResponse({ data: token })
-         : new UnauthorizedResponse();
-   }
+    const user = await this._userRepository.getUser(body);
+    const token = { token: generateToken(user) };
 
-   public async changePassword({ body }: IChangePasswordInput) {
-      logger.debug('UserController - changePassword', JSON.stringify(body));
-
-      const user = await this._userRepository.getUser(body);
-      const token = { token: generateToken(user) };
-
-      return user
-         ? new OKResponse({ data: token })
-         : new UnauthorizedResponse();
-   }
+    return user ? new OKResponse({ data: token }) : new UnauthorizedResponse();
+  }
 }
 
 export default UserController.getInstance();
