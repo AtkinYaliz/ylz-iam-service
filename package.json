@@ -14,6 +14,7 @@
     "build": "tsc",
     "prestart": "npm run remove-dist",
     "start": "cross-env NODE_ENV=local tsc-watch --project . --onFirstSuccess \"npm run nodemon\"",
+    "prenodemon": "npm run copy-resources",
     "nodemon": "nodemon ./dist/src/index.js",
     "nodemon-debug": "npm run nodemon -- --inspect",
     "copy-resources": "cp -Rf ./config ./dist",
