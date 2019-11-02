@@ -26,7 +26,7 @@
     "lint:fix": "yarn lint -- --fix"
   },
   "dependencies": {
-    "@ylz/logger": "git+https://github.com/aytekinyaliz/ylz.logger.git",
+    "@ylz/logger": "git+https://github.com/aytekinyaliz/ylz-logger.git",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "1.18.3",
     "compression": "1.7.3",
