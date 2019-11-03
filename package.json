@@ -41,6 +41,7 @@
     "passport": "0.4.0",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
+    "sha1": "^1.1.1",
     "swagger-jsdoc": "1.9.7",
     "swagger-ui-express": "3.0.10",
     "validator": "10.8.0"
@@ -59,6 +60,7 @@
     "@types/passport": "0.4.6",
     "@types/passport-jwt": "3.0.1",
     "@types/passport-local": "1.0.33",
+    "@types/sha1": "^1.1.2",
     "@types/supertest": "2.0.6",
     "@types/swagger-jsdoc": "0.0.2",
     "@types/swagger-ui-express": "3.0.0",
