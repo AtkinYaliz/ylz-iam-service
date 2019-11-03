@@ -1,7 +1,6 @@
-import { IBaseCreateInput } from '../../models';
-
+import { IBaseCreateInput } from "../../models";
 
 export default interface ICreateInput extends IBaseCreateInput {
-   id?: string;
+  id?: string;
   name: string;
 }

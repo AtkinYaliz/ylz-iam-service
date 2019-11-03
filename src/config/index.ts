@@ -14,9 +14,17 @@ const config: IConfig = {
   nodeEnv: process.env.NODE_ENV,
   port: process.env.PORT,
   serviceName: process.env.SERVICE_NAME,
-  secret: process.env.SECRET,
-  swaggerUrl: process.env.SWAGGER_URL,
-  swaggerDefinition: process.env.SWAGGER_DEFINITION
+  swagger: {
+    definition: {
+      basePath: "/api",
+      info: {
+        description: "ABC API with Swagger",
+        title: "ABC documentation",
+        version: ""
+      }
+    },
+    url: "/_docs"
+  }
 };
 
 console.log(":::::: INITIAL CONFIGURATIONS ::::::");

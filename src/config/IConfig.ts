@@ -5,7 +5,15 @@ export default interface IConfig {
   nodeEnv: string;
   port: string;
   serviceName: string;
-  secret: string;
-  swaggerUrl: string;
-  swaggerDefinition: string;
+  swagger: {
+    definition: {
+      basePath: string;
+      info: {
+        description: string;
+        title: string;
+        version: string;
+      };
+    };
+    url: string;
+  };
 }

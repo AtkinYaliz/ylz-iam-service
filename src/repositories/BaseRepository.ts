@@ -72,7 +72,8 @@ export default abstract class BaseRepository<D extends Document> {
     return this.getAll({ _id: { $in: ids } });
   }
   protected async getAll(conditions: any, projection?: any | null, options?: any | null, populate?: any | null): Promise<D[]> {
-    logger.debug("BaseRepository - getAll:");
+    logger.debug("BaseRepository - getAll:", JSON.stringify(conditions), JSON.stringify(projection), JSON.stringify(options));
+
     return populate
       ? (await this.model
           .find(conditions, projection, options)
@@ -86,7 +87,7 @@ export default abstract class BaseRepository<D extends Document> {
    * @returns {Documents[]}
    */
   public async insertMany(input: IBaseCreateInput[], options?: any | null): Promise<D[]> {
-    logger.debug("BaseRepository - insertMany:", JSON.stringify(input));
+    logger.debug("BaseRepository - insertMany:", JSON.stringify(input), JSON.stringify(options));
     const docsToInsert: any = input.map(item => {
       const id = item.id || generateObjectId();
       return { ...item, _id: id };
