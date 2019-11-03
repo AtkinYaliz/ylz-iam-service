@@ -1,28 +1,28 @@
 import { Model } from "mongoose";
 import logger from "@ylz/logger";
 
-import { Nullable } from "../../libs/Nullable";
+import { Nullable } from "../../libs/customTypes";
 import { plucks } from "../../libs/utilities";
 import { BadRequestError, DuplicateKeyError, ValidationError } from "../../models/errors";
 import ApplicationRepository from "../application/ApplicationRepository";
-import BaseRepository from "../BaseRepository";
+import VersionableRepository from "../versionable/VersionableRepository";
 import IUserDocument from "./IUserDocument";
 import { IGetInput, ISignupInput } from "./models";
 import userModel from "./userModel";
 
-export default class UserRepository extends BaseRepository<IUserDocument> {
+export default class UserRepository extends VersionableRepository<IUserDocument> {
   constructor() {
     super(userModel);
   }
 
   public async getUser(input: IGetInput): Promise<Nullable<IUserDocument>> {
-    logger.debug("UserRepository - getByEmail", JSON.stringify(input));
+    logger.debug("UserRepository - getUser:", JSON.stringify(input));
 
     return super.getOne(plucks(["email", "applicationId"])(input));
   }
 
   public async signup(input: ISignupInput): Promise<IUserDocument> {
-    logger.debug("UserRepository - signup", JSON.stringify(input));
+    logger.debug("UserRepository - signup:", JSON.stringify(input));
 
     const application = await new ApplicationRepository().get({ id: input.applicationId });
 
@@ -50,3 +50,24 @@ export default class UserRepository extends BaseRepository<IUserDocument> {
     }
   }
 }
+
+// public async signup(input: ISignupInput): Promise<IApplicationDocument> {
+//    logger.info('ApplicationRepository - signup', JSON.stringify(input));
+
+//    try {
+//       return await super.create(input);
+//    } catch (err) {
+//       if(err.code === 11000) {
+//          throw new DuplicateKeyError([{ message: 'This email is in use!', path: 'email', value: input.email}]);
+//       } else if(err.name === 'ValidationError') {
+//          let data = [];
+//          for(let e in err.errors){
+//             const { message, path, value } = err.errors[e];
+//             data.push({ message, path, value });
+//          }
+//          throw new ValidationError(data);
+//       } else {
+//          throw err;
+//       }
+//    }
+// }

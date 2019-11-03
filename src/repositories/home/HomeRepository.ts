@@ -1,7 +1,7 @@
 import { Model } from "mongoose";
 import logger from "@ylz/logger";
 
-import { Nullable } from "../../libs/Nullable";
+import { Nullable } from "../../libs/customTypes";
 import { DuplicateKeyError, ValidationError } from "../../models/errors";
 import BaseRepository from "../BaseRepository";
 import homeModel from "./homeModel";

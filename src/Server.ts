@@ -12,6 +12,8 @@ import { errorHandler, pageNotFoundHandler } from "./middlewares";
 import Router from "./Router";
 
 export default class Server {
+  private config: IConfig = null;
+
   get application() {
     return this.app;
   }
@@ -26,7 +28,11 @@ export default class Server {
   private static instance: Server;
   private app: express.Express;
 
-  private constructor(private config: IConfig) {
+  private constructor(config: IConfig) {
+    this.config = config;
+  }
+
+  public init() {
     this.app = express();
 
     this.initMiddlewares();

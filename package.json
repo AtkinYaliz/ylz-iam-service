@@ -17,7 +17,7 @@
     "prenodemon": "npm run copy-resources",
     "nodemon": "nodemon ./dist/src/index.js",
     "nodemon-debug": "npm run nodemon -- --inspect",
-    "copy-resources": "cp -Rf ./config ./dist",
+    "copy-resources": "cp -Rf ./copyFolder ./dist",
     "remove-dist": "rm -rf ./dist",
     "serve": "node ./dist/src/index.js",
     "test": "jest --forceExit --coverage",

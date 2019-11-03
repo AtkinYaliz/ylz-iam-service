@@ -13,17 +13,17 @@ class HomeController {
     return HomeController.instance;
   }
   private static instance: HomeController;
-  private _homeRepository: HomeRepository;
+  private homeRepository: HomeRepository;
 
   private constructor() {
-    this._homeRepository = new HomeRepository();
+    this.homeRepository = new HomeRepository();
   }
 
   public async list({ query }: IListInput) {
     logger.debug("HomeController - list:", JSON.stringify(query, null, 2));
 
     const { limit, skip } = query;
-    const data = await this._homeRepository.list({ limit, skip });
+    const data = await this.homeRepository.list({ limit, skip });
 
     return new OKResponse({ data });
   }
@@ -32,7 +32,7 @@ class HomeController {
     logger.debug("HomeController - get:", JSON.stringify(params));
 
     const id = params.id;
-    const home = await this._homeRepository.get({ id });
+    const home = await this.homeRepository.get({ id });
 
     return home ? new OKResponse({ data: home }) : new BadRequestResponse({ message: "Could not find the home." });
   }
@@ -40,7 +40,7 @@ class HomeController {
   public async create({ body }: ICreateInput) {
     logger.debug("HomeController - create:", JSON.stringify(body));
 
-    const home = await this._homeRepository.create(body);
+    const home = await this.homeRepository.create(body);
 
     return new CreatedResponse({ data: home });
   }
@@ -53,7 +53,7 @@ class HomeController {
       id: params.id
     };
 
-    await this._homeRepository.update(update);
+    await this.homeRepository.update(update);
 
     return new NoContentResponse();
   }
@@ -63,7 +63,7 @@ class HomeController {
 
     const id = params.id;
 
-    await this._homeRepository.delete({ id });
+    await this.homeRepository.delete({ id });
 
     return new NoContentResponse();
   }

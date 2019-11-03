@@ -4,6 +4,7 @@ export default interface IConfig {
   mongoUrl: string;
   nodeEnv: string;
   port: string;
+  serviceName: string;
   secret: string;
   swaggerUrl: string;
   swaggerDefinition: string;

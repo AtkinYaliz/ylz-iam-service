@@ -1,4 +1,3 @@
-import IEntityInput from './IEntityInput';
+import IBaseInput from "./IBaseInput";
 
-
-export default interface IBaseGetInput extends IEntityInput { }
+export default interface IBaseGetInput extends IBaseInput {}

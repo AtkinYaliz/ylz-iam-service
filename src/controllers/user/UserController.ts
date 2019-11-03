@@ -14,16 +14,16 @@ class UserController {
     return UserController.instance;
   }
   private static instance: UserController;
-  private _userRepository: UserRepository;
+  private userRepository: UserRepository;
 
   private constructor() {
-    this._userRepository = new UserRepository();
+    this.userRepository = new UserRepository();
   }
 
   public async signup({ body }: ISignupInput) {
     logger.debug("UserController - signup:", JSON.stringify(body));
 
-    const user = await this._userRepository.signup(body);
+    const user = await this.userRepository.signup(body);
     const token = { token: generateToken(user) };
 
     return new CreatedResponse({ data: token });
@@ -32,7 +32,7 @@ class UserController {
   public async signin({ body }: ISigninInput) {
     logger.debug("UserController - signin:", JSON.stringify(body));
 
-    const user = await this._userRepository.getUser(body);
+    const user = await this.userRepository.getUser(body);
     const token = { token: generateToken(user) };
 
     return user ? new OKResponse({ data: token }) : new UnauthorizedResponse();
@@ -41,7 +41,7 @@ class UserController {
   public async changePassword({ body }: IChangePasswordInput) {
     logger.debug("UserController - changePassword:", JSON.stringify(body));
 
-    const user = await this._userRepository.getUser(body);
+    const user = await this.userRepository.getUser(body);
     const token = { token: generateToken(user) };
 
     return user ? new OKResponse({ data: token }) : new UnauthorizedResponse();

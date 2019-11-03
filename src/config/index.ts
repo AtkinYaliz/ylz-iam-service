@@ -13,6 +13,7 @@ const config: IConfig = {
   mongoUrl: process.env.MONGO_URL,
   nodeEnv: process.env.NODE_ENV,
   port: process.env.PORT,
+  serviceName: process.env.SERVICE_NAME,
   secret: process.env.SECRET,
   swaggerUrl: process.env.SWAGGER_URL,
   swaggerDefinition: process.env.SWAGGER_DEFINITION
