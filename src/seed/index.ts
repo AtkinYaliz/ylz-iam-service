@@ -1,8 +1,7 @@
-import logger from "@ylz/logger";
+import { error, info } from "@ylz/logger";
 
-// import { forEachSync } from "../libs/utilities";
 import applications from "./applications";
-import ApplicationRepository from "../repositories/application/ApplicationRepository";
+import { ApplicationRepository } from "../repositories/application/ApplicationRepository";
 
 class Seed {
   private applicationRepository;
@@ -17,14 +16,14 @@ class Seed {
 
       //#region [Applications]
       if (applicationCount === 0) {
-        logger.info("Seeding applications into the database");
+        info("Seeding applications into the database");
 
         await this.applicationRepository.insertMany(applications);
-        logger.info("ApplicationRepository seeding completed successfully");
+        info("ApplicationRepository seeding completed successfully");
       }
       //#endregion
     } catch (err) {
-      logger.error("error in seeding", err);
+      error("error in seeding", err);
     }
   }
 }

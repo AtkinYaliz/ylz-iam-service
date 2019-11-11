@@ -5,11 +5,11 @@ import * as cors from "cors";
 import * as express from "express";
 import * as helmet from "helmet";
 import * as morganBody from "morgan-body";
+import { libs } from "@ylz/common";
 
-import IConfig from "./config/IConfig";
-import { EnvVars } from "./libs/constants";
-import { errorHandler, pageNotFoundHandler } from "./middlewares";
 import Router from "./Router";
+import { IConfig } from "./config/IConfig";
+import { errorHandler, pageNotFoundHandler } from "./middlewares";
 
 export default class Server {
   private config: IConfig = null;
@@ -43,7 +43,7 @@ export default class Server {
   private initMiddlewares() {
     const { nodeEnv } = this.config;
 
-    if (nodeEnv === EnvVars.PROD) {
+    if (nodeEnv === libs.constants.EnvVar.PROD) {
       this.app.use(helmet());
       this.app.use(compress());
     }
@@ -57,7 +57,7 @@ export default class Server {
     );
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
-    if (nodeEnv !== EnvVars.TEST) {
+    if (nodeEnv !== libs.constants.EnvVar.TEST) {
       morganBody(this.app);
     }
   }

@@ -1,7 +1,2 @@
-import IGetInput from './IGetInput';
-import ISignupInput from './ISignupInput';
-
-export {
-   ISignupInput,
-   IGetInput
-};
+export { IGetInput } from "./IGetInput";
+export { ISignupInput } from "./ISignupInput";

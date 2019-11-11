@@ -1,5 +1,5 @@
 import dotenv = require("dotenv");
-import IConfig from "./IConfig";
+import { IConfig } from "./IConfig";
 
 if (process.env.NODE_ENV === "test") {
   dotenv.config({ path: ".env.test" });

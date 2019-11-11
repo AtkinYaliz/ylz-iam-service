@@ -1,7 +1,7 @@
 import * as passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 
-import UserRepository from "../repositories/user/UserRepository";
+import { UserRepository } from "../repositories/user/UserRepository";
 
 // Options for the strategy
 const strategyOptions = {

@@ -1,6 +1,6 @@
-import { IVersionableCreateInput } from "../../versionable/models";
+import { IVersionableCreateInput } from "@ylz/data-access/src/repositories/versionable/models";
 
-export default interface ISignupInput extends IVersionableCreateInput {
+export interface ISignupInput extends IVersionableCreateInput {
   email: string;
   password: string;
   applicationId: string;

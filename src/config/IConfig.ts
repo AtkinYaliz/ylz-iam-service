@@ -1,4 +1,4 @@
-export default interface IConfig {
+export interface IConfig {
   apiPrefix: string;
   corsOrigin: string;
   mongoUrl: string;

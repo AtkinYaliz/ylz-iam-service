@@ -1,10 +1,10 @@
 import { SchemaDefinition, SchemaOptions } from "mongoose";
 import * as validator from "validator";
 
-import auditSchema from "../auditSchema";
-import VersionableSchema from "../versionable/VersionableSchema";
+import { auditSchema } from "@ylz/data-access/src/repositories/audit/auditSchema";
+import { VersionableSchema } from "@ylz/data-access/src/repositories/versionable/VersionableSchema";
 
-export default class UserSchema extends VersionableSchema {
+export class UserSchema extends VersionableSchema {
   constructor(definition?: SchemaDefinition, options?: SchemaOptions) {
     const userDefinition = {
       ...definition,

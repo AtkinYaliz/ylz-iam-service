@@ -1,19 +1,19 @@
-import { Model } from "mongoose";
-import logger from "@ylz/logger";
+// import { Model } from "mongoose";
+import { debug } from "@ylz/logger";
+import { BaseRepository } from "@ylz/data-access";
+import { DuplicateKeyError, ValidationError } from "@ylz/common/src/models/errors";
 
-import { DuplicateKeyError, ValidationError } from "../../models/errors";
-import BaseRepository from "../BaseRepository";
-import applicationModel from "./applicationModel";
-import IApplicationDocument from "./IApplicationDocument";
 import { ICreateInput } from "./models";
+import applicationModel from "./applicationModel";
+import { IApplicationDocument } from "./IApplicationDocument";
 
-export default class ApplicationRepository extends BaseRepository<IApplicationDocument> {
+export class ApplicationRepository extends BaseRepository<IApplicationDocument> {
   constructor() {
     super(applicationModel);
   }
 
   public async create(input: ICreateInput): Promise<IApplicationDocument> {
-    logger.debug("ApplicationRepository - create:", JSON.stringify(input));
+    debug("ApplicationRepository - create:", JSON.stringify(input));
 
     try {
       return await super.create(input);

@@ -1,7 +1,8 @@
-import logger from "@ylz/logger";
+import { NextFunction, Request, Response } from "express";
+import { error } from "@ylz/logger";
+import { libs } from "@ylz/common";
 
-import { EnvVars } from "../libs/constants";
-import { BadRequestError, DuplicateKeyError, PageNotFoundError, ValidationError } from "../models/errors";
+import { BadRequestError, DuplicateKeyError, PageNotFoundError, ValidationError } from "@ylz/common/src/models/errors";
 import {
   BadRequestResponse,
   HttpResponse,
@@ -9,12 +10,12 @@ import {
   NotFoundResponse,
   UnauthorizedResponse,
   UnprocessableResponse
-} from "../models/responses";
+} from "@ylz/common/src/models/responses";
 
 export default function errorHandlerMiddleware(nodeEnv: string) {
-  return function errorHandler(err: any, req: any, res: any, next: any) {
-    if (nodeEnv !== EnvVars.TEST) {
-      logger.error(err);
+  return function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
+    if (nodeEnv !== libs.constants.EnvVar.TEST) {
+      error(err);
     }
 
     let response: HttpResponse;

@@ -1,6 +1,6 @@
-import controllerAdapter from "./controllerAdapter";
-import errorHandler from "./errorHandler";
-import pageNotFoundHandler from "./pageNotFoundHandler";
-import validationHandler from "./validationHandler";
+export { default as controllerAdapter } from "./controllerAdapter";
+export { default as errorHandler } from "./errorHandler";
+export { default as pageNotFoundHandler } from "./pageNotFoundHandler";
+export { default as schemaValidationHandler } from "./schemaErrorHandler";
 
-export { controllerAdapter, validationHandler, errorHandler, pageNotFoundHandler };
+// export { controllerAdapter, schemaValidationHandler, errorHandler, pageNotFoundHandler };

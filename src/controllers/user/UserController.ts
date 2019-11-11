@@ -1,7 +1,7 @@
-import logger from "@ylz/logger";
+import { debug } from "@ylz/logger";
+import { CreatedResponse, OKResponse, UnauthorizedResponse } from "@ylz/common/src/models/responses";
 
-import { CreatedResponse, OKResponse, UnauthorizedResponse } from "../../models/responses";
-import UserRepository from "../../repositories/user/UserRepository";
+import { UserRepository } from "../../repositories/user/UserRepository";
 import { generateToken } from "../../services/Password";
 import { IChangePasswordInput, ISigninInput, ISignupInput } from "./models";
 
@@ -21,7 +21,7 @@ class UserController {
   }
 
   public async signup({ body }: ISignupInput) {
-    logger.debug("UserController - signup:", JSON.stringify(body));
+    debug("UserController - signup:", JSON.stringify(body));
 
     const user = await this.userRepository.signup(body);
     const token = { token: generateToken(user) };
@@ -30,7 +30,7 @@ class UserController {
   }
 
   public async signin({ body }: ISigninInput) {
-    logger.debug("UserController - signin:", JSON.stringify(body));
+    debug("UserController - signin:", JSON.stringify(body));
 
     const user = await this.userRepository.getUser(body);
     const token = { token: generateToken(user) };
@@ -39,7 +39,7 @@ class UserController {
   }
 
   public async changePassword({ body }: IChangePasswordInput) {
-    logger.debug("UserController - changePassword:", JSON.stringify(body));
+    debug("UserController - changePassword:", JSON.stringify(body));
 
     const user = await this.userRepository.getUser(body);
     const token = { token: generateToken(user) };

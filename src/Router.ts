@@ -1,11 +1,12 @@
 import * as express from "express";
-import logger from "@ylz/logger";
-import Swagger from "./libs/Swagger";
+import * as appInfo from "pjson";
+// import { libs } from "@ylz/common";
+import { error } from "@ylz/logger";
 
-import { getPackageJson } from "./libs/utilities";
+import Swagger from "./libs/Swagger";
+import { IConfig } from "./config/IConfig";
 import userRouter from "./controllers/user/routes";
 import homeRouter from "./controllers/home/routes";
-import IConfig from "./config/IConfig";
 
 export default class Router {
   public static getInstance(config: IConfig) {
@@ -19,6 +20,14 @@ export default class Router {
   public router: any;
 
   private constructor(private config: IConfig) {
+    /**
+     * @swagger
+     * securityDefinitions:
+     *  APIKeyHeader:
+     *    type: apiKey
+     *    in: header
+     *    name: Authorization
+     */
     this.router = express.Router();
 
     this.initSwaggerRoute();
@@ -27,19 +36,20 @@ export default class Router {
   }
 
   private initSwaggerRoute() {
-    const { apiPrefix, swaggerUrl } = this.config;
-    const swaggerDefinition = JSON.parse(this.config.swaggerDefinition);
+    const { apiPrefix, swagger } = this.config;
+    const swaggerDefinition = swagger.definition;
     const swaggerSetup = new Swagger();
 
     // JSON route
-    this.router.use(`${swaggerUrl}.json`, swaggerSetup.getRouter({ swaggerDefinition }));
+    this.router.use(`${swagger.url}.json`, swaggerSetup.getRouter({ swaggerDefinition }));
 
     // UI route
-    const { serve, setup } = swaggerSetup.getUI(apiPrefix + swaggerUrl);
+    const { serve, setup } = swaggerSetup.getUI(apiPrefix + swagger.url);
 
-    this.router.use(swaggerUrl, serve, setup);
+    this.router.use(swagger.url, serve, setup);
   }
   private initDefaultRoutes() {
+    //#region [swagger: /health-check - GET]
     /**
      * @swagger
      * /health-check:
@@ -53,10 +63,12 @@ export default class Router {
      *       200:
      *         description: I am OK
      */
+    //#endregion
     this.router.get("/health-check", (req, res) => {
       res.send("I am OK");
     });
 
+    //#region [swagger: /version - GET]
     /**
      * @swagger
      * /version:
@@ -82,13 +94,12 @@ export default class Router {
      *               type: string
      *               description: Description of the API.
      */
+    //#endregion
     this.router.get("/version", (req, res) => {
-      const { version, name, description } = getPackageJson();
-
-      // logger.log(`version = ${version}, name = ${name}, description = ${description}`);
+      const { version, name, description } = appInfo;
 
       if (!(typeof version && version)) {
-        logger.error("An error occurred while trying to get version: Version not defined");
+        error("An error occurred while trying to get version: Version not defined");
 
         res.status(400).send(new Error("Version not defined"));
       }
@@ -100,6 +111,7 @@ export default class Router {
       });
     });
   }
+
   private initControllerRoutes() {
     // mount email routes at /users
     this.router.use("/homes", homeRouter);

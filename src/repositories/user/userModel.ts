@@ -1,7 +1,7 @@
 import { Model, model } from "mongoose";
 
-import IUserDocument from "./IUserDocument";
-import UserSchema from "./UserSchema";
+import { IUserDocument } from "./IUserDocument";
+import { UserSchema } from "./UserSchema";
 
 /**
  * User Schema

@@ -1,15 +1,14 @@
-import { Router } from 'express';
-import { checkSchema } from 'express-validator/check';
+import { Router } from "express";
+import { checkSchema } from "express-validator/check";
 
-import controllerAdapter from '../../middlewares/controllerAdapter';
-import validationHandler from '../../middlewares/validationHandler';
-import homeControllerInstance from './HomeController';
-import validations from './validations';
-
+import validations from "./validations";
+import controllerAdapter from "../../middlewares/controllerAdapter";
+import schemaErrorHandler from "../../middlewares/schemaErrorHandler";
+import homeControllerInstance from "./HomeController";
 
 const router = Router();
 
-
+//#region [swagger: /homes - GET]
 /**
  * @swagger
  * /homes:
@@ -25,14 +24,15 @@ const router = Router();
  *         schema:
  *           $ref: '#/definitions/Home'
  */
-router.route('/')
-  .get(
-    // auth,
-    checkSchema(validations.list as any),
-    validationHandler(),
-    controllerAdapter(homeControllerInstance, 'list')
-  );
+//#endregion
+router.route("/").get(
+  // auth,
+  checkSchema(validations.list as any),
+  schemaErrorHandler(),
+  controllerAdapter(homeControllerInstance, "list")
+);
 
+//#region [swagger: /homes/:id - GET]
 /**
  * @swagger
  * /homes/:id:
@@ -55,15 +55,15 @@ router.route('/')
  *         schema:
  *           $ref: '#/definitions/Home'
  */
-router.route('/:id')
-   .get(
-      // auth,
-      checkSchema(validations.get as any),
-      validationHandler(),
-      controllerAdapter(homeControllerInstance, 'get')
-   );
+//#endregion
+router.route("/:id").get(
+  // auth,
+  checkSchema(validations.get as any),
+  schemaErrorHandler(),
+  controllerAdapter(homeControllerInstance, "get")
+);
 
-
+//#region [swagger: /homes - POST]
 /**
  * @swagger
  * /homes:
@@ -92,15 +92,15 @@ router.route('/:id')
  *         schema:
  *           $ref: '#/definitions/Home'
  */
-router.route('/')
-   .post(
-      // auth,
-      checkSchema(validations.create as any),
-      validationHandler(),
-      controllerAdapter(homeControllerInstance, 'create')
-   );
+//#endregion
+router.route("/").post(
+  // auth,
+  checkSchema(validations.create as any),
+  schemaErrorHandler(),
+  controllerAdapter(homeControllerInstance, "create")
+);
 
-
+//#region [swagger: /homes/:id - PUT]
 /**
  * @swagger
  * /homes/:id:
@@ -135,14 +135,15 @@ router.route('/')
  *         schema:
  *           $ref: '#/definitions/Home'
  */
-router.route('/:id')
-   .put(
-      // auth,
-      checkSchema(validations.update as any),
-      validationHandler(),
-      controllerAdapter(homeControllerInstance, 'update')
-   );
+//#endregion
+router.route("/:id").put(
+  // auth,
+  checkSchema(validations.update as any),
+  schemaErrorHandler(),
+  controllerAdapter(homeControllerInstance, "update")
+);
 
+//#region [swagger: /homes/:id - DELETE]
 /**
  * @swagger
  * /homes/:id:
@@ -165,12 +166,12 @@ router.route('/:id')
  *         schema:
  *           $ref: '#/definitions/Home'
  */
-router.route('/:id')
-    .delete(
-       // auth,
-       checkSchema(validations.delete as any),
-       validationHandler(),
-       controllerAdapter(homeControllerInstance, 'delete')
-    );
+//#endregion
+router.route("/:id").delete(
+  // auth,
+  checkSchema(validations.delete as any),
+  schemaErrorHandler(),
+  controllerAdapter(homeControllerInstance, "delete")
+);
 
 export default router;

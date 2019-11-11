@@ -1,4 +1,4 @@
-export default interface IGetInput {
-   email: string;
-   applicationId: string;
+export interface IGetInput {
+  email: string;
+  applicationId: string;
 }

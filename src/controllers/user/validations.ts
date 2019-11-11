@@ -1,57 +1,56 @@
-import { RequestLocations } from "../../libs/constants";
-import { isValidObjectId, isValidEmail } from "../../libs/utilities";
+import { libs } from "@ylz/common";
 
 const validations = Object.freeze({
   id: {
-    in: [RequestLocations.params],
+    in: [libs.constants.RequestLocation.params],
     custom: {
-      options: id => isValidObjectId(id),
+      options: id => libs.utilities.isValidObjectId(id),
       errorMessage: "Wrong format!"
     }
   },
   firstName: {
-    in: [RequestLocations.body],
+    in: [libs.constants.RequestLocation.body],
     isLength: {
       options: { min: 1 },
       errorMessage: "First name is required!"
     }
   },
   lastName: {
-    in: [RequestLocations.body],
+    in: [libs.constants.RequestLocation.body],
     isLength: {
       options: { min: 1 },
       errorMessage: "Last name is required!"
     }
   },
   email: {
-    in: [RequestLocations.body],
+    in: [libs.constants.RequestLocation.body],
     isLength: {
       options: { min: 5 },
       errorMessage: "Email should be at least 5 chars long!"
     },
     custom: {
-      options: email => isValidEmail(email),
+      options: email => libs.utilities.isValidEmail(email),
       errorMessage: "Not a valid email!"
     }
   },
   password: {
-    in: [RequestLocations.body],
+    in: [libs.constants.RequestLocation.body],
     isLength: {
       options: { min: 6 },
       errorMessage: "Password should be at least 6 chars long!"
     }
   },
   newPassword: {
-    in: [RequestLocations.body],
+    in: [libs.constants.RequestLocation.body],
     isLength: {
       options: { min: 6 },
       errorMessage: "New password should be at least 6 chars long!"
     }
   },
   applicationId: {
-    in: [RequestLocations.body],
+    in: [libs.constants.RequestLocation.body],
     custom: {
-      options: (id, { req }) => isValidObjectId(req.body.applicationId),
+      options: (id, { req }) => libs.utilities.isValidObjectId(req.body.applicationId),
       errorMessage: "Wrong format!"
     }
   }

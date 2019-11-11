@@ -1,39 +1,44 @@
 // import * as Promise from 'bluebird';
-import { model, Model } from 'mongoose';
+import { model, Model } from "mongoose";
 
-import ApplicationSchema from './ApplicationSchema';
-import IApplicationDocument from './IApplicationDocument';
-
+import { ApplicationSchema } from "./ApplicationSchema";
+import { IApplicationDocument } from "./IApplicationDocument";
 
 /**
  * Application Schema
  */
-const applicationSchema = new ApplicationSchema();
+const applicationSchema = new ApplicationSchema(
+  {
+    _id: String
+  },
+  {
+    collection: "Applications",
+    versionKey: false
+  }
+);
 
 /**
  * Indicies
  */
 applicationSchema.index({ name: 1 }, { unique: true });
 
-
 /**
  * toObject
  */
-applicationSchema.set('toObject', {
-   transform: (doc: any, ret: any, options: any) => {
-      ret.id = ret._id;
-      delete ret._id;
-      delete ret.__v;
-   }
+applicationSchema.set("toObject", {
+  transform: (doc: any, ret: any, options: any) => {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+  }
 });
-applicationSchema.set('toJSON', {
-   transform: (doc: any, ret: any, options: any) => {
-      ret.id = ret._id;
-      delete ret._id;
-      delete ret.__v;
-   }
+applicationSchema.set("toJSON", {
+  transform: (doc: any, ret: any, options: any) => {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+  }
 });
-
 
 /**
  * Add your
@@ -42,27 +47,22 @@ applicationSchema.set('toJSON', {
  * - virtual
  */
 applicationSchema.pre("save", function(next: any) {
-   next();
+  next();
 });
-
 
 /**
  * Methods
  */
-applicationSchema.methods = {
-};
-
+applicationSchema.methods = {};
 
 /**
  * Statics
  */
-applicationSchema.statics = {
-};
-
+applicationSchema.statics = {};
 
 /**
  * @typedef Home
  */
-const applicationModel: Model<IApplicationDocument> = model<IApplicationDocument>('Application', applicationSchema, 'Applications');
+const applicationModel: Model<IApplicationDocument> = model<IApplicationDocument>("Application", applicationSchema);
 
 export default applicationModel;

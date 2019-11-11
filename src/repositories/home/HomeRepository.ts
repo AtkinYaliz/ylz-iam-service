@@ -1,11 +1,11 @@
-import { Model } from "mongoose";
-import logger from "@ylz/logger";
+// import { Model } from "mongoose";
+import { debug } from "@ylz/logger";
+import { DuplicateKeyError, ValidationError } from "@ylz/common/src/models/errors";
+import { Nullable } from "@ylz/common/src/libs/customTypes";
+import { BaseRepository } from "@ylz/data-access";
 
-import { Nullable } from "../../libs/customTypes";
-import { DuplicateKeyError, ValidationError } from "../../models/errors";
-import BaseRepository from "../BaseRepository";
 import homeModel from "./homeModel";
-import IHomeDocument from "./IHomeDocument";
+import { IHomeDocument } from "./IHomeDocument";
 import { ICreateInput, IDeleteInput, IGetInput, IListInput, IUpdateInput } from "./models";
 
 export default class HomeRepository extends BaseRepository<IHomeDocument> {
@@ -14,18 +14,18 @@ export default class HomeRepository extends BaseRepository<IHomeDocument> {
   }
 
   public list(input: IListInput): Promise<IHomeDocument[]> {
-    logger.debug("HomeRepository - list:", JSON.stringify(input));
+    debug("HomeRepository - list:", JSON.stringify(input));
 
     return super.list(input);
   }
   public async get(input: IGetInput): Promise<Nullable<IHomeDocument>> {
-    logger.debug("HomeRepository - get:", JSON.stringify(input));
+    debug("HomeRepository - get:", JSON.stringify(input));
 
     return super.get(input);
   }
 
   public async create(input: ICreateInput): Promise<IHomeDocument> {
-    logger.debug("HomeRepository - create:", JSON.stringify(input));
+    debug("HomeRepository - create:", JSON.stringify(input));
 
     try {
       return await super.create(input);
@@ -47,12 +47,12 @@ export default class HomeRepository extends BaseRepository<IHomeDocument> {
     }
   }
   public update(input: IUpdateInput): Promise<IHomeDocument> {
-    logger.debug("HomeRepository - update:", JSON.stringify(input));
+    debug("HomeRepository - update:", JSON.stringify(input));
 
     return super.update(input);
   }
   public delete(input: IDeleteInput): Promise<IHomeDocument> {
-    logger.debug("HomeRepository - delete:", JSON.stringify(input));
+    debug("HomeRepository - delete:", JSON.stringify(input));
 
     return super.delete(input);
   }
