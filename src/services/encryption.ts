@@ -8,7 +8,7 @@ export interface IPayload {
   iat: number;
 }
 
-const privateKey = fs.readFileSync("private.pem", "utf8");
+const privateKey = fs.readFileSync("./private.pem", "utf8");
 
 export function hash(value) {
   return sha1(value);
@@ -16,7 +16,7 @@ export function hash(value) {
 
 export function generateToken(uid: string, appId: string) {
   const oneHour = 1000 * 60 * 60;
-  return jwt.sign({ uid, ext: Date.now() + oneHour, appId }, "privateKey", { algorithm: "HS256" });
+  return jwt.sign({ uid, ext: Date.now() + oneHour, appId }, privateKey, { algorithm: "HS256" });
 }
 
 export async function decodeToken(token: string): Promise<IPayload> {
