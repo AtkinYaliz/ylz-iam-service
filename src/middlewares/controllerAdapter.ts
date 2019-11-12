@@ -1,7 +1,7 @@
 import { error } from "@ylz/logger";
 import { HttpResponse } from "@ylz/common/src/models/responses";
 
-export default function controllerAdapter(controller: any = null, functionName: string = "") {
+export function controllerAdapter(controller: any = null, functionName: string = "") {
   return async (req: any, res: any, next: any) => {
     try {
       const {

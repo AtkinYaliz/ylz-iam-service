@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator/check";
-import { UnprocessableResponse } from "@ylz/common/src/models/responses";
+import { UnprocessableResponse } from "@ylz/common/dist/src/models/responses";
 
-export default function schemaErrorHandler() {
+export function schemaErrorHandler() {
   return (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 

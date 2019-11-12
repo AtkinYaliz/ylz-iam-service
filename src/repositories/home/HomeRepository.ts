@@ -1,6 +1,6 @@
 // import { Model } from "mongoose";
 import { debug } from "@ylz/logger";
-import { DuplicateKeyError, ValidationError } from "@ylz/common/src/models/errors";
+import { DuplicateKeyError, ValidationError } from "@ylz/common/dist/src/models/errors";
 import { Nullable } from "@ylz/common/src/libs/customTypes";
 import { BaseRepository } from "@ylz/data-access";
 
@@ -8,7 +8,7 @@ import homeModel from "./homeModel";
 import { IHomeDocument } from "./IHomeDocument";
 import { ICreateInput, IDeleteInput, IGetInput, IListInput, IUpdateInput } from "./models";
 
-export default class HomeRepository extends BaseRepository<IHomeDocument> {
+export class HomeRepository extends BaseRepository<IHomeDocument> {
   constructor() {
     super(homeModel);
   }

@@ -1,8 +1,7 @@
 import { SchemaDefinition, SchemaOptions } from "mongoose";
 import * as validator from "validator";
 
-import { auditSchema } from "@ylz/data-access/src/repositories/audit/auditSchema";
-import { VersionableSchema } from "@ylz/data-access/src/repositories/versionable/VersionableSchema";
+import { auditSchema, VersionableSchema } from "@ylz/data-access";
 
 export class UserSchema extends VersionableSchema {
   constructor(definition?: SchemaDefinition, options?: SchemaOptions) {

@@ -1,13 +1,12 @@
-// import { Model } from "mongoose";
-import logger from "@ylz/logger";
+import { debug } from "@ylz/logger";
 import { libs } from "@ylz/common";
 import { Nullable } from "@ylz/common/src/libs/customTypes";
-import { BadRequestError, DuplicateKeyError, ValidationError } from "@ylz/common/src/models/errors";
-import { VersionableRepository } from "@ylz/data-access/src/repositories/versionable/VersionableRepository";
+import { BadRequestError, DuplicateKeyError, ValidationError } from "@ylz/common/dist/src/models/errors";
+import { VersionableRepository } from "@ylz/data-access";
 
 import userModel from "./userModel";
 import { IUserDocument } from "./IUserDocument";
-import { IGetInput, ISignupInput } from "./models";
+import { IGetInput, ISignupInput, IUpdateInput } from "./models";
 import { ApplicationRepository } from "../application/ApplicationRepository";
 
 export class UserRepository extends VersionableRepository<IUserDocument> {
@@ -16,13 +15,13 @@ export class UserRepository extends VersionableRepository<IUserDocument> {
   }
 
   public async getUser(input: IGetInput): Promise<Nullable<IUserDocument>> {
-    logger.debug("UserRepository - getUser:", JSON.stringify(input));
+    debug("UserRepository - getUser:", JSON.stringify(input));
 
-    return super.getOne(libs.utilities.plucks(["email", "applicationId"])(input));
+    return super.getOne(libs.utilities.plucks(["email", "applicationId", "password"])(input));
   }
 
   public async signup(input: ISignupInput): Promise<IUserDocument> {
-    logger.debug("UserRepository - signup:", JSON.stringify(input));
+    debug("UserRepository - signup:", JSON.stringify(input));
 
     const application = await new ApplicationRepository().get({ id: input.applicationId });
 
@@ -49,10 +48,16 @@ export class UserRepository extends VersionableRepository<IUserDocument> {
       }
     }
   }
+
+  public update(query: IUpdateInput): Promise<IUserDocument> {
+    debug("UserRepository - Update", JSON.stringify(query));
+
+    return super.update(query);
+  }
 }
 
 // public async signup(input: ISignupInput): Promise<IApplicationDocument> {
-//    logger.info('ApplicationRepository - signup', JSON.stringify(input));
+//    info('ApplicationRepository - signup', JSON.stringify(input));
 
 //    try {
 //       return await super.create(input);

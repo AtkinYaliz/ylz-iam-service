@@ -3,8 +3,8 @@ import { error, info } from "@ylz/logger";
 
 import seed from "./seed";
 import config from "./config";
-import Server from "./Server";
-import Database from "./services/Database";
+import { Server } from "./Server";
+import { Database } from "./services/Database";
 
 const { mongoUrl } = config;
 

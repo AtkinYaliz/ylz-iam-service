@@ -2,8 +2,8 @@ import { Router } from "express";
 import { checkSchema } from "express-validator/check";
 
 import validations from "./validations";
-import controllerAdapter from "../../middlewares/controllerAdapter";
-import schemaErrorHandler from "../../middlewares/schemaErrorHandler";
+import { controllerAdapter } from "../../middlewares/controllerAdapter";
+import { schemaErrorHandler } from "../../middlewares/schemaErrorHandler";
 import homeControllerInstance from "./HomeController";
 
 const router = Router();

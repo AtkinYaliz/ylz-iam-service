@@ -4,7 +4,7 @@ export interface IDatabaseConfig {
   mongoUrl: string;
 }
 
-export default class Database {
+export class Database {
   public static open({ mongoUrl }: IDatabaseConfig) {
     return new Promise((resolve, reject) => {
       // Mongoose options

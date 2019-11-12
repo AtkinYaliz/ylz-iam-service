@@ -1,4 +1,5 @@
 export interface IGetInput {
-  email: string;
   applicationId: string;
+  email: string;
+  password: string;
 }

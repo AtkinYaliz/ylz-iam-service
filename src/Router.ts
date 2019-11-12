@@ -8,14 +8,7 @@ import { IConfig } from "./config/IConfig";
 import userRouter from "./controllers/user/routes";
 import homeRouter from "./controllers/home/routes";
 
-export default class Router {
-  public static getInstance(config: IConfig) {
-    if (!Router.instance) {
-      Router.instance = new Router(config);
-    }
-
-    return Router.instance;
-  }
+export class Router {
   private static instance: Router;
   public router: any;
 
@@ -33,6 +26,14 @@ export default class Router {
     this.initSwaggerRoute();
     this.initDefaultRoutes();
     this.initControllerRoutes();
+  }
+
+  public static getInstance(config: IConfig) {
+    if (!Router.instance) {
+      Router.instance = new Router(config);
+    }
+
+    return Router.instance;
   }
 
   private initSwaggerRoute() {
@@ -111,7 +112,6 @@ export default class Router {
       });
     });
   }
-
   private initControllerRoutes() {
     // mount email routes at /users
     this.router.use("/homes", homeRouter);

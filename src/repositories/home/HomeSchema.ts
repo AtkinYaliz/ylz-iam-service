@@ -1,6 +1,6 @@
 import { SchemaDefinition, SchemaOptions } from "mongoose";
 import { BaseSchema } from "@ylz/data-access";
-import { auditSchema } from "@ylz/data-access/src/repositories/audit/auditSchema";
+import { auditSchema } from "@ylz/data-access";
 
 export class HomeSchema extends BaseSchema {
   constructor(definition?: SchemaDefinition, options?: SchemaOptions) {

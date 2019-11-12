@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { checkSchema } from "express-validator/check";
 
-import authJWT from "../../middlewares/authJWT";
-import authLocal from "../../middlewares/authLocal";
-import controllerAdapter from "../../middlewares/controllerAdapter";
-import schemaErrorHandler from "../../middlewares/schemaErrorHandler";
-import userControllerInstance from "./UserController";
+// import authJWT from "../../middlewares/authJWT";
+// import authLocal from "../../middlewares/authLocal";
 import validations from "./validations";
+import { controllerAdapter } from "../../middlewares/controllerAdapter";
+import { schemaErrorHandler } from "../../middlewares/schemaErrorHandler";
+import userControllerInstance from "./UserController";
 
 const router = Router();
 
@@ -14,8 +14,8 @@ const router = Router();
 router
   .route("/signup")
   .post(
-    checkSchema(validations.signup as any), 
-    schemaErrorHandler(), 
+    checkSchema(validations.signup as any),
+    schemaErrorHandler(),
     controllerAdapter(userControllerInstance, "signup")
 );
 
@@ -23,9 +23,9 @@ router
 router
   .route("/signin")
   .post(
-    checkSchema(validations.signin as any), 
-    schemaErrorHandler(), 
-    authLocal, 
+    checkSchema(validations.signin as any),
+    schemaErrorHandler(),
+    // authLocal,
     controllerAdapter(userControllerInstance, "signin")
 );
 
@@ -35,7 +35,7 @@ router
   .post(
     checkSchema(validations.changePassword as any),
     schemaErrorHandler(),
-    authJWT,
+    // authJWT,
     controllerAdapter(userControllerInstance, "changePassword")
   );
 

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { error } from "@ylz/logger";
 import { libs } from "@ylz/common";
 
-import { BadRequestError, DuplicateKeyError, PageNotFoundError, ValidationError } from "@ylz/common/src/models/errors";
+import { BadRequestError, DuplicateKeyError, PageNotFoundError, ValidationError } from "@ylz/common/dist/src/models/errors";
 import {
   BadRequestResponse,
   HttpResponse,
@@ -10,9 +10,9 @@ import {
   NotFoundResponse,
   UnauthorizedResponse,
   UnprocessableResponse
-} from "@ylz/common/src/models/responses";
+} from "@ylz/common/dist/src/models/responses";
 
-export default function errorHandlerMiddleware(nodeEnv: string) {
+export function errorHandler(nodeEnv: string) {
   return function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
     if (nodeEnv !== libs.constants.EnvVar.TEST) {
       error(err);
@@ -48,7 +48,7 @@ export default function errorHandlerMiddleware(nodeEnv: string) {
       case InternalServerErrorResponse.name:
       default:
         if (err.name === "AuthenticationError") {
-          response = new UnauthorizedResponse(); // BadRequestResponse({ message: err.message });
+          response = new UnauthorizedResponse({});
         } else {
           response = new InternalServerErrorResponse({});
         }

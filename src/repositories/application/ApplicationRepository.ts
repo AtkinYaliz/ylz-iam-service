@@ -1,7 +1,7 @@
 // import { Model } from "mongoose";
 import { debug } from "@ylz/logger";
 import { BaseRepository } from "@ylz/data-access";
-import { DuplicateKeyError, ValidationError } from "@ylz/common/src/models/errors";
+import { DuplicateKeyError, ValidationError } from "@ylz/common/dist/src/models/errors";
 
 import { ICreateInput } from "./models";
 import applicationModel from "./applicationModel";

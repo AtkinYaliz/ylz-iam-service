@@ -7,12 +7,18 @@ import * as helmet from "helmet";
 import * as morganBody from "morgan-body";
 import { libs } from "@ylz/common";
 
-import Router from "./Router";
+import { Router } from "./Router";
 import { IConfig } from "./config/IConfig";
 import { errorHandler, pageNotFoundHandler } from "./middlewares";
 
-export default class Server {
+export class Server {
+  private static instance: Server;
   private config: IConfig = null;
+  private app: express.Express;
+
+  private constructor(config: IConfig) {
+    this.config = config;
+  }
 
   get application() {
     return this.app;
@@ -24,12 +30,6 @@ export default class Server {
     }
 
     return Server.instance;
-  }
-  private static instance: Server;
-  private app: express.Express;
-
-  private constructor(config: IConfig) {
-    this.config = config;
   }
 
   public init() {

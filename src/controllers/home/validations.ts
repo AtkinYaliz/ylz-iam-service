@@ -1,29 +1,33 @@
 import { libs } from "@ylz/common";
 
+const {
+  constants: { RequestLocation }
+} = libs;
+
 const validations = Object.freeze({
   id: {
-    in: ["params"],
+    in: [RequestLocation.params],
     custom: {
       options: id => libs.utilities.isValidObjectId(id),
       errorMessage: "Wrong format!"
     }
   },
   name: {
-    in: ["body"],
+    in: [RequestLocation.body],
     isLength: {
       options: { min: 1 },
       errorMessage: "Name should be at least 2 chars long!"
     }
   },
   address: {
-    in: ["body"],
+    in: [RequestLocation.body],
     isLength: {
       options: { min: 2 },
       errorMessage: "Address should be at least 2 chars long!"
     }
   },
   phones: {
-    in: ["body"],
+    in: [RequestLocation.body],
     custom: {
       options: (phones: any[]) => Array.isArray(phones), // && phones.length > 0 && phones.every(x => isValidObjectId(x)),
       errorMessage: "Phones should be a list of strings!"
@@ -36,45 +40,36 @@ const validations = Object.freeze({
  * If omitted, all request locations will be checked
  * */
 export default Object.freeze({
-  // GET /api/homes
   list: {
     limit: {
-      in: ["query"],
+      in: [RequestLocation.query],
       isInt: true,
       optional: true,
       toInt: true,
       errorMessage: "Wrong format"
     },
     skip: {
-      in: ["query"],
+      in: [RequestLocation.query],
       isInt: true,
       optional: true,
       toInt: true,
       errorMessage: "Wrong format"
     }
   },
-
-  // GET /api/homes/:id
   get: {
     id: validations.id
   },
-
-  // POST /api/homes
   create: {
     name: validations.name,
     address: validations.address,
     phones: validations.phones
   },
-
-  // PUT /api/homes/:id
   update: {
     id: validations.id,
     name: validations.name,
     address: validations.address,
     phones: validations.phones
   },
-
-  // GET /api/homes/:id
   delete: {
     id: validations.id
   }
