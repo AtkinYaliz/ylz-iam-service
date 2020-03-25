@@ -1,0 +1,11 @@
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "ylz-iam-svc-config-ncgj"
+  namespace: "default"
+  labels:
+    app: "ylz-iam-svc"
+data:
+  API_PREFIX: "/api"
+  NODE_ENV: "prod"
+  PORT: "3000"
