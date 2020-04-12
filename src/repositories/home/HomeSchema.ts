@@ -1,12 +1,11 @@
-import { SchemaDefinition, SchemaOptions } from "mongoose";
+import { SchemaOptions } from "mongoose";
 import { BaseSchema } from "@ylz/data-access";
 import { auditSchema } from "@ylz/data-access";
 
 export class HomeSchema extends BaseSchema {
-  constructor(definition?: SchemaDefinition, options?: SchemaOptions) {
+  constructor(options?: SchemaOptions) {
     const homeDefinition = {
-      ...definition,
-
+      _id: String,
       name: {
         type: String,
         trim: true,

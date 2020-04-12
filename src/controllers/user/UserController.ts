@@ -1,5 +1,5 @@
 import { debug } from "@ylz/logger";
-import { IResponse, CreatedResponse, OKResponse, UnauthorizedResponse } from "@ylz/common/dist/src/models/responses";
+import { IResponse, CreatedResponse, OkResponse, UnauthorizedResponse } from "@ylz/common/dist/src/models/responses";
 
 import { UserRepository } from "../../repositories/user/UserRepository";
 import { generateToken, hash } from "../../services/encryption";
@@ -42,7 +42,7 @@ class UserController {
     }
     //#endregion
 
-    return new OKResponse({ data: { token: generateToken(user.id, applicationId) } });
+    return new OkResponse({ data: { token: generateToken(user.id, applicationId) } });
   }
 
   public async changePassword({ body }: IChangePasswordInput): Promise<IResponse> {
@@ -61,7 +61,7 @@ class UserController {
 
     this.userRepository.update(user);
 
-    return new OKResponse({});
+    return new OkResponse({});
   }
 }
 

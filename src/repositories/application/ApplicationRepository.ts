@@ -1,7 +1,7 @@
 // import { Model } from "mongoose";
 import { debug } from "@ylz/logger";
 import { BaseRepository } from "@ylz/data-access";
-import { DuplicateKeyError, ValidationError } from "@ylz/common/dist/src/models/errors";
+import { DuplicateKeyError, DbValidationError } from "@ylz/common/dist/src/models/errors";
 
 import { ICreateInput } from "./models";
 import applicationModel from "./applicationModel";
@@ -20,7 +20,7 @@ export class ApplicationRepository extends BaseRepository<IApplicationDocument> 
     } catch (err) {
       if (err.code === 11000) {
         throw new DuplicateKeyError("The name is in use!");
-      } else if (err.name === ValidationError.name) {
+      } else if (err.name === DbValidationError.name) {
         const data = [];
         for (const e in err.errors) {
           if (err.errors.hasOwnProperty(e)) {
@@ -28,7 +28,7 @@ export class ApplicationRepository extends BaseRepository<IApplicationDocument> 
             data.push({ message, path, value });
           }
         }
-        throw new ValidationError(data);
+        throw new DbValidationError(data);
       } else {
         throw err;
       }

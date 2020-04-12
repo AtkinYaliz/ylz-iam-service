@@ -1,33 +1,30 @@
-import { libs } from "@ylz/common";
-
-const {
-  constants: { RequestLocation }
-} = libs;
+import { constants } from "@ylz/common";
+import { utilities } from "@ylz/data-access";
 
 const validations = Object.freeze({
   id: {
-    in: [RequestLocation.params],
+    in: [constants.HttpRequestLocation.params],
     custom: {
-      options: id => libs.utilities.isValidObjectId(id),
+      options: (id) => utilities.isValidObjectId(id),
       errorMessage: "Wrong format!"
     }
   },
   name: {
-    in: [RequestLocation.body],
+    in: [constants.HttpRequestLocation.body],
     isLength: {
       options: { min: 1 },
       errorMessage: "Name should be at least 2 chars long!"
     }
   },
   address: {
-    in: [RequestLocation.body],
+    in: [constants.HttpRequestLocation.body],
     isLength: {
       options: { min: 2 },
       errorMessage: "Address should be at least 2 chars long!"
     }
   },
   phones: {
-    in: [RequestLocation.body],
+    in: [constants.HttpRequestLocation.body],
     custom: {
       options: (phones: any[]) => Array.isArray(phones), // && phones.length > 0 && phones.every(x => isValidObjectId(x)),
       errorMessage: "Phones should be a list of strings!"
@@ -42,14 +39,14 @@ const validations = Object.freeze({
 export default Object.freeze({
   list: {
     limit: {
-      in: [RequestLocation.query],
+      in: [constants.HttpRequestLocation.query],
       isInt: true,
       optional: true,
       toInt: true,
       errorMessage: "Wrong format"
     },
     skip: {
-      in: [RequestLocation.query],
+      in: [constants.HttpRequestLocation.query],
       isInt: true,
       optional: true,
       toInt: true,

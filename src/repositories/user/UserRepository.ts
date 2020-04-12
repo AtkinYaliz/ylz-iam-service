@@ -1,7 +1,7 @@
 import { debug } from "@ylz/logger";
-import { libs } from "@ylz/common";
+import { utilities } from "@ylz/common";
 import { Nullable } from "@ylz/common/src/libs/customTypes";
-import { BadRequestError, DuplicateKeyError, ValidationError } from "@ylz/common/dist/src/models/errors";
+import { BadRequestError, DuplicateKeyError, DbValidationError } from "@ylz/common/dist/src/models/errors";
 import { VersionableRepository } from "@ylz/data-access";
 
 import userModel from "./userModel";
@@ -17,7 +17,7 @@ export class UserRepository extends VersionableRepository<IUserDocument> {
   public async getUser(input: IGetInput): Promise<Nullable<IUserDocument>> {
     debug("UserRepository - getUser:", JSON.stringify(input));
 
-    return super.getOne(libs.utilities.plucks(["email", "applicationId", "password"])(input));
+    return super.getOne(utilities.plucks(["email", "applicationId", "password"])(input));
   }
 
   public async signup(input: ISignupInput): Promise<IUserDocument> {
@@ -34,7 +34,7 @@ export class UserRepository extends VersionableRepository<IUserDocument> {
     } catch (err) {
       if (err.code === 11000) {
         throw new DuplicateKeyError("The email is in use!");
-      } else if (err.name === ValidationError.name) {
+      } else if (err.name === DbValidationError.name) {
         const data = [];
         for (const e in err.errors) {
           if (err.errors.hasOwnProperty(e)) {
@@ -42,7 +42,7 @@ export class UserRepository extends VersionableRepository<IUserDocument> {
             data.push({ message, path, value });
           }
         }
-        throw new ValidationError(data);
+        throw new DbValidationError(data);
       } else {
         throw err;
       }

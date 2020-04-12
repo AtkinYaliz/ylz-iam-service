@@ -1,5 +1,6 @@
 // import * as Promise from 'bluebird';
 import { model, Model } from "mongoose";
+import mongooseLeanVirtuals from "mongoose-lean-virtuals";
 
 import { ApplicationSchema } from "./ApplicationSchema";
 import { IApplicationDocument } from "./IApplicationDocument";
@@ -7,15 +8,10 @@ import { IApplicationDocument } from "./IApplicationDocument";
 /**
  * Application Schema
  */
-const applicationSchema = new ApplicationSchema(
-  {
-    _id: String
-  },
-  {
-    collection: "Applications",
-    versionKey: false
-  }
-);
+const applicationSchema = new ApplicationSchema({
+  collection: "Applications",
+  versionKey: false
+});
 
 /**
  * Indicies
@@ -23,32 +19,19 @@ const applicationSchema = new ApplicationSchema(
 applicationSchema.index({ name: 1 }, { unique: true });
 
 /**
- * toObject
- */
-applicationSchema.set("toObject", {
-  transform: (doc: any, ret: any, options: any) => {
-    ret.id = ret._id;
-    delete ret._id;
-    delete ret.__v;
-  }
-});
-applicationSchema.set("toJSON", {
-  transform: (doc: any, ret: any, options: any) => {
-    ret.id = ret._id;
-    delete ret._id;
-    delete ret.__v;
-  }
-});
-
-/**
  * Add your
  * - pre-save hook
  * - validation
  * - virtual
  */
-applicationSchema.pre("save", function(next: any) {
+applicationSchema.pre("save", function (next: any) {
   next();
 });
+
+/**
+ * Plugins
+ */
+applicationSchema.plugin(mongooseLeanVirtuals);
 
 /**
  * Methods

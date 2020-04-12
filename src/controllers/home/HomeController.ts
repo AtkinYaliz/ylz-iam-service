@@ -1,5 +1,5 @@
 import { debug } from "@ylz/logger";
-import { IResponse, BadRequestResponse, CreatedResponse, NoContentResponse, OKResponse } from "@ylz/common/dist/src/models/responses";
+import { IResponse, BadRequestResponse, CreatedResponse, NoContentResponse, OkResponse } from "@ylz/common/dist/src/models/responses";
 
 import { ICreateInput, IDeleteInput, IGetInput, IListInput, IUpdateInput } from "./models";
 import { HomeRepository } from "../../repositories/home/HomeRepository";
@@ -26,7 +26,7 @@ class HomeController {
     const { limit, skip } = query;
     const data = await this.homeRepository.list({ limit, skip });
 
-    return new OKResponse({ data });
+    return new OkResponse({ data });
   }
 
   public async get({ params }: IGetInput): Promise<IResponse> {
@@ -35,7 +35,7 @@ class HomeController {
     const id = params.id;
     const home = await this.homeRepository.get({ id });
 
-    return home ? new OKResponse({ data: home }) : new BadRequestResponse({ message: "Could not find the home." });
+    return home ? new OkResponse({ data: home }) : new BadRequestResponse({ message: "Could not find the home." });
   }
 
   public async create({ body }: ICreateInput): Promise<IResponse> {

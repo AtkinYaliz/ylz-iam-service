@@ -1,5 +1,6 @@
 // import * as Promise from 'bluebird';
 import { model, Model } from "mongoose";
+import mongooseLeanVirtuals from "mongoose-lean-virtuals";
 
 import { HomeSchema } from "./HomeSchema";
 import { IHomeDocument } from "./IHomeDocument";
@@ -7,15 +8,10 @@ import { IHomeDocument } from "./IHomeDocument";
 /**
  * Home Schema
  */
-const homeSchema = new HomeSchema(
-  {
-    _id: String
-  },
-  {
-    collection: "Homes",
-    versionKey: false
-  }
-);
+const homeSchema = new HomeSchema({
+  collection: "Homes",
+  versionKey: false
+});
 
 /**
  * Indicies
@@ -23,32 +19,19 @@ const homeSchema = new HomeSchema(
 homeSchema.index({ name: 1 }, { unique: true });
 
 /**
- * toObject
- */
-homeSchema.set("toObject", {
-  transform: (doc: any, ret: any, options: any) => {
-    ret.id = ret._id;
-    delete ret._id;
-    delete ret.__v;
-  }
-});
-homeSchema.set("toJSON", {
-  transform: (doc: any, ret: any, options: any) => {
-    ret.id = ret._id;
-    delete ret._id;
-    delete ret.__v;
-  }
-});
-
-/**
  * Add your
  * - pre-save hook
  * - validation
  * - virtual
  */
-homeSchema.pre("save", function(next: any) {
+homeSchema.pre("save", function (next: any) {
   next();
 });
+
+/**
+ * Plugins
+ */
+homeSchema.plugin(mongooseLeanVirtuals);
 
 /**
  * Methods
