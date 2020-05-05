@@ -1,32 +1,22 @@
 import { NextFunction, Request, Response } from "express";
 import { error } from "@ylz/logger";
-import { libs } from "@ylz/common";
-
-import { BadRequestError, DuplicateKeyError, PageNotFoundError, ValidationError } from "@ylz/common/dist/src/models/errors";
-import {
-  BadRequestResponse,
-  HttpResponse,
-  InternalServerErrorResponse,
-  NotFoundResponse,
-  UnauthorizedResponse,
-  UnprocessableResponse
-} from "@ylz/common/dist/src/models/responses";
+import { constants, errors, responses } from "@ylz/common";
 
 export function errorHandler(nodeEnv: string) {
   return function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
-    if (nodeEnv !== libs.constants.EnvVar.TEST) {
+    if (nodeEnv !== constants.EnvVar.TEST) {
       error(err);
     }
 
-    let response: HttpResponse;
+    let response: responses.IResponse;
 
     switch (err.type) {
-      case PageNotFoundError.name:
-        response = new NotFoundResponse();
+      case errors.NotFoundError.name:
+        response = new responses.NotFoundResponse();
         break;
-      case ValidationError.name:
-        response = new UnprocessableResponse({
-          data: err.data.map(e => ({
+      case errors.DbValidationError.name:
+        response = new responses.UnprocessableResponse({
+          data: err.data.map((e) => ({
             location: "",
             param: e.path,
             value: e.value,
@@ -35,26 +25,26 @@ export function errorHandler(nodeEnv: string) {
           message: err.message
         });
         break;
-      case DuplicateKeyError.name:
-        response = new UnprocessableResponse({
+      case errors.DuplicateKeyError.name:
+        response = new responses.UnprocessableResponse({
           message: err.message
         });
         break;
-      case BadRequestError.name:
-        response = new BadRequestResponse({
+      case errors.BadRequestError.name:
+        response = new responses.BadRequestResponse({
           message: err.message
         });
         break;
-      case InternalServerErrorResponse.name:
+      case errors.InternalServerError.name:
       default:
         if (err.name === "AuthenticationError") {
-          response = new UnauthorizedResponse({});
+          response = new responses.UnauthorizedResponse({});
         } else {
-          response = new InternalServerErrorResponse({});
+          response = new responses.InternalServerErrorResponse({});
         }
         break;
     }
 
-    res.status(response.code).json(response);
+    res.status(response.metadata.code).json(response);
   };
 }

@@ -1,4 +1,3 @@
-import { IBaseDeleteInput } from '../../models';
+import { baseModels } from "@ylz/data-access";
 
-
-export default interface IDeleteInput extends IBaseDeleteInput { }
+export default interface IDeleteInput extends baseModels.IBaseDeleteInput {}

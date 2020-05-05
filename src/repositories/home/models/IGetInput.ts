@@ -1,4 +1,3 @@
-import { IBaseGetInput } from '../../models';
+import { baseModels } from "@ylz/data-access";
 
-
-export default interface IGetInput extends IBaseGetInput { }
+export default interface IGetInput extends baseModels.IBaseGetInput {}

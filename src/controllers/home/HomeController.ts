@@ -1,5 +1,5 @@
 import { debug } from "@ylz/logger";
-import { IResponse, BadRequestResponse, CreatedResponse, NoContentResponse, OkResponse } from "@ylz/common/dist/src/models/responses";
+import { responses } from "@ylz/common";
 
 import { ICreateInput, IDeleteInput, IGetInput, IListInput, IUpdateInput } from "./models";
 import { HomeRepository } from "../../repositories/home/HomeRepository";
@@ -20,33 +20,33 @@ class HomeController {
     return HomeController.instance;
   }
 
-  public async list({ query }: IListInput): Promise<IResponse> {
+  public async list({ query }: IListInput): Promise<responses.IResponse> {
     debug("HomeController - list:", JSON.stringify(query, null, 2));
 
     const { limit, skip } = query;
     const data = await this.homeRepository.list({ limit, skip });
 
-    return new OkResponse({ data });
+    return new responses.OkResponse({ data });
   }
 
-  public async get({ params }: IGetInput): Promise<IResponse> {
+  public async get({ params }: IGetInput): Promise<responses.IResponse> {
     debug("HomeController - get:", JSON.stringify(params));
 
     const id = params.id;
     const home = await this.homeRepository.get({ id });
 
-    return home ? new OkResponse({ data: home }) : new BadRequestResponse({ message: "Could not find the home." });
+    return home ? new responses.OkResponse({ data: home }) : new responses.BadRequestResponse({ message: "Could not find the home." });
   }
 
-  public async create({ body }: ICreateInput): Promise<IResponse> {
+  public async create({ body }: ICreateInput): Promise<responses.IResponse> {
     debug("HomeController - create:", JSON.stringify(body));
 
     const home = await this.homeRepository.create(body);
 
-    return new CreatedResponse({ data: home });
+    return new responses.CreatedResponse({ data: home });
   }
 
-  public async update({ params, body }: IUpdateInput): Promise<IResponse> {
+  public async update({ params, body }: IUpdateInput): Promise<responses.IResponse> {
     debug("HomeController - update:", JSON.stringify({ params, body }));
 
     const update = {
@@ -56,17 +56,17 @@ class HomeController {
 
     await this.homeRepository.update(update);
 
-    return new NoContentResponse();
+    return new responses.NoContentResponse();
   }
 
-  public async delete({ params }: IDeleteInput): Promise<IResponse> {
+  public async delete({ params }: IDeleteInput): Promise<responses.IResponse> {
     debug("HomeController - delete:", JSON.stringify(params));
 
     const id = params.id;
 
     await this.homeRepository.delete({ id });
 
-    return new NoContentResponse();
+    return new responses.NoContentResponse();
   }
 }
 

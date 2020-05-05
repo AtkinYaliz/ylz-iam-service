@@ -31,7 +31,7 @@ applicationSchema.pre("save", function (next: any) {
 /**
  * Plugins
  */
-applicationSchema.plugin(mongooseLeanVirtuals);
+// applicationSchema.plugin(mongooseLeanVirtuals);
 
 /**
  * Methods

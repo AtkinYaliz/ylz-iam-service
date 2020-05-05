@@ -1,7 +1,6 @@
 // import { Model } from "mongoose";
 import { debug } from "@ylz/logger";
-import { DuplicateKeyError, ValidationError } from "@ylz/common/dist/src/models/errors";
-import { Nullable } from "@ylz/common/src/libs/customTypes";
+import { errors, customTypes } from "@ylz/common";
 import { BaseRepository } from "@ylz/data-access";
 
 import homeModel from "./homeModel";
@@ -18,7 +17,7 @@ export class HomeRepository extends BaseRepository<IHomeDocument> {
 
     return super.list(input);
   }
-  public async get(input: IGetInput): Promise<Nullable<IHomeDocument>> {
+  public async get(input: IGetInput): Promise<customTypes.Nullable<IHomeDocument>> {
     debug("HomeRepository - get:", JSON.stringify(input));
 
     return super.get(input);
@@ -31,8 +30,8 @@ export class HomeRepository extends BaseRepository<IHomeDocument> {
       return await super.create(input);
     } catch (err) {
       if (err.code === 11000) {
-        throw new DuplicateKeyError("The name is in use!");
-      } else if (err.name === ValidationError.name) {
+        throw new errors.DuplicateKeyError("The name is in use!");
+      } else if (err.name === errors.DbValidationError.name) {
         const data = [];
         for (const e in err.errors) {
           if (err.errors.hasOwnProperty(e)) {
@@ -40,7 +39,7 @@ export class HomeRepository extends BaseRepository<IHomeDocument> {
             data.push({ message, path, value });
           }
         }
-        throw new ValidationError(data);
+        throw new errors.DbValidationError(data);
       } else {
         throw err;
       }

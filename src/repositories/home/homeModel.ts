@@ -31,7 +31,7 @@ homeSchema.pre("save", function (next: any) {
 /**
  * Plugins
  */
-homeSchema.plugin(mongooseLeanVirtuals);
+// homeSchema.plugin(mongooseLeanVirtuals);
 
 /**
  * Methods

@@ -1,20 +1,19 @@
 import { debug } from "@ylz/logger";
-import { utilities } from "@ylz/common";
-import { Nullable } from "@ylz/common/src/libs/customTypes";
-import { BadRequestError, DuplicateKeyError, DbValidationError } from "@ylz/common/dist/src/models/errors";
+import { customTypes, errors, utilities } from "@ylz/common";
 import { VersionableRepository } from "@ylz/data-access";
 
 import userModel from "./userModel";
 import { IUserDocument } from "./IUserDocument";
 import { IGetInput, ISignupInput, IUpdateInput } from "./models";
 import { ApplicationRepository } from "../application/ApplicationRepository";
+import { IError } from "@ylz/common/dist/src/models/errors";
 
 export class UserRepository extends VersionableRepository<IUserDocument> {
   constructor() {
     super(userModel);
   }
 
-  public async getUser(input: IGetInput): Promise<Nullable<IUserDocument>> {
+  public async getUser(input: IGetInput): Promise<customTypes.Nullable<IUserDocument>> {
     debug("UserRepository - getUser:", JSON.stringify(input));
 
     return super.getOne(utilities.plucks(["email", "applicationId", "password"])(input));
@@ -26,15 +25,22 @@ export class UserRepository extends VersionableRepository<IUserDocument> {
     const application = await new ApplicationRepository().get({ id: input.applicationId });
 
     if (!application) {
-      throw new BadRequestError("The application does not exist or you don't have permission!");
+      throw new errors.BadRequestError([
+        {
+          location: "applicationId",
+          msg: "The application doesn't exist or you don't have permission!",
+          param: "applicationId",
+          value: input.applicationId
+        }
+      ]);
     }
 
     try {
       return await super.create(input);
     } catch (err) {
       if (err.code === 11000) {
-        throw new DuplicateKeyError("The email is in use!");
-      } else if (err.name === DbValidationError.name) {
+        throw new errors.DuplicateKeyError("The email is in use!");
+      } else if (err.name === errors.DbValidationError.name) {
         const data = [];
         for (const e in err.errors) {
           if (err.errors.hasOwnProperty(e)) {
@@ -42,7 +48,7 @@ export class UserRepository extends VersionableRepository<IUserDocument> {
             data.push({ message, path, value });
           }
         }
-        throw new DbValidationError(data);
+        throw new errors.DbValidationError(data);
       } else {
         throw err;
       }

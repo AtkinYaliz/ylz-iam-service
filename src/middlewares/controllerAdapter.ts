@@ -1,5 +1,5 @@
 import { error } from "@ylz/logger";
-import { HttpResponse } from "@ylz/common/src/models/responses";
+import { responses } from "@ylz/common";
 
 export function controllerAdapter(controller: any = null, functionName: string = "") {
   return async (req: any, res: any, next: any) => {
@@ -16,11 +16,11 @@ export function controllerAdapter(controller: any = null, functionName: string =
         return next();
       }
 
-      const response: HttpResponse = await controller[functionName]({ headers: { authorization }, params, query, body, locals });
+      const response: responses.IResponse = await controller[functionName]({ headers: { authorization }, params, query, body, locals });
 
       res.locals.isHit = true;
 
-      res.status(response.code).json(response);
+      res.status(response.metadata.code).json(response);
     } catch (err) {
       error(err);
       next(err);

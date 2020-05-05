@@ -1,8 +1,7 @@
-import { IBaseUpdateInput } from '../../models';
+import { baseModels } from "@ylz/data-access";
 
-
-export default interface ICreateInput extends IBaseUpdateInput {
-   name: string;
-   address: string;
-   phones: string[];
+export default interface ICreateInput extends baseModels.IBaseUpdateInput {
+  name: string;
+  address: string;
+  phones: string[];
 }

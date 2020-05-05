@@ -1,5 +1,5 @@
 import { debug } from "@ylz/logger";
-import { IResponse, CreatedResponse, OkResponse, UnauthorizedResponse } from "@ylz/common/dist/src/models/responses";
+import { responses } from "@ylz/common";
 
 import { UserRepository } from "../../repositories/user/UserRepository";
 import { generateToken, hash } from "../../services/encryption";
@@ -19,17 +19,17 @@ class UserController {
     this.userRepository = new UserRepository();
   }
 
-  public async signup({ body }: ISignupInput): Promise<IResponse> {
+  public async signup({ body }: ISignupInput): Promise<responses.IResponse> {
     debug("UserController - signup:", JSON.stringify(body));
 
     const { applicationId, email, password } = body;
 
     const user = await this.userRepository.signup({ applicationId, email, password: hash(password) });
 
-    return new CreatedResponse({ data: { token: generateToken(user.id, applicationId) } });
+    return new responses.CreatedResponse({ data: { token: generateToken(user.id, applicationId) } });
   }
 
-  public async signin({ body }: ISigninInput): Promise<IResponse> {
+  public async signin({ body }: ISigninInput): Promise<responses.IResponse> {
     debug("UserController - signin:", JSON.stringify(body));
 
     const { applicationId, email, password } = body;
@@ -38,14 +38,14 @@ class UserController {
 
     //#region [Validations]
     if (!user) {
-      return new UnauthorizedResponse({});
+      return new responses.UnauthorizedResponse({});
     }
     //#endregion
 
-    return new OkResponse({ data: { token: generateToken(user.id, applicationId) } });
+    return new responses.OkResponse({ data: { token: generateToken(user.id, applicationId) } });
   }
 
-  public async changePassword({ body }: IChangePasswordInput): Promise<IResponse> {
+  public async changePassword({ body }: IChangePasswordInput): Promise<responses.IResponse> {
     debug("UserController - changePassword:", JSON.stringify(body));
 
     const { applicationId, email, password, newPassword } = body;
@@ -54,14 +54,14 @@ class UserController {
 
     //#region [Validations]
     if (!user) {
-      return new UnauthorizedResponse({});
+      return new responses.UnauthorizedResponse({});
     }
     //#endregion
     user.password = hash(newPassword);
 
     this.userRepository.update(user);
 
-    return new OkResponse({});
+    return new responses.OkResponse({});
   }
 }
 
